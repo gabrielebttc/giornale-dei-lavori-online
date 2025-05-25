@@ -1,0 +1,25 @@
+.profile-image-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.profile-image-label {
+  cursor: pointer;
+}
+
+.profile-image-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ced4da;
+  overflow: hidden;
+}
+
+.profile-image-circle span {
+  color: #6c757d;
+  font-size: 14px;
+}

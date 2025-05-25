@@ -1,0 +1,26 @@
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}
+
+#map-container {
+  width: 100vw; /* Larghezza pari a tutta la viewport */
+  height: 100vh; /* Altezza pari a tutta la viewport */
+  position: absolute; /* Posizionamento assoluto */
+  top: 0; /* Nessun offset di default */
+  left: 0;
+}
+
+.records-container {
+  margin-top: 370px;
+}
+
+@media (min-width: 992px) {
+  #map-container {
+    top: 58px; /* Aggiunge i 60px di offset per schermi >= 992px */
+    height: calc(100vh - 60px); /* Riduce l'altezza della mappa per tenere conto della navbar */
+  }
+
+  .records-container {
+    margin-top: 400px;
+  }
+}
