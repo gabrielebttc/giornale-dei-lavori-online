@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
     siteId: number;
     actionName: string;
     descriptionSection: string;
-    todayDate: Date;
+    selectedDate: Date;
     link: string;
 }
 
-const BuildingSiteActionComponent: React.FC<Props> = ({ siteId, actionName, descriptionSection, todayDate, link }) => {
+const BuildingSiteActionComponent: React.FC<Props> = ({ siteId, actionName, descriptionSection, selectedDate, link }) => {
   //const date = todayDate.toLocaleDateString('it-IT');
-  const dateWithDahes = todayDate.toISOString().split('T')[0];
+  const firstDateWithDahes = selectedDate.toISOString().split('T')[0];
   const navigate = useNavigate();
-  const renderToLink = () => navigate(`/${link}/${siteId}/${dateWithDahes}`);//dateWithDashes formatted in YYYY-MM-DD
+  const renderToLink = () => navigate(`/${link}/${siteId}/${dateWithDashes}`);//dateWithDashes formatted in YYYY-MM-DD
+  const [dateWithDashes, setDateWithDashes] = React.useState<string>(firstDateWithDahes);
+
+  useEffect(() => {
+    setDateWithDashes(selectedDate.toISOString().split('T')[0]); // Formatta la data in YYYY-MM-DD
+  }, [selectedDate]);
 
     return (
             <div className="container mt-4">

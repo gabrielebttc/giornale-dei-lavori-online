@@ -1,51 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import './RegisterComponent.css';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+// Rimosso l'importazione del CSS non più necessaria
+
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 const RegisterComponent: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
     username: '',
     email: '',
     phone: '',
-    instagram: '',
-    youtube: '',
-    facebook: '',
-    tiktok: '',
     password: '',
     confirmPassword: '',
   });
-  const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [userTypes, setUserTypes] = useState<{ id: number; name: string }[]>([]);
-  const [selectedUserTypes, setSelectedUserTypes] = useState<{ id: number; name: string }[]>([]);
-
-  useEffect(() => {
-    const fetchUserTypes = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/api/user-types`);
-        const data = await response.json();
-        setUserTypes(data);
-      } catch (error) {
-        console.error('Errore durante il recupero dei tipi di utente:', error);
-      }
-    };
-
-    fetchUserTypes();
-  }, []);
-
-  const handleUserTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = Number(e.target.value);
-    const selectedType = userTypes.find((type) => type.id === selectedId);
-
-    if (selectedType && !selectedUserTypes.some((type) => type.id === selectedId)) {
-      setSelectedUserTypes((prevTypes) => [...prevTypes, selectedType]);
-    }
-  };
-
-  const handleRemoveUserType = (id: number) => {
-    setSelectedUserTypes((prevTypes) => prevTypes.filter((type) => type.id !== id));
-  };
+  const [alert, setAlert] = useState<{ message: string; type: string } | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -55,57 +25,26 @@ const RegisterComponent: React.FC = () => {
     }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setProfileImage(e.target.files[0]);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setAlert(null);
 
     if (formData.password !== formData.confirmPassword) {
-      alert('Le password non coincidono.');
+      setAlert({ message: 'Le password non coincidono.', type: 'danger' });
       return;
     }
 
-    let profileImageBase64 = null;
-
-    // Converti l'immagine in base64 se presente
-    if (profileImage) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        profileImageBase64 = reader.result;
-      };
-      reader.readAsDataURL(profileImage);
-
-      // Aspetta che il FileReader completi la conversione
-      await new Promise((resolve) => {
-        reader.onloadend = () => {
-          profileImageBase64 = reader.result;
-          resolve(null);
-        };
-      });
-    }
-
-    // Prepara i dati da inviare
     const payload = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
+      first_name: formData.first_name,
+      last_name: formData.last_name,
       username: formData.username,
       email: formData.email,
       phone: formData.phone,
-      instagram: formData.instagram,
-      youtube: formData.youtube,
-      facebook: formData.facebook,
-      tiktok: formData.tiktok,
       password: formData.password,
-      profileImage: profileImageBase64, // Immagine in formato base64
-      userTypes: selectedUserTypes.map((type) => type.id), // IDs dei tipi di utente selezionati
     };
 
     try {
-      const response = await fetch(`${apiUrl}/api/register`, {
+      const response = await fetch(`${apiUrl}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -114,96 +53,53 @@ const RegisterComponent: React.FC = () => {
       });
 
       if (response.ok) {
-        alert('Registrazione completata con successo!');
+        setAlert({ message: 'Registrazione completata con successo!', type: 'success' });
+        setTimeout(() => {
+          navigate('/login'); // Reindirizza al login dopo un breve ritardo
+        }, 2000);
       } else {
-        alert('Errore durante la registrazione.');
+        const errorData = await response.json();
+        setAlert({ message: errorData.message || 'Errore durante la registrazione.', type: 'danger' });
       }
     } catch (error) {
       console.error('Errore durante la richiesta:', error);
-      alert('Errore durante la registrazione.');
+      setAlert({ message: 'Errore durante la registrazione. Riprova più tardi.', type: 'danger' });
     }
   };
 
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">Registrazione</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="row">
-          <div className="col-12 col-md-4 text-center mb-3 mb-md-0">
-            <label htmlFor="profileImage" className="form-label d-block">Immagine di profilo</label>
-            <input
-              type="file"
-              className="form-control d-none"
-              id="profileImage"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-            <div className="profile-image-wrapper">
-              <label htmlFor="profileImage" className="profile-image-label">
-                <div className="profile-image-circle">
-                  <span className="text-muted">Carica</span>
-                </div>
-              </label>
-            </div>
-            <small className="form-text text-muted">Max 2 MB</small>
-          </div>
-
-          <div className="col-12 col-md-8">
-            <div className="mb-3">
-              <label htmlFor="firstName" className="form-label">Nome</label>
-              <input
-                type="text"
-                className="form-control"
-                id="firstName"
-                placeholder="Inserisci il tuo nome"
-                value={formData.firstName}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="lastName" className="form-label">Cognome</label>
-              <input
-                type="text"
-                className="form-control"
-                id="lastName"
-                placeholder="Inserisci il tuo cognome"
-                value={formData.lastName}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-          </div>
+      {alert && (
+        <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+          {alert.message}
+          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
+      )}
+      <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="userType" className="form-label">Tipo di Utente</label>
-          <select
-            id="userType"
+          <label htmlFor="first_name" className="form-label">Nome</label>
+          <input
+            type="text"
             className="form-control"
-            value=""
-            onChange={handleUserTypeChange}
-          >
-            <option value="" disabled>Seleziona il tipo di utente</option>
-            {userTypes.map((type) => (
-              <option key={type.id} value={type.id}>
-                {type.name}
-              </option>
-            ))}
-          </select>
-          <div className="mt-2">
-            {selectedUserTypes.map((type) => (
-              <span key={type.id} className="badge bg-primary me-2">
-                {type.name}
-                <button
-                  type="button"
-                  className="btn-close btn-close-white ms-2"
-                  aria-label="Remove"
-                  onClick={() => handleRemoveUserType(type.id)}
-                ></button>
-              </span>
-            ))}
-          </div>
+            id="first_name"
+            placeholder="Inserisci il tuo nome"
+            value={formData.first_name}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="last_name" className="form-label">Cognome</label>
+          <input
+            type="text"
+            className="form-control"
+            id="last_name"
+            placeholder="Inserisci il tuo cognome"
+            value={formData.last_name}
+            onChange={handleInputChange}
+            required
+          />
         </div>
         <div className="mb-3">
           <label htmlFor="username" className="form-label">Username</label>
@@ -237,50 +133,6 @@ const RegisterComponent: React.FC = () => {
             id="phone"
             placeholder="Inserisci il tuo numero di cellulare"
             value={formData.phone}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="instagram" className="form-label">Profilo Instagram</label>
-          <input
-            type="url"
-            className="form-control"
-            id="instagram"
-            placeholder="Inserisci il link al tuo profilo Instagram"
-            value={formData.instagram}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="youtube" className="form-label">Canale YouTube</label>
-          <input
-            type="url"
-            className="form-control"
-            id="youtube"
-            placeholder="Inserisci il link al tuo canale YouTube"
-            value={formData.youtube}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="facebook" className="form-label">Profilo/Pagina Facebook</label>
-          <input
-            type="url"
-            className="form-control"
-            id="facebook"
-            placeholder="Inserisci il link al tuo profilo o pagina Facebook"
-            value={formData.facebook}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="tiktok" className="form-label">Profilo TikTok</label>
-          <input
-            type="url"
-            className="form-control"
-            id="tiktok"
-            placeholder="Inserisci il link al tuo profilo TikTok"
-            value={formData.tiktok}
             onChange={handleInputChange}
           />
         </div>

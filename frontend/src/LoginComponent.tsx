@@ -27,7 +27,7 @@ const LoginComponent: React.FC = () => {
     };
 
     try {
-      const response = await fetch(`${apiUrl}/api/login`, {
+      const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,9 +39,10 @@ const LoginComponent: React.FC = () => {
         const data = await response.json();
         setAlert({ message: 'Accesso effettuato con successo!', type: 'success' });
         localStorage.setItem("token", data.token);
-        navigate('/');
+        navigate('/building-sites');
       } else {
-        setAlert({ message: 'Errore durante l\'accesso. Controlla le credenziali.', type: 'danger' });
+        const errorData = await response.json();
+        setAlert({ message: errorData.message || 'Errore durante l\'accesso. Controlla le credenziali.', type: 'danger' });
       }
     } catch (error) {
       console.error('Errore durante la richiesta:', error);

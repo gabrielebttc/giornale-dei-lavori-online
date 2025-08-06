@@ -14,11 +14,17 @@ const AddBuildingSiteFormComponent: React.FC = () => {
     const [lng, setLng] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [startDate, setStartDate] = useState(''); // Nuovo stato per la data di inizio
+    const [endDate, setEndDate] = useState('');   // Nuovo stato per la data di fine
+
+    useEffect(() => {
+        console.log(city);//perchè mi da errore mai usato
+    }, [city]);
 
     useEffect(() => {
         const fetchGeoData = async () => {
             try {
-                const response = await fetch('/italy_geo.json'); // Assicurati che il file sia nella directory public
+                const response = await fetch('/italy_geo.json');
                 if (!response.ok) {
                     throw new Error(`Errore HTTP: ${response.status}`);
                 }
@@ -53,13 +59,26 @@ const AddBuildingSiteFormComponent: React.FC = () => {
             return;
         }
 
+        if (!startDate) {
+          setError('La "start_date" è obbligatoria.');
+          return;
+      }
+
+        const token = localStorage.getItem('token'); 
+
+        if (!token) {
+          console.error("Token di autenticazione non trovato. Esegui il login.");
+          return;
+        }
+
         try {
             const response = await fetch(`${apiUrl}/api/building-sites`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
-                body: JSON.stringify({ name, notes, city: selectedCity, address, lat, lng }),
+                body: JSON.stringify({ name, notes, city: selectedCity, address, lat, lng, startDate, endDate: endDate || null }),
             });
 
             if (!response.ok) {
@@ -70,12 +89,13 @@ const AddBuildingSiteFormComponent: React.FC = () => {
             setSuccess(`Building site aggiunto con successo: ${data.name}`);
             setName('');
             setNotes('');
-            setCity(city);
             setCity('');
             setAddress('');
             setSelectedCity('');
             setLat('');
             setLng('');
+            setStartDate(''); // Reset della data di inizio
+            setEndDate('');   // Reset della data di fine
         } catch (error) {
             setError('Errore durante l\'inserimento del building site.');
             console.error('Error:', error);
@@ -160,6 +180,27 @@ const AddBuildingSiteFormComponent: React.FC = () => {
                         id="address"
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="start-date" className="form-label">Data di inizio</label>
+                    <input
+                        type="date"
+                        className="form-control"
+                        id="start-date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="end-date" className="form-label">Data di fine (opzionale)</label>
+                    <input
+                        type="date"
+                        className="form-control"
+                        id="end-date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
                     />
                 </div>
                 <button type="submit" className="btn btn-primary">Aggiungi</button>

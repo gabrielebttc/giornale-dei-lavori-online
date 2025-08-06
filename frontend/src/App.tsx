@@ -7,7 +7,8 @@ import LoginPage from './pages/LoginPage';
 import AboutPage from './pages/AboutPage';
 import ProfilePage from './pages/ProfilePage';
 import NavbarComponent from './NavbarComponent';
-import BuildingSiteActionsComponent from './pages/BuildingSiteActionsPage';
+import BuildingSiteActionsPage from './pages/BuildingSiteActionsPage';
+import ActionPage from './pages/ActionPage';
 
 const App = () => {
   return (
@@ -19,12 +20,14 @@ const App = () => {
             <div className="row justify-content-center">
               <div className="col-12">
                 <Routes>
-                  <Route path="/" element={<HomePage />} />
+                  <Route path="/building-sites" element={<HomePage />} />
                   <Route path="/register" element={<RegisterPage />} />
                   <Route path="/login" element={<LoginPage />} />
+                  <Route path="/" element={<AboutPage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/profile" element={<ProfilePage />} />
-                  <Route path="/building-site-actions/:site_id" element={<BuildingSiteActionsComponent />} />
+                  <Route path="/building-site-actions/:site_id" element={<BuildingSiteActionsPage />} />
+                  <Route path="/action-page/:link/:siteId/:date" element={<ActionPage />} />
                 </Routes>
               </div>
             </div>

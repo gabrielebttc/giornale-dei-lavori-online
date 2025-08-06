@@ -1,367 +1,297 @@
-import React, { useEffect, useState } from 'react';
-import './RegisterComponent.css';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode'; // Assicurati di aver corretto l'import
+
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
-// Define a type for formData
-type FormDataType = {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  phone: string;
-  instagram: string;
-  youtube: string;
-  facebook: string;
-  tiktok: string;
-  userTypes: { id: number; name: string }[];
-};
-
-const ProfileComponent: React.FC<{ userId: number }> = ({ userId }) => {
-  const [userData, setUserData] = useState<{
-    firstName: string;
-    lastName: string;
-    username: string;
+interface UserProfile {
+    first_name: string;
+    last_name: string;
     email: string;
-    phone: string;
-    instagram: string;
-    youtube: string;
-    facebook: string;
-    tiktok: string;
-    profileImage: string | null;
-    userTypes: { id: number; name: string }[];
-  } | null>(null);
-  const [isEditable, setIsEditable] = useState(false); // Stato per abilitare/disabilitare la modifica
-  const [formData, setFormData] = useState<FormDataType>({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    phone: "",
-    instagram: "",
-    youtube: "",
-    facebook: "",
-    tiktok: "",
-    userTypes: [],
-  }); // Stato per i dati modificabili
-  const [availableUserTypes, setAvailableUserTypes] = useState<{ id: number; name: string }[]>([]); // Stato per i tipi di utente disponibili
+    username: string;
+    phone?: string;
+    notes?: string;
+}
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Verifica se l'utente autenticato corrisponde allo userId
-        const token = localStorage.getItem("token");
-        const profileResponse = await fetch(`${apiUrl}/api/profile`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+// Nuova interfaccia per il payload del token JWT
+interface DecodedToken {
+    id: number;
+    // Puoi aggiungere altre proprietà del payload se necessarie, ad esempio:
+    // exp: number;
+    // iat: number;
+}
 
-        if (profileResponse.ok) {
-          const profileData = await profileResponse.json();
-          if (profileData.id === userId) {
-            setIsEditable(true); // Abilita la modifica se l'utente corrisponde
-          }
+const ProfileComponent: React.FC = () => {
+    const [user, setUser] = useState<UserProfile | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [formData, setFormData] = useState<UserProfile | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // ... (il resto della logica fetchProfile non cambia)
+        const fetchProfile = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setError('Non sei autenticato. Effettua il login per visualizzare il tuo profilo.');
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiUrl}/api/auth/profile`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const userData = await response.json();
+                    setUser(userData);
+                    setFormData(userData);
+                } else if (response.status === 401 || response.status === 403) {
+                    setError('Sessione scaduta o non valida. Effettua nuovamente l\'accesso.');
+                    localStorage.removeItem('token');
+                } else {
+                    const errorData = await response.json();
+                    setError(errorData.message || 'Impossibile recuperare il profilo utente.');
+                }
+            } catch (err) {
+                console.error('Errore durante il recupero del profilo:', err);
+                setError('Errore di connessione. Riprova più tardi.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProfile();
+    }, []);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { id, value } = e.target;
+        if (formData) {
+            setFormData(prevData => ({
+                ...prevData!,
+                [id]: value,
+            }));
         }
-
-        // Recupera i dati dell'utente
-        const response = await fetch(`${apiUrl}/api/user/${userId}`);
-        if (response.ok) {
-          const data = await response.json();
-          setUserData({
-            firstName: data.first_name,
-            lastName: data.last_name,
-            username: data.username,
-            email: data.email,
-            phone: data.phone,
-            instagram: data.instagram_link,
-            youtube: data.youtube_link,
-            facebook: data.facebook_link,
-            tiktok: data.tiktok_link,
-            profileImage: data.profile_img_path,
-            userTypes: data.userTypes,
-          });
-          setFormData({
-            firstName: data.first_name,
-            lastName: data.last_name,
-            username: data.username,
-            email: data.email,
-            phone: data.phone,
-            instagram: data.instagram_link,
-            youtube: data.youtube_link,
-            facebook: data.facebook_link,
-            tiktok: data.tiktok_link,
-            userTypes: data.userTypes,
-          });
-        } else {
-          console.error('Errore durante il recupero dei dati utente.');
-        }
-      } catch (error) {
-        console.error('Errore durante la richiesta:', error);
-      }
     };
 
-    const fetchUserTypes = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/api/user-types`);
-        if (response.ok) {
-          const data = await response.json();
-          setAvailableUserTypes(data);
-        } else {
-          console.error("Errore durante il recupero dei tipi di utente.");
+    const handleSave = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+        setSuccessMessage(null);
+
+        const token = localStorage.getItem('token');
+        if (!token || !formData) {
+            setError('Dati mancanti o token non valido.');
+            setLoading(false);
+            return;
         }
-      } catch (error) {
-        console.error("Errore durante la richiesta:", error);
-      }
+
+        try {
+            const response = await fetch(`${apiUrl}/api/auth/profile`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const updatedUser = await response.json();
+                setUser(updatedUser);
+                setFormData(updatedUser);
+                setSuccessMessage('Profilo aggiornato con successo!');
+                setIsEditing(false);
+            } else {
+                const errorData = await response.json();
+                setError(errorData.message || 'Errore durante l\'aggiornamento del profilo.');
+            }
+        } catch (err) {
+            console.error('Errore durante l\'aggiornamento del profilo:', err);
+            setError('Errore di connessione. Riprova più tardi.');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    fetchUserData();
-    fetchUserTypes();
-  }, [userId]);
+    const handleDeleteAccount = async () => {
+        const confirmDelete = window.confirm("Sei sicuro di voler eliminare definitivamente il tuo account? Questa azione è irreversibile.");
+        if (!confirmDelete) {
+            return;
+        }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prevData: FormDataType) => ({
-      ...prevData,
-      [id]: value,
-    }));
-  };
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setError('Non sei autenticato.');
+            return;
+        }
 
-  const handleSave = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`${apiUrl}/api/user/${userId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+        try {
+            // Usa la nuova interfaccia per la decodifica
+            const decodedToken: DecodedToken = jwtDecode(token);
+            const userId = decodedToken.id;
 
-      if (response.ok) {
-        alert("Informazioni aggiornate con successo!");
-        const updatedData = await response.json();
-        setUserData(updatedData);
-      } else {
-        alert("Errore durante l'aggiornamento delle informazioni.");
-      }
-    } catch (error) {
-      console.error("Errore durante la richiesta:", error);
-      alert("Errore durante l'aggiornamento delle informazioni.");
+            const response = await fetch(`${apiUrl}/api/delete-record/users/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                localStorage.removeItem('token');
+                navigate('/');
+                alert('Account eliminato con successo.');
+            } else {
+                const errorData = await response.json();
+                setError(errorData.message || 'Errore durante l\'eliminazione dell\'account.');
+            }
+        } catch (err) {
+            console.error('Errore durante l\'eliminazione dell\'account:', err);
+            setError('Errore di connessione o token non valido.');
+        }
+    };
+    
+    // ... (il resto del componente render non cambia)
+    if (loading) {
+        return (
+            <div className="container mt-5">
+                <div className="alert alert-info text-center">Caricamento del profilo...</div>
+            </div>
+        );
     }
-  };
 
-  if (!userData) {
-    return <div>Caricamento...</div>;
-  }
-
-  return (
-    <div className="container mt-5">
-      <h2 className="text-center mb-4">Profilo Utente</h2>
-      <div className="row">
-        <div className="col-12 col-md-4 text-center mb-3 mb-md-0">
-          <div className="profile-image-wrapper">
-            {userData.profileImage ? (
-              <img
-                src={userData.profileImage}
-                alt="Immagine di profilo"
-                className="profile-image-circle"
-              />
-            ) : (
-              <div className="profile-image-circle text-muted">Nessuna immagine</div>
-            )}
-          </div>
-        </div>
-        <div className="col-12 col-md-8">
-          <div className="mb-3">
-            <strong>Nome:</strong>{" "}
-            {isEditable ? (
-              <input
-                type="text"
-                id="firstName"
-                value={formData.firstName || ""}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-            ) : (
-              userData.firstName || <span className="text-muted">Non specificato</span>
-            )}
-          </div>
-          <div className="mb-3">
-            <strong>Cognome:</strong>{" "}
-            {isEditable ? (
-              <input
-                type="text"
-                id="lastName"
-                value={formData.lastName || ""}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-            ) : (
-              userData.lastName || <span className="text-muted">Non specificato</span>
-            )}
-          </div>
-          <div className="mb-3">
-            <strong>Username:</strong>{" "}
-            {isEditable ? (
-              <input
-                type="text"
-                id="username"
-                value={formData.username || ""}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-            ) : (
-              userData.username || <span className="text-muted">Non specificato</span>
-            )}
-          </div>
-          <div className="mb-3">
-            <strong>Email:</strong>{" "}
-            {isEditable ? (
-              <input
-                type="email"
-                id="email"
-                value={formData.email || ""}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-            ) : (
-              userData.email || <span className="text-muted">Non specificato</span>
-            )}
-          </div>
-          <div className="mb-3">
-            <strong>Telefono:</strong>{" "}
-            {isEditable ? (
-              <input
-                type="text"
-                id="phone"
-                value={formData.phone || ""}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-            ) : (
-              userData.phone || <span className="text-muted">Non specificato</span>
-            )}
-          </div>
-          <div className="mb-3">
-            <strong>Instagram:</strong>{" "}
-            {isEditable ? (
-              <input
-                type="text"
-                id="instagram"
-                value={formData.instagram || ""}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-            ) : (
-              userData.instagram || <span className="text-muted">Non specificato</span>
-            )}
-          </div>
-          <div className="mb-3">
-            <strong>Youtube:</strong>{" "}
-            {isEditable ? (
-              <input
-                type="text"
-                id="youtube"
-                value={formData.youtube || ""}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-            ) : (
-              userData.youtube || <span className="text-muted">Non specificato</span>
-            )}
-          </div>
-          <div className="mb-3">
-            <strong>Facebook:</strong>{" "}
-            {isEditable ? (
-              <input
-                type="text"
-                id="facebook"
-                value={formData.facebook || ""}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-            ) : (
-              userData.facebook || <span className="text-muted">Non specificato</span>
-            )}
-          </div>
-          <div className="mb-3">
-            <strong>TikTok:</strong>{" "}
-            {isEditable ? (
-              <input
-                type="text"
-                id="tiktok"
-                value={formData.tiktok || ""}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-            ) : (
-              userData.tiktok || <span className="text-muted">Non specificato</span>
-            )}
-          </div>
-          <div className="mb-3">
-            <strong>Tipo di Utente:</strong>{" "}
-            {isEditable ? (
-              <>
-                <select
-                  id="userType"
-                  className="form-control"
-                  value=""
-                  onChange={(e) => {
-                    const selectedId = Number(e.target.value);
-                    const selectedType = availableUserTypes.find((type) => type.id === selectedId);
-                    if (selectedType && !formData.userTypes.some((type) => type.id === selectedId)) {
-                      setFormData((prevData) => ({
-                        ...prevData,
-                        userTypes: [...prevData.userTypes, selectedType],
-                      }));
-                    }
-                  }}
-                >
-                  <option value="" disabled>Seleziona il tipo di utente</option>
-                  {availableUserTypes.map((type) => (
-                    <option key={type.id} value={type.id}>
-                      {type.name}
-                    </option>
-                  ))}
-                </select>
-                <div className="mt-2">
-                  {formData.userTypes.map((type) => (
-                    <span key={type.id} className="badge bg-primary me-2">
-                      {type.name}
-                      <button
-                        type="button"
-                        className="btn-close btn-close-white ms-2"
-                        aria-label="Remove"
-                        onClick={() =>
-                          setFormData((prevData) => ({
-                            ...prevData,
-                            userTypes: prevData.userTypes.filter((t) => t.id !== type.id),
-                          }))
-                        }
-                      ></button>
-                    </span>
-                  ))}
+    if (error) {
+        return (
+            <div className="container mt-5">
+                <div className="alert alert-danger">
+                    {error}
                 </div>
-              </>
-            ) : (
-              userData.userTypes.map((type) => (
-                <span key={type.id} className="badge bg-secondary me-2">
-                  {type.name}
-                </span>
-              )) || <span className="text-muted">Non specificato</span>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return (
+            <div className="container mt-5">
+                <div className="alert alert-warning">
+                    Nessun dato utente disponibile.
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="container mt-5">
+            {successMessage && (
+                <div className="alert alert-success" role="alert">
+                    {successMessage}
+                </div>
             )}
-          </div>
-          {isEditable && (
-            <button className="btn btn-primary mt-3" onClick={handleSave}>
-              Salva
-            </button>
-          )}
+            <div className="card">
+                <div className="card-body">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                        <h5 className="card-title">Il tuo profilo</h5>
+                        {!isEditing && (
+                            <button className="btn btn-primary" onClick={() => setIsEditing(true)}>Modifica</button>
+                        )}
+                    </div>
+                    <form onSubmit={handleSave}>
+                        <div className="mb-3">
+                            <label htmlFor="first_name" className="form-label">Nome</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="first_name"
+                                value={formData?.first_name || ''}
+                                onChange={handleInputChange}
+                                disabled={!isEditing}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="last_name" className="form-label">Cognome</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="last_name"
+                                value={formData?.last_name || ''}
+                                onChange={handleInputChange}
+                                disabled={!isEditing}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="username" className="form-label">Username</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="username"
+                                value={formData?.username || ''}
+                                onChange={handleInputChange}
+                                disabled={!isEditing}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="email" className="form-label">Email</label>
+                            <input
+                                type="email"
+                                className="form-control"
+                                id="email"
+                                value={formData?.email || ''}
+                                onChange={handleInputChange}
+                                disabled={true}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="phone" className="form-label">Telefono</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="phone"
+                                value={formData?.phone || ''}
+                                onChange={handleInputChange}
+                                disabled={!isEditing}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="notes" className="form-label">Note</label>
+                            <textarea
+                                className="form-control"
+                                id="notes"
+                                value={formData?.notes || ''}
+                                onChange={handleInputChange}
+                                disabled={!isEditing}
+                            ></textarea>
+                        </div>
+                        {isEditing && (
+                            <div className="d-flex justify-content-end">
+                                <button type="button" className="btn btn-secondary me-2" onClick={() => { setIsEditing(false); setFormData(user); }}>Annulla</button>
+                                <button type="submit" className="btn btn-success">Salva</button>
+                            </div>
+                        )}
+                    </form>
+                    <hr className="my-4" />
+                    <div className="d-grid gap-2">
+                        <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={handleDeleteAccount}
+                        >
+                            Elimina Account
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ProfileComponent;

@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
-import { format, isToday, addDays, parseISO } from 'date-fns';
+import React, { useState, useEffect } from 'react';
+import { format, isToday, addDays } from 'date-fns';
 import { it } from 'date-fns/locale';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 interface CalendarComponentProps {
-    initialDate: string; // ISO string format
+    onDateSelect: (date: Date) => void;
 }
 
-const CalendarComponent: React.FC<CalendarComponentProps> = ({ initialDate }) => {
-    const [selectedDate, setSelectedDate] = useState<Date>(parseISO(initialDate));
+const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateSelect }) => {
+    // Utilizza la data odierna come stato iniziale
+    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
+
+    // Usa useEffect per notificare il genitore ogni volta che la data selezionata cambia
+    useEffect(() => {
+        onDateSelect(selectedDate);
+    }, [selectedDate, onDateSelect]); // L'effetto si attiva quando selectedDate o onDateSelect cambiano
 
     const handlePreviousDay = () => {
         setSelectedDate((prevDate) => addDays(prevDate, -1));
@@ -26,6 +32,12 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ initialDate }) =>
         }
         setShowDatePicker(false);
     };
+    
+    // Funzione per impostare la data odierna
+    const handleSetToday = () => {
+        setSelectedDate(new Date());
+        setShowDatePicker(false);
+    };
 
     return (
         <div className="d-flex align-items-center justify-content-center">
@@ -38,7 +50,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ initialDate }) =>
                     style={{ cursor: 'pointer' }}
                     onClick={() => setShowDatePicker(!showDatePicker)}
                 >
-                    {format(selectedDate, 'yyyy-MM-dd', { locale: it })} {isToday(selectedDate) && '(oggi)'}
+                    {format(selectedDate, 'dd MMMM yyyy', { locale: it })} {isToday(selectedDate) && '(oggi)'}
                 </span>
                 {showDatePicker && (
                     <div className="position-absolute mt-2" style={{ zIndex: 10 }}>
@@ -46,14 +58,11 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ initialDate }) =>
                             selected={selectedDate}
                             onChange={handleDateChange}
                             inline
-                            locale={it} // Imposta la localizzazione italiana
+                            locale={it}
                         />
                         <button
-                            className="btn btn-sm btn-secondary mt-2"
-                            onClick={() => {
-                                setSelectedDate(new Date()); // Imposta la data odierna
-                                setShowDatePicker(false); // Chiude il popup
-                            }}
+                            className="btn btn-sm btn-secondary w-100 mt-2"
+                            onClick={handleSetToday}
                         >
                             Oggi
                         </button>

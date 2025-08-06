@@ -11,7 +11,7 @@ const NavbarComponent = () => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/profile`, {
+        const response = await fetch(`${apiUrl}/api/auth/profile`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -34,16 +34,17 @@ const NavbarComponent = () => {
     };
 
     checkLoginStatus();
-  }, [location]); // Run only once when the component mounts
+  }, [location]);
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Rimuovi il token dal localStorage
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
-    navigate('/'); // Torna alla schermata home
+    navigate('/');
   };
 
   return (
     <>
+      {/* Navbar per schermi grandi */}
       <nav className="navbar navbar-expand-lg bg-white shadow-sm border-bottom mb-3 d-none d-lg-block">
         <div className="container">
           <Link className="navbar-brand d-flex align-items-center text-primary font-weight-bold" to="/">
@@ -52,14 +53,14 @@ const NavbarComponent = () => {
           </Link>
           <div className="collapse navbar-collapse justify-content-end">
             <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link className="nav-link text-gray-600 hover:text-blue-600" to="/">
-                  <Home className="d-block d-sm-none mr-2" size={20} />
-                  <span className="d-none d-sm-inline">Cantieri</span>
-                </Link>
-              </li>
               {isLoggedIn ? (
                 <>
+                  <li className="nav-item">
+                    <Link className="nav-link text-gray-600 hover:text-blue-600" to="/building-sites">
+                      <Home className="d-block d-sm-none mr-2" size={20} />
+                      <span className="d-none d-sm-inline">Cantieri</span>
+                    </Link>
+                  </li>
                   <li className="nav-item">
                     <Link className="nav-link text-gray-600 hover:text-blue-600" to={`/profile`}>
                       <User className="d-block d-sm-none mr-2" size={20} />
@@ -103,10 +104,12 @@ const NavbarComponent = () => {
       {/* Navbar per schermi piccoli */}
       <nav className="navbar navbar-light bg-white shadow-lg border-top fixed-bottom d-lg-none">
         <div className="container d-flex justify-content-around">
-          <Link className="nav-link text-gray-600 hover:text-blue-600 text-center" to="/">
-            <Home size={24} />
-            <span className="d-block text-muted" style={{ fontSize: '12px' }}>Cantieri</span>
-          </Link>
+          {isLoggedIn && (
+            <Link className="nav-link text-gray-600 hover:text-blue-600 text-center" to="/building-sites">
+              <Home size={24} />
+              <span className="d-block text-muted" style={{ fontSize: '12px' }}>Cantieri</span>
+            </Link>
+          )}
           {isLoggedIn ? (
             <>
               <Link className="nav-link text-gray-600 hover:text-blue-600 text-center" to={`/profile`}>
