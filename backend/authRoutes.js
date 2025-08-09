@@ -56,30 +56,33 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Endpoint di Login
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
-        // Modifica della query per includere la tabella users_user_type
-        // e filtrare solo gli utenti con user_type 'admin'
+        // La query ora fa il JOIN con la tabella users_user_type
+        // per verificare che l'utente esista E che abbia il ruolo di admin (user_type_id = 17).
         const userQuery = `
-            SELECT
-                u.*,
-                uut.user_type
-            FROM
+            SELECT 
+                u.* FROM 
                 users u
             JOIN
-                users_user_type uut ON u.user_type_id = uut.user_type_id
-            WHERE
-                u.email = $1 AND uut.user_type = 'admin'
+                users_user_type uut ON u.id = uut.user_id
+            WHERE 
+                u.email = $1 AND uut.user_type_id = 17
         `;
         const user = await pool.query(userQuery, [email]);
         
         if (user.rows.length === 0) {
-            // Risposta generica per sicurezza, non specificando se è l'email o il ruolo l'errore
+            // Risposta generica per motivi di sicurezza, non specificando se l'errore è 
+            // dovuto all'email o al ruolo
             return res.status(400).json({ message: 'Credenziali non valide.' });
         }
 
+        // Verifica che l'hash della password esista prima di confrontarlo
+        if (!user.rows[0].password) {
+            return res.status(400).json({ message: 'Credenziali non valide.' });
+        }
+        
         const validPassword = await bcrypt.compare(password, user.rows[0].password);
         if (!validPassword) {
             return res.status(400).json({ message: 'Credenziali non valide.' });
