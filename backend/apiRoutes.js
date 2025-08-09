@@ -710,8 +710,14 @@ router.post('/add-user_type', authenticateToken, async (req, res) => {
     return res.status(400).json({ error: 'Il campo "name" è obbligatorio.' });
   }
 
+  // **Nuovo controllo: Impedisce la creazione di un tipo di utente chiamato 'admin'**
+  if (name.toLowerCase() === 'admin') {
+    return res.status(403).json({ error: 'Non è possibile creare un tipo di utente chiamato "admin".' });
+  }
+
   try {
     // Inserisce il nuovo user_type nel database, associandolo all'owner_id
+    // Il controllo di unicità viene rimosso qui e nel catch.
     const result = await pool.query(
       'INSERT INTO user_type (name, owner_id) VALUES ($1, $2) RETURNING *',
       [name, ownerId]
@@ -720,10 +726,7 @@ router.post('/add-user_type', authenticateToken, async (req, res) => {
     // Invia una risposta di successo con i dati del nuovo record
     res.status(201).json(result.rows[0]);
   } catch (error) {
-    if (error.code === '23505') {
-      // Codice errore per violazione di UNIQUE
-      return res.status(409).json({ error: `Il tipo di utente "${name}" esiste già.` });
-    }
+    // Rimosso il controllo per l'errore '23505' (violazione di UNIQUE)
     console.error('Errore durante l\'inserimento del tipo di utente:', error);
     res.status(500).json({ error: 'Errore del server durante l\'inserimento.' });
   }

@@ -1,7 +1,7 @@
 -- Creazione della tabella user_type
 CREATE TABLE user_type (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(50) NOT NULL,
     owner_id INT NOT NULL
 );
 
