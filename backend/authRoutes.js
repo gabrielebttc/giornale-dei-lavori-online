@@ -9,6 +9,7 @@ const authenticateToken = require('./authMiddleware'); // Importazione corretta 
 router.post('/register', async (req, res) => {
     const { first_name, last_name, username, email, password, phone } = req.body;
     const client = await pool.connect();
+    ownerId = 21;
 
     try {
         await client.query('BEGIN'); // Inizia la transazione
@@ -17,8 +18,8 @@ router.post('/register', async (req, res) => {
 
         // 1. Inserisci il nuovo utente nella tabella "users"
         const newUserResult = await client.query(
-            'INSERT INTO users (first_name, last_name, username, email, password, phone) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, first_name, last_name, username, email, phone',
-            [first_name, last_name, username, email, hashedPassword, phone]
+            'INSERT INTO users (first_name, last_name, username, email, password, phone, owner_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, first_name, last_name, username, email, phone',
+            [first_name, last_name, username, email, hashedPassword, phone, ownerId]
         );
         const newUserId = newUserResult.rows[0].id;
 
