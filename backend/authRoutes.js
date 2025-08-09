@@ -60,8 +60,23 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
-        const user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        // Modifica della query per includere la tabella users_user_type
+        // e filtrare solo gli utenti con user_type 'admin'
+        const userQuery = `
+            SELECT
+                u.*,
+                uut.user_type
+            FROM
+                users u
+            JOIN
+                users_user_type uut ON u.user_type_id = uut.user_type_id
+            WHERE
+                u.email = $1 AND uut.user_type = 'admin'
+        `;
+        const user = await pool.query(userQuery, [email]);
+        
         if (user.rows.length === 0) {
+            // Risposta generica per sicurezza, non specificando se è l'email o il ruolo l'errore
             return res.status(400).json({ message: 'Credenziali non valide.' });
         }
 
@@ -72,7 +87,11 @@ router.post('/login', async (req, res) => {
 
         const token = jwt.sign({ id: user.rows[0].id }, process.env.JWT_SECRET, { expiresIn: '2h' });
 
-        res.status(200).json({ message: 'Login avvenuto con successo', token, user: user.rows[0] });
+        res.status(200).json({
+            message: 'Login avvenuto con successo',
+            token,
+            user: user.rows[0]
+        });
     } catch (error) {
         console.error('Errore durante il login:', error);
         res.status(500).json({ message: 'Errore del server durante il login.' });
