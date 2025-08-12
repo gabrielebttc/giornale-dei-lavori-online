@@ -6,7 +6,7 @@ const pool = require('./db');
 const authenticateToken = require('./authMiddleware'); // Importazione corretta del middleware
 
 // Endpoint di Registrazione
-router.post('/register', async (req, res) => {
+/*router.post('/register', async (req, res) => {
     const { first_name, last_name, username, email, password, phone } = req.body;
     const client = await pool.connect();
     ownerId = 21;
@@ -47,6 +47,78 @@ router.post('/register', async (req, res) => {
     } catch (error) {
         await client.query('ROLLBACK'); // Rollback in caso di errore
         if (error.code === '23505') {
+            return res.status(409).json({ message: 'L\'email o il username è già in uso.' });
+        }
+        console.error('Errore durante la registrazione:', error);
+        res.status(500).json({ message: 'Errore del server durante la registrazione.' });
+    } finally {
+        client.release();
+    }
+});*/
+
+//NEW REGISTRATION ENDPOINT
+router.post('/register', async (req, res) => {
+    const { first_name, last_name, username, email, password, phone } = req.body;
+    const client = await pool.connect();
+    ownerId = 21; // Assicurati che questo ownerId sia gestito correttamente nel contesto reale
+
+    try {
+        await client.query('BEGIN'); // Inizia la transazione
+
+        // **NUOVO CONTROLLO: Verifica se esiste già un utente admin con questa email**
+        const existingAdminUserQuery = `
+            SELECT 
+                u.id 
+            FROM 
+                users u
+            JOIN
+                users_user_type uut ON u.id = uut.user_id
+            WHERE 
+                u.email = $1 AND uut.user_type_id = 17;
+        `;
+        const existingAdminUserResult = await client.query(existingAdminUserQuery, [email]);
+
+        if (existingAdminUserResult.rows.length > 0) {
+            await client.query('ROLLBACK');
+            return res.status(409).json({ message: 'L\'email è già in uso da un utente con ruolo di amministratore.' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // 1. Inserisci il nuovo utente nella tabella "users"
+        const newUserResult = await client.query(
+            'INSERT INTO users (first_name, last_name, username, email, password, phone, owner_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, first_name, last_name, username, email, phone',
+            [first_name, last_name, username, email, hashedPassword, phone, ownerId]
+        );
+        const newUserId = newUserResult.rows[0].id;
+
+        // 2. Trova l'ID del tipo di utente "admin"
+        // Assicurati che un record 'admin' esista nella tabella user_type
+        const adminTypeResult = await client.query(
+            "SELECT id FROM user_type WHERE name = 'admin'"
+        );
+        
+        // Verifica se il tipo "admin" esiste nel database
+        if (adminTypeResult.rows.length === 0) {
+            await client.query('ROLLBACK');
+            return res.status(500).json({ message: 'Tipo utente "admin" non trovato nel database. Assicurati che esista un user_type con name=\'admin\'.' });
+        }
+        const adminTypeId = adminTypeResult.rows[0].id;
+
+        // 3. Associa il nuovo utente al tipo "admin"
+        await client.query(
+            'INSERT INTO users_user_type (user_id, user_type_id) VALUES ($1, $2)',
+            [newUserId, adminTypeId]
+        );
+
+        await client.query('COMMIT'); // Commit della transazione
+        res.status(201).json({ message: 'Registrazione avvenuta con successo. L\'utente è stato registrato come admin.' });
+
+    } catch (error) {
+        await client.query('ROLLBACK'); // Rollback in caso di errore
+        if (error.code === '23505') {
+            // Questo errore cattura ancora violazioni di UNIQUE su email/username nella tabella 'users'
+            // indipendentemente dal ruolo (ad esempio, se l'email è già usata da un non-admin).
             return res.status(409).json({ message: 'L\'email o il username è già in uso.' });
         }
         console.error('Errore durante la registrazione:', error);
