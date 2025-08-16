@@ -49,11 +49,6 @@ const ModifyBuildingSiteComponent: React.FC<Props> = ({ buildingSiteId, onClose,
     useEffect(() => {
         const fetchInitialData = async () => {
             try {
-                // Modifica qui: usa il percorso relativo alla radice del server
-                const geoResponse = await fetch('/italy_geo.json');
-                if (!geoResponse.ok) throw new Error('Failed to load geo data.');
-                const geoJson = await geoResponse.json();
-                setGeoData(geoJson);
                 
                 const buildingSiteResponse = await fetch(`${apiUrl}/api/building-sites/${buildingSiteId}`, {
                     method: 'GET',
@@ -73,6 +68,12 @@ const ModifyBuildingSiteComponent: React.FC<Props> = ({ buildingSiteId, onClose,
                 
                 setStartDate(siteData.start_date || '');
                 setEndDate(siteData.end_date || null);
+
+                // Modifica qui: usa il percorso relativo alla radice del server
+                const geoResponse = await fetch(`${process.env.PUBLIC_URL}/italy_geo.json`);
+                if (!geoResponse.ok) throw new Error('Failed to load geo data.');
+                const geoJson = await geoResponse.json();
+                setGeoData(geoJson);
 
             } catch (err) {
                 console.error('Error fetching data:', err);
