@@ -70,7 +70,7 @@ const ModifyBuildingSiteComponent: React.FC<Props> = ({ buildingSiteId, onClose,
                 setEndDate(siteData.end_date || null);
 
                 // Modifica qui: usa il percorso relativo alla radice del server
-                const geoResponse = await fetch(`${process.env.PUBLIC_URL}/italy_geo.json`);
+                const geoResponse = await fetch(`/italy_geo.json`);
                 if (!geoResponse.ok) throw new Error('Failed to load geo data.');
                 const geoJson = await geoResponse.json();
                 setGeoData(geoJson);

@@ -24,7 +24,7 @@ const AddBuildingSiteFormComponent: React.FC = () => {
     useEffect(() => {
         const fetchGeoData = async () => {
             try {
-                const response = await fetch(`${process.env.PUBLIC_URL}/italy_geo.json`);
+                const response = await fetch(`/italy_geo.json`);
                 if (!response.ok) {
                     throw new Error(`Errore HTTP: ${response.status}`);
                 }
