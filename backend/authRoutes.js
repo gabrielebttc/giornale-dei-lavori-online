@@ -80,7 +80,7 @@ router.post('/register', async (req, res) => {
 
         if (existingAdminUserResult.rows.length > 0) {
             await client.query('ROLLBACK');
-            return res.status(409).json({ message: 'L\'email è già in uso da un utente con ruolo di amministratore.' });
+            return res.status(409).json({ message: 'L\'email è già in uso da un altro utente.' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -112,14 +112,14 @@ router.post('/register', async (req, res) => {
         );
 
         await client.query('COMMIT'); // Commit della transazione
-        res.status(201).json({ message: 'Registrazione avvenuta con successo. L\'utente è stato registrato come admin.' });
+        res.status(201).json({ message: 'Registrazione avvenuta con successo. L\'utente è stato registrato.' });
 
     } catch (error) {
         await client.query('ROLLBACK'); // Rollback in caso di errore
         if (error.code === '23505') {
             // Questo errore cattura ancora violazioni di UNIQUE su email/username nella tabella 'users'
             // indipendentemente dal ruolo (ad esempio, se l'email è già usata da un non-admin).
-            return res.status(409).json({ message: 'L\'email o il username è già in uso.' });
+            return res.status(409).json({ message: 'L\'username è già in uso.' });
         }
         console.error('Errore durante la registrazione:', error);
         res.status(500).json({ message: 'Errore del server durante la registrazione.' });

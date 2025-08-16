@@ -46,17 +46,10 @@ const ModifyBuildingSiteComponent: React.FC<Props> = ({ buildingSiteId, onClose,
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState<string | null>(null);
 
-    // Funzione per formattare una data in YYYY-MM-DD
-    const formatDate = (dateString: string | null) => {
-      if (!dateString) return null;
-      const date = new Date(dateString);
-      // getUTCFullYear, getUTCMonth, e getUTCDate evitano il fuso orario
-      return `${date.getUTCFullYear()}-${(date.getUTCMonth() + 1).toString().padStart(2, '0')}-${date.getUTCDate().toString().padStart(2, '0')}`;
-    };
-
     useEffect(() => {
         const fetchInitialData = async () => {
             try {
+                // Modifica qui: usa il percorso relativo alla radice del server
                 const geoResponse = await fetch('/italy_geo.json');
                 if (!geoResponse.ok) throw new Error('Failed to load geo data.');
                 const geoJson = await geoResponse.json();
@@ -78,9 +71,8 @@ const ModifyBuildingSiteComponent: React.FC<Props> = ({ buildingSiteId, onClose,
                 setLat(siteData.latitude);
                 setLng(siteData.longitude);
                 
-                // 🛠️ MODIFICA 1: Formatta la data dal backend
-                setStartDate(siteData.start_date ? formatDate(siteData.start_date) || '' : '');
-                setEndDate(siteData.end_date ? formatDate(siteData.end_date) : null);
+                setStartDate(siteData.start_date || '');
+                setEndDate(siteData.end_date || null);
 
             } catch (err) {
                 console.error('Error fetching data:', err);
@@ -126,7 +118,6 @@ const ModifyBuildingSiteComponent: React.FC<Props> = ({ buildingSiteId, onClose,
                   address,
                   latitude: lat,
                   longitude: lng,
-                  // 🛠️ MODIFICA 2: Invia la data come stringa YYYY-MM-DD
                   start_date: startDate,
                   end_date: endDate,
                 }),

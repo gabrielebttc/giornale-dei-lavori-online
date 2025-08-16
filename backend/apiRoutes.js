@@ -97,7 +97,7 @@ router.get('/building-sites', authenticateToken, async (req, res) => {
 router.get('/building-sites/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
   const ownerId = req.user.id;
-  try {
+  //try {
     const result = await pool.query(
       `SELECT
         id,
@@ -117,10 +117,10 @@ router.get('/building-sites/:id', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: 'Cantiere non trovato o non sei autorizzato.' });
     }
     res.status(200).json(result.rows[0]);
-  } catch (error) {
+  //} catch (error) {
     console.error('Errore nel recupero del cantiere:', error);
     res.status(500).json({ error: 'Errore del server.' });
-  }
+  //}
 });
 
 router.put('/building-sites/:id', authenticateToken, async (req, res) => {
