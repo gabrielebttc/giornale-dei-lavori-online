@@ -10,11 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.12.2",
     "axios": "^1.11.0",
     "bcrypt": "^6.0.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.1",
+    "gapi-script": "^1.2.0",
+    "google-auth-library": "^10.2.1",
+    "googleapis": "^156.0.0",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.510.0",
@@ -22,12 +26,15 @@
     "react": "^19.1.0",
     "react-datepicker": "^8.3.0",
     "react-dom": "^19.1.0",
+    "react-google-drive-picker": "^1.2.2",
     "react-map-gl": "^8.0.4",
     "react-router-dom": "^7.6.0",
     "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
+    "@types/gapi": "^0.0.47",
+    "@types/gapi.client.drive": "^3.0.15",
     "@types/node": "^22.15.17",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
