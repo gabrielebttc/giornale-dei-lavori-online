@@ -1,4 +1,8 @@
-frontend/.env
 .env
+frontend/.env
+backend/.env
+frontend/Dockerfile.frontend
+backend/Dockerfile.backend
+docker-compose.yml
 client_secret_614681806136-k3kokdsigu76487elncj01smll2kumvg.apps.googleusercontent.com.json
 api_key_google.txt
