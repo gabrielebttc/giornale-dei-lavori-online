@@ -5,7 +5,6 @@ import SetDailyPresencesComponent from '../SetDailyPresencesComponent';
 import DailyNotesComponent from '../DailyNotesComponent'; 
 import ModifyBuildingSiteComponent from '../ModifyBuildingSiteComponent'; 
 import GenerateExcelFileComponent from '../GenerateExcelFileComponent';
-import GoogleAuthButton from '../GoogleAuthButton';
 
 const ActionPage: React.FC = () => {
   const { link, siteId, date } = useParams<{ link: string; siteId?: string; date: string }>();
@@ -85,10 +84,6 @@ const ActionPage: React.FC = () => {
             // 🛠️ MODIFICA: Utilizza la nuova funzione handleExcelSuccess
             onSuccess={handleExcelSuccess}
           />
-        );
-      case 'google-drive':
-        return (
-          <GoogleAuthButton onSuccess={() => alert('hi babe, SEI DENTRO CAZZO!!')} onFailure={() => alert(`sorry, u're probably a dick...`)}/>
         );
       default:
         return <h1 className="text-center my-4">Pagina non trovata</h1>;
