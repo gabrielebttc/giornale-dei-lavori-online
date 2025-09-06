@@ -5,7 +5,6 @@ const http = require('http');
 const pool = require('./db');
 const authRoutes = require('./authRoutes'); // Importa il router da authRoutes.js
 const apiRoutes = require('./apiRoutes');
-const googleApiRoutes = require('./googleApiRoutes');
 const { initializeSocket } = require('./socket');
 
 const app = express();
