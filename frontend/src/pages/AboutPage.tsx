@@ -1,8 +1,4 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { FaUsers, FaClipboardList, FaCalendarCheck, FaBuilding, FaDatabase, FaRocket } from "react-icons/fa";
-
-const AboutPage: React.FC = () => {
+const AboutPage = () => {
   return (
     <div className="about-page m-0 p-0">
       {/* HERO SECTION */}
@@ -53,42 +49,42 @@ const AboutPage: React.FC = () => {
           <div className="row g-4">
             <div className="col-12 col-md-6 col-lg-4">
               <div className="card h-100 border-0 shadow-sm p-4">
-                <FaUsers size={40} className="text-primary mb-3" />
+                <i className="bi bi-people fs-1 text-primary mb-3"></i>
                 <h5 className="fw-semibold">Aggiungi Lavoratori</h5>
                 <p className="text-muted">Gestisci facilmente tutti i membri del tuo team in un unico posto.</p>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-4">
               <div className="card h-100 border-0 shadow-sm p-4">
-                <FaClipboardList size={40} className="text-primary mb-3" />
+                <i className="bi bi-card-checklist fs-1 text-primary mb-3"></i>
                 <h5 className="fw-semibold">Fai l'appello</h5>
                 <p className="text-muted">Tieni traccia delle presenze in modo veloce e preciso.</p>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-4">
               <div className="card h-100 border-0 shadow-sm p-4">
-                <FaCalendarCheck size={40} className="text-primary mb-3" />
+                <i className="bi bi-calendar-check fs-1 text-primary mb-3"></i>
                 <h5 className="fw-semibold">Segna le attività giornaliere</h5>
                 <p className="text-muted">Annota le attività svolte ogni giorno con semplicità.</p>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-4">
               <div className="card h-100 border-0 shadow-sm p-4">
-                <FaBuilding size={40} className="text-primary mb-3" />
+                <i className="bi bi-building fs-1 text-primary mb-3"></i>
                 <h5 className="fw-semibold">Crea tanti cantieri</h5>
                 <p className="text-muted">Gestisci più cantieri contemporaneamente, senza confusione.</p>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-4">
               <div className="card h-100 border-0 shadow-sm p-4">
-                <FaDatabase size={40} className="text-primary mb-3" />
+                <i className="bi bi-database fs-1 text-primary mb-3"></i>
                 <h5 className="fw-semibold">Memorizza informazioni</h5>
                 <p className="text-muted">Ogni cantiere conserva dati, note e report in modo ordinato.</p>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-4">
               <div className="card h-100 border-0 shadow-sm p-4">
-                <FaRocket size={40} className="text-primary mb-3" />
+                <i className="bi bi-rocket fs-1 text-primary mb-3"></i>
                 <h5 className="fw-semibold">E molto altro...</h5>
                 <p className="text-muted">Funzionalità sempre nuove per semplificare la tua giornata lavorativa.</p>
               </div>
