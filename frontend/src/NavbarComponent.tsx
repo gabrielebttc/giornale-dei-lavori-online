@@ -45,7 +45,7 @@ const NavbarComponent = () => {
   return (
     <>
       {/* Navbar per schermi grandi */}
-      <nav className="navbar navbar-expand-lg bg-white shadow-sm border-bottom mb-3 d-none d-lg-block">
+      <nav className="navbar navbar-expand-lg bg-white shadow-sm border-bottom mb d-none d-lg-block">
         <div className="container">
           <Link className="navbar-brand d-flex align-items-center text-primary font-weight-bold" to="/">
             <Home className="mr-2" size={24} />
