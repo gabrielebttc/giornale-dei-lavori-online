@@ -114,6 +114,6 @@ CREATE TABLE users_teams (
 );
 
 -- Inserimento dei valori nella tabella user_type
-INSERT INTO user_type (name) VALUES
-('admin'),
-('muratore');
+INSERT INTO user_type (id, name, owner_id) VALUES
+(17 ,'admin', 1),
+(1, 'muratore', 1);
