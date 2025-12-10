@@ -181,7 +181,7 @@ const MapComponent = () => {
       <div
         id="map-container"
         ref={mapContainerRef}
-        style={{ width: '100%', height: '400px' }}
+        style={{ width: '100%', height: '380px' }}
       ></div>
       <div className="records-container">
         {/* Campo di input per la ricerca e pulsanti */}

@@ -3,6 +3,7 @@ import AddBuildingSiteFormComponent from './AddBuilingSiteFormComponent';
 
 interface AddRecordComponentProps {
     tableName: string;
+    onNewRecord: () => void;
 }
 
 const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName }) => {
@@ -56,7 +57,7 @@ const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName }) =>
                                 ></button>
                             </div>
                             <div className="modal-body">
-                                {tableName === 'building_sites' && <AddBuildingSiteFormComponent />}
+                                {tableName === 'building_sites' && <AddBuildingSiteFormComponent onClose={() => setIsPopupOpen(false)} />}
                             </div>
                             <div className="modal-footer">
                                 <button

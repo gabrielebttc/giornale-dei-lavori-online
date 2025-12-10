@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
-const AddBuildingSiteFormComponent: React.FC = () => {
+type Props = {
+    onClose: () => void;
+}
+
+const AddBuildingSiteFormComponent: React.FC<Props> = ({ onClose }) => {
     const [name, setName] = useState('');
     const [notes, setNotes] = useState('');
     const [city, setCity] = useState('');
@@ -100,6 +104,7 @@ const AddBuildingSiteFormComponent: React.FC = () => {
             setError('Errore durante l\'inserimento del building site.');
             console.error('Error:', error);
         }
+        onClose();
     };
 
     const sortedGeoData = geoData
@@ -112,7 +117,7 @@ const AddBuildingSiteFormComponent: React.FC = () => {
 
     return (
         <div className="container mt-4">
-            <h2>Aggiungi Building Site</h2>
+            <h2>Aggiungi Nuovo Cantiere</h2>
             {error && <div className="alert alert-danger">{error}</div>}
             {success && <div className="alert alert-success">{success}</div>}
             <form onSubmit={handleSubmit}>

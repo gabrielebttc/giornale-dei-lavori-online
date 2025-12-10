@@ -5,7 +5,7 @@ const HomePage = () => {
     return (
       <div>
         <MapComponent />
-        <AddRecordComponent tableName="building_sites" />
+        <AddRecordComponent tableName="building_sites" onNewRecord={setUpdateList(true)}/>
       </div>
     );
   };
