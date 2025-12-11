@@ -9,6 +9,7 @@ import ProfilePage from './pages/ProfilePage';
 import NavbarComponent from './NavbarComponent';
 import BuildingSiteActionsPage from './pages/BuildingSiteActionsPage';
 import ActionPage from './pages/ActionPage';
+import TestPage from './test/TestPage';
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/building-site-actions/:site_id" element={<BuildingSiteActionsPage />} />
                     <Route path="/action-page/:link/:siteId/:date" element={<ActionPage />} />
+                    <Route path="/test-page" element={<TestPage />} />
                   </Routes>
               </div>
             </div>
