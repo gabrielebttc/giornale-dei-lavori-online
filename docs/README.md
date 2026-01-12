@@ -10,7 +10,7 @@ Consente inoltre di **generare un giornare dei lavori in formato xls**.
 - **Database**: *PostgreSQL*
 
 ## Tipologie di utenti
-- *Admin* -> Ispettore di cantienre
+- ***Admin*** → Ispettore di cantienre
     - Può creare e gestire cantieri
     - Aggiungere diversi tipi di note per ogni cantiere (diversi anche per giorno)
     - Può creare e gestire lavorari nel cantiere
