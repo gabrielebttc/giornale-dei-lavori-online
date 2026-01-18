@@ -45,13 +45,13 @@ router.post('/register', async (req, res) => {
         // 2. Trova l'ID del tipo di utente "admin"
         // Assicurati che un record 'admin' esista nella tabella user_type
         const adminTypeResult = await client.query(
-            "SELECT id FROM user_type WHERE name = 'admin'"
+            "SELECT id FROM user_type WHERE id = 2"
         );
         
         // Verifica se il tipo "admin" esiste nel database
         if (adminTypeResult.rows.length === 0) {
             await client.query('ROLLBACK');
-            return res.status(500).json({ message: 'Tipo utente "admin" non trovato nel database. Assicurati che esista un user_type con name=\'admin\'.' });
+            return res.status(500).json({ message: 'Tipo utente con id = 2 non trovato nel database. Assicurati che esista un user_type con name=\'admin\'.' });
         }
         const adminTypeId = adminTypeResult.rows[0].id;
 

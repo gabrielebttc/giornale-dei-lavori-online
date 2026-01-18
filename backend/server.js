@@ -11,7 +11,7 @@ const app = express();
 const port = 3001;
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:80', 'http://localhost', 'http://57.129.13.2', 'http://57.129.13.2:80', 'https://giornaledeilavori.gabrielebuttice.com'],
+  origin: ['http://localhost:5173', 'https://localhost:5173', 'http://localhost:80', 'http://localhost', 'http://57.129.13.2', 'http://57.129.13.2:80', 'https://giornaledeilavori.gabrielebuttice.com'],
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT', 'OPTIONS', 'HEAD'],
 }));
 app.use(express.json());
