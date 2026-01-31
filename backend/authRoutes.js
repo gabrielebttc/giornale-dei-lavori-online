@@ -3,10 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('./db');
-const authenticateToken = require('./authMiddleware'); // Importazione corretta del middleware
+const authenticateToken = require('./authMiddleware');
 
-
-// REGISTRATION ENDPOINT
 router.post('/register', async (req, res) => {
     const { first_name, last_name, username, email, password, phone } = req.body;
     const client = await pool.connect();
@@ -136,7 +134,6 @@ router.get('/profile', authenticateToken, async (req, res) => {
   }
 });
 
-// Endpoint per l'aggiornamento del profilo (protetto)
 router.put('/profile', authenticateToken, async (req, res) => {
   const { first_name, last_name, username, phone, notes } = req.body;
   const userId = req.user.id;

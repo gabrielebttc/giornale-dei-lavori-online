@@ -7,6 +7,8 @@ const authenticateToken = require('./authMiddleware'); // Middleware di autentic
 const ExcelJS = require('exceljs');
 const moment = require('moment');
 
+/* TEST ROUTES */
+
 router.get('/db-test', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW()'); // Query di prova
@@ -42,6 +44,8 @@ router.get('/db/:table', authenticateToken, async (req, res) => {
     res.status(500).send('Errore nel recupero dei dati dal database');
   }
 });
+
+/* END - TEST ROUTES */
 
 router.get('/user-types', authenticateToken, async (req, res) => {
   try {

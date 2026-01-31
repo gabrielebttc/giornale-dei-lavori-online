@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// Rimosso l'importazione del CSS non più necessaria
+import './styles/RegisterComponent.css';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -69,99 +69,108 @@ const RegisterComponent: React.FC = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">Registrazione</h2>
-      {alert && (
-        <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
-          {alert.message}
-          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <div className="row justify-content-center">
+        {/* Limitiamo la larghezza su MD e LG con col-md-6 o col-lg-5 */}
+        <div className="col-12 col-md-6 col-lg-5 shadow-lg p-4 mb-5 bg-white rounded-4 border">
+          
+          <h2 className="text-center fw-bold mb-4 text-primary">Registrazione</h2>
+          <hr className="mb-4 opacity-25" />
+
+          {alert && (
+            <div className={`alert alert-${alert.type} alert-dismissible fade show rounded-3`} role="alert">
+              {alert.message}
+              <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="first_name" className="form-label fw-semibold">Nome</label>
+              <input
+                type="text"
+                className="form-control form-control-lg rounded-3"
+                id="first_name"
+                placeholder="Nome"
+                value={formData.first_name}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label fw-semibold">Email</label>
+              <input
+                type="email"
+                className="form-control form-control-lg rounded-3"
+                id="email"
+                placeholder="nome@esempio.com"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <label htmlFor="password" className="form-label fw-semibold">Password</label>
+                <input
+                  type="password"
+                  className="form-control rounded-3"
+                  id="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="col-md-6 mb-4">
+                <label htmlFor="confirmPassword" className="form-label fw-semibold">Conferma</label>
+                <input
+                  type="password"
+                  className="form-control rounded-3"
+                  id="confirmPassword"
+                  placeholder="Conferma"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="btn btn-primary btn-lg w-100 fw-bold shadow-sm rounded-3">
+              Crea account
+            </button>
+
+            {/* NON NECESSARIO ATTUALMENTE
+            <div className="mb-3">
+              <label htmlFor="username" className="form-label">Username</label>
+              <input
+                type="text"
+                className="form-control"
+                id="username"
+                placeholder="Inserisci il tuo username"
+                value={formData.username}
+                onChange={handleInputChange}
+              />
+            </div>
+            */}
+
+            {/* ATTUALMENTE NON NECESSARIO
+            <div className="mb-3">
+              <label htmlFor="phone" className="form-label">Numero di cellulare</label>
+              <input
+                type="tel"
+                className="form-control"
+                id="phone"
+                placeholder="Inserisci il tuo numero di cellulare"
+                value={formData.phone}
+                onChange={handleInputChange}
+              />
+            </div>
+            */}
+          </form>
         </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="first_name" className="form-label">Nome</label>
-          <input
-            type="text"
-            className="form-control"
-            id="first_name"
-            placeholder="Inserisci il tuo nome"
-            value={formData.first_name}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="last_name" className="form-label">Cognome</label>
-          <input
-            type="text"
-            className="form-control"
-            id="last_name"
-            placeholder="Inserisci il tuo cognome"
-            value={formData.last_name}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="username" className="form-label">Username</label>
-          <input
-            type="text"
-            className="form-control"
-            id="username"
-            placeholder="Inserisci il tuo username"
-            value={formData.username}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            placeholder="Inserisci la tua email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="phone" className="form-label">Numero di cellulare</label>
-          <input
-            type="tel"
-            className="form-control"
-            id="phone"
-            placeholder="Inserisci il tuo numero di cellulare"
-            value={formData.phone}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            placeholder="Inserisci la tua password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="confirmPassword" className="form-label">Conferma Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="confirmPassword"
-            placeholder="Conferma la tua password"
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary w-100">Registrati</button>
-      </form>
+      </div>
     </div>
   );
 };

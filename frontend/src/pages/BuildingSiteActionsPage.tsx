@@ -1,108 +1,151 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import BuildingSiteActionComponent from '../BuildingSiteActionComponent';
+import { useParams, useNavigate } from 'react-router-dom';
 import CalendarComponent from '../CalendarComponent';
+
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
+// --- INTERFACCIA DATI CANTIERE ---
 interface SiteInfo {
   id: number;
   name: string;
   notes: string | null;
   city: string | null;
   adress: string | null;
-  latitude: number | null;
-  longitude: number | null;
 }
 
-const BuildingSiteActionsPage: React.FC = () => {
-  const { site_id: siteId } = useParams<{ site_id: string }>(); // Extract the id from the URL
-  const currentDate = new Date(); // Format the date in Italian format (dd/mm/yyyy)
-  const [buildingSiteInfo, setBuildingSiteInfo] = useState<SiteInfo | null>(null);
+// --- INTERFACCIA PROPS CARD ---
+interface ActionCardProps {
+  siteId: number;
+  actionName: string;
+  descriptionSection: string;
+  selectedDate: Date;
+  link: string;
+}
+
+// --- COMPONENTE CARD (Separato per pulizia) ---
+const BuildingSiteActionComponent: React.FC<ActionCardProps> = ({ 
+  siteId, actionName, descriptionSection, selectedDate, link 
+}) => {
+  function formatDate(date: Date){
+    return date.toISOString().split('T')[0];
+  }
+
+  useEffect(() => {
+    var formattedDate = formatDate(selectedDate);
+    setDateWithDashes(formattedDate);
+  }, [selectedDate])
+  const [dateWithDashes, setDateWithDashes] = useState<string>(formatDate(selectedDate));
   
-  const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
-  const handleDateChange = (date: Date) => {
-    setSelectedDate(date);
+  const navigate = useNavigate();
+
+  const getIcon = (name: string) => {
+    const map: Record<string, string> = {
+      'Appello': 'bi-people',
+      'Giornale dei lavori': 'bi-journal-text',
+      'Lavoratori': 'bi-person-badge',
+      'Annotazioni Speciali': 'bi-exclamation-triangle',
+      'Osservazioni DL': 'bi-eye',
+      'Genera Report': 'bi-file-earmark-excel',
+      'Modifica Info': 'bi-gear'
+    };
+    return map[name] || 'bi-pencil';
   };
 
-  useEffect (() => {
-    fetchBuildingSiteInfo();
-  }, []);
+  const handleClick = () => {
+    navigate(`/${link}/${siteId}/${dateWithDashes}`);
+  };
+
+  return (
+    <div 
+      className="card h-100 border-0 shadow-sm rounded-4 transition-all hover-shadow" 
+      style={{ cursor: 'pointer', transition: '0.3s' }}
+      onClick={handleClick}
+    >
+      <div className="card-body d-flex align-items-center p-3">
+        <div className="rounded-circle bg-primary bg-opacity-10 p-3 me-3 text-primary d-flex align-items-center justify-content-center" 
+             style={{ width: '60px', height: '60px', minWidth: '60px' }}>
+          <i className={`bi ${getIcon(actionName)} fs-3`}></i>
+        </div>
+        <div className="flex-grow-1">
+          <h5 className="fw-bold mb-1 text-dark" style={{ fontSize: '1.1rem' }}>{actionName}</h5>
+          <p className="text-secondary small mb-0 lh-sm">{descriptionSection}</p>
+        </div>
+        <div className="text-primary opacity-25 ms-2">
+          <i className="bi bi-chevron-right fs-4"></i>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --- COMPONENTE PAGINA PRINCIPALE ---
+const BuildingSiteActionsPage: React.FC = () => {
+  const { site_id: siteId } = useParams<{ site_id: string }>();
+  const [buildingSiteInfo, setBuildingSiteInfo] = useState<SiteInfo | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (siteId) fetchBuildingSiteInfo();
+  }, [siteId]);
 
   const fetchBuildingSiteInfo = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/building-sites/${siteId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
       });
-      
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      if (!response.ok) throw new Error('Errore nel caricamento');
       const data = await response.json();
       setBuildingSiteInfo(data);
-      return data;
     } catch (error) {
-      console.error('Error fetching building site info:', error);
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
-  const site = buildingSiteInfo;
+  if (!siteId) return <div className="container mt-5 text-center"><h1>Cantiere non trovato</h1></div>;
+  if (loading) return <div className="container mt-5 text-center px-5"><div className="spinner-border text-primary"></div></div>;
 
-  return siteId ? (
-    <>
-      <div className="container">
-        <div className="row d-flex justify-content-center align-items-center">
-          <div className='col-12 text-center'>
-            <h2>{site && site.name}</h2>
-          </div>
-          <div className="col-6 col-lg-4 text-center">
-            <CalendarComponent onDateSelect={handleDateChange} />
-          </div>
+  const actions = [
+    { name: 'Appello', desc: 'Segna presenze e assenze', link: 'action-page/set-daily-presences' },
+    { name: 'Giornale dei lavori', desc: 'Segna le attività giornaliere', link: 'action-page/daily-personal-notes' },
+    { name: 'Lavoratori', desc: 'Gestisci i lavoratori assegnati', link: 'action-page/all-workers-from-site' },
+    { name: 'Annotazioni Speciali', desc: 'Eventi straordinari e tempo impiegato', link: 'action-page/daily-notes' },
+    { name: 'Osservazioni DL', desc: 'Direzione lavori e sicurezza', link: 'action-page/daily-other-notes' },
+    { name: 'Genera Report', desc: 'Esporta file Excel (.xlsx)', link: 'action-page/generate-excel-file' },
+    { name: 'Modifica Info', desc: 'Modifica dati anagrafici cantiere', link: 'action-page/modify-building-site' }
+  ];
+
+  return (
+    <div className="container mt-4 pb-5">
+      {/* Header */}
+      <div className="row mb-4 align-items-center bg-white p-3 rounded-4 shadow-sm border mx-0">
+        <div className='col-md-7'>
+          <h2 className="fw-bold text-primary mb-0">{buildingSiteInfo?.name}</h2>
+          <small className="text-muted text-uppercase fw-semibold">Gestione Cantiere</small>
+        </div>
+        <div className="col-md-5 mt-3 mt-md-0">
+          <CalendarComponent onDateSelect={setSelectedDate} />
         </div>
       </div>
 
-      <div className='container'>
-        <div className='row'>
-          <div className='col-12'>
-            <BuildingSiteActionComponent siteId={Number(siteId) } actionName='Appello' descriptionSection='Segna presenze e assenze' selectedDate={selectedDate} link='action-page/set-daily-presences'/>
+      {/* Griglia Azioni */}
+      <div className="row g-3">
+        {actions.map((action, idx) => (
+          <div className="col-12 col-lg-6" key={idx}>
+            <BuildingSiteActionComponent 
+              siteId={Number(siteId)} 
+              actionName={action.name} 
+              descriptionSection={action.desc} 
+              selectedDate={selectedDate} 
+              link={action.link} 
+            />
           </div>
-          <div className='col-12'>
-            <BuildingSiteActionComponent siteId={Number(siteId)} actionName='Giornale dei lavori' descriptionSection='Segna le attività giornaliere' selectedDate={selectedDate} link='action-page/daily-personal-notes'/>
-          </div>
-        </div>
-
-        <div className='row'>
-          <div className='col-12'>
-            <BuildingSiteActionComponent siteId={Number(siteId)} actionName='Lavoratori di questo cantiere' descriptionSection={`Aggiungi o rimuovi dei lavoratori nel cantiere: ${site && site.name}`} selectedDate={selectedDate} link='action-page/all-workers-from-site'/>
-          </div>
-          <div className='col-12'>
-            <BuildingSiteActionComponent siteId={Number(siteId)} actionName='ANNOTAZIONI SPECIALI E GENERALI' descriptionSection={`sull'andamento e modo di esecuzione dei lavori, sugli avvenimenti straordinari e sul tempo utilmente impiegato`} selectedDate={selectedDate} link='action-page/daily-notes'/>
-          </div>
-        </div>
-
-        <div className='row'>
-          <div className='col-12'>
-            <BuildingSiteActionComponent siteId={Number(siteId)} actionName='OSSERVAZIONI E ISTRUZIONI' descriptionSection={`della direzione lavori, del responsabile del procedimento, del coordinatore per l’esecuzione, del collaudatore`} selectedDate={selectedDate} link='action-page/daily-other-notes'/>
-          </div>
-          <div className='col-12'>
-            <BuildingSiteActionComponent siteId={Number(siteId)} actionName='Genera Giornale dei lavori' descriptionSection={`Genera un file excel che mostra un resoconto generale delle informazioni sul cantiere (foglio di calcolo - file.xlsx)`} selectedDate={selectedDate} link='action-page/generate-excel-file'/>
-          </div>
-        </div>
-
-        <div className='row'>
-          <div className='col-12'>
-            <BuildingSiteActionComponent siteId={Number(siteId)} actionName='Visualizza e Modifica INFO' descriptionSection={`Visualizza e Modifica Nome, Città, Indirizzo e note di questo Cantiere`} selectedDate={selectedDate} link='action-page/modify-building-site'/>
-          </div>
-        </div>
+        ))}
       </div>
-    </>
-  ) : (
-  <>
-    <h1>Non hai selezionato alcun cantiere</h1>
-  </>
-  )
+    </div>
+  );
 };
 
 export default BuildingSiteActionsPage;

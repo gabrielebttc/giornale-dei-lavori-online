@@ -1,3 +1,7 @@
+# DA SISTEMARE IMMEDIATAMENTE
+
+- togliere not null in last_name (LO STO sistemando sul mio pc di casa -> quindi aggiornare il db_schema.sql)
+
 # FUNZIONALITA' DA SISTEMARE
 - alla registrazione → se esiste già uno user email uguale e user_types.name = 'ispettore di cantiere' → dire che la mail è già in uso
 - aggiugere record necessari alla creazione del db con docker

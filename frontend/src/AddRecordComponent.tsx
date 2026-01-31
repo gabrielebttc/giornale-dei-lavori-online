@@ -3,7 +3,6 @@ import AddBuildingSiteFormComponent from './AddBuilingSiteFormComponent';
 
 interface AddRecordComponentProps {
     tableName: string;
-    onNewRecord: () => void;
 }
 
 const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName }) => {
@@ -15,64 +14,49 @@ const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName }) =>
 
     return (
         <>
+            {/* Pulsante Floating centrato e stiloso */}
             <button
-                className="btn btn-primary rounded-circle position-fixed"
+                className="btn btn-primary rounded-circle position-fixed shadow-lg d-flex align-items-center justify-content-center fw-bold"
                 style={{
-                    bottom: '20px',
-                    right: '20px',
-                    width: '50px',
-                    height: '50px',
-                    marginBottom: 'calc(env(safe-area-inset-bottom) + 70px)', // Add margin for safe area
+                bottom: '30px',
+                right: '30px',
+                width: '60px',
+                height: '60px',
+                zIndex: 1050,
+                fontSize: '28px',
+                marginBottom: 'calc(env(safe-area-inset-bottom) + 0px)', 
                 }}
                 onClick={togglePopup}
             >
                 +
             </button>
-            <style>
-                {`
-                @media (min-width: 992px) {
-                    .btn-primary {
-                        margin-bottom: 0 !important;
-                    }
-                }
-                `}
-            </style>
+
             {isPopupOpen && (
-                <div
-                    className="modal d-flex justify-content-center align-items-center"
-                    style={{ display: 'block', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-                    onClick={togglePopup}
+                <div 
+                className="modal d-block"
+                tabIndex={-1}
+                style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)', backdropFilter: 'blur(4px)' }}
+                onClick={togglePopup}
                 >
-                    <div
-                        className="modal-dialog"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Nuovo</h5>
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    onClick={togglePopup}
-                                ></button>
-                            </div>
-                            <div className="modal-body">
-                                {tableName === 'building_sites' && <AddBuildingSiteFormComponent onClose={() => setIsPopupOpen(false)} />}
-                            </div>
-                            <div className="modal-footer">
-                                <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    onClick={togglePopup}
-                                >
-                                    Chiudi
-                                </button>
-                            </div>
-                        </div>
+                <div 
+                    className="modal-dialog modal-dialog-centered modal-lg" 
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <div className="modal-content border-0 shadow-lg rounded-4">
+                    <div className="modal-header border-0 pb-0">
+                        <h5 className="modal-title fw-bold text-primary">Nuovo Inserimento</h5>
+                        <button type="button" className="btn-close" onClick={togglePopup}></button>
+                    </div>
+                    <div className="modal-body p-4">
+                        {tableName === 'building_sites' && (
+                        <AddBuildingSiteFormComponent onClose={() => setIsPopupOpen(false)} />
+                        )}
+                    </div>
                     </div>
                 </div>
+                </div>
             )}
-        </>
+            </>
     );
 };
 

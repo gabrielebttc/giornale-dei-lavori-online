@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import mapboxgl, { Map } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import './MapComponent.css';
+import './styles/MapComponent.css';
 
 // Importa il componente di eliminazione
 import DeleteRecordComponent from './DeleteRecordComponent'; 
@@ -175,109 +175,96 @@ const MapComponent = () => {
 
   return (
     <>
-      <div className="sidebar">
-        Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} | Zoom: {zoom.toFixed(2)}
-      </div>
+      {/* Contenitore Mappa con bordo arrotondato */}
       <div
         id="map-container"
         ref={mapContainerRef}
+        className="rounded-3 shadow-sm border mb-4"
         style={{ width: '100%', height: '380px' }}
       ></div>
-      <div className="records-container">
-        {/* Campo di input per la ricerca e pulsanti */}
-        <div className="d-flex mb-3 align-items-center">
-          <input
-            type="text"
-            className="form-control me-2"
-            placeholder="Cerca cantiere per nome, città o note..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+
+      <div className="records-container container-fluid px-0">
+        {/* Barra di ricerca e refresh */}
+        <div className="d-flex mb-4 gap-2">
+          <div className="input-group">
+            <span className="input-group-text bg-white border-end-0">
+              <i className="bi bi-search text-muted"></i>
+            </span>
+            <input
+              type="text"
+              className="form-control border-start-0 ps-0 shadow-none"
+              placeholder="Cerca cantiere per nome, città o note..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
           <button
-            className="btn btn-primary"
+            className="btn btn-outline-primary shadow-sm d-flex align-items-center justify-content-center"
             onClick={fetchBuildingSites}
             disabled={loading}
-            style={{
-              width: '40px',
-              height: '40px',
-              fontSize: '20px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '0',
-            }}
             title="Aggiorna lista cantieri"
+            style={{ width: '45px' }}
           >
-            &#x21bb; {/* Icona di aggiornamento */}
+            <span className={loading ? 'spinner-border spinner-border-sm' : ''}>
+              {!loading && '↻'}
+            </span>
           </button>
         </div>
-        {filteredBuildingSites.map((site) => (
-          <div
-            key={site.id}
-            className="card d-flex flex-row align-items-center"
-            style={{
-              border: '1px solid #ccc',
-              borderRadius: '8px',
-              padding: '10px',
-              marginBottom: '10px',
-              backgroundColor: highlightedId === site.id ? '#f0f8ff' : '#fff',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-              cursor: 'pointer',
-            }}
-            onClick={() => handleRecordClick(site)}
-          >
-            <div style={{ flex: '90%' }}>
-              <div>{site.city}</div>
-              <div className="card-body">
-                <h5 className="card-title">{site.name}</h5>
-              </div>
-              {site.notes && <p className="card-text"><strong>Note:</strong> {site.notes}</p>}
-            </div>
-            <div
-              style={{
-                flex: '10%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: '30px',
-              }}
-            >
-              {/* Pulsante di eliminazione a sinistra */}
-              <button
-                className="btn btn-sm"
-                onClick={(e) => handleDeleteClick(site, e)}
-                title="Elimina cantiere"
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  padding: '0',
-                  cursor: 'pointer',
-                  marginRight: '10px',
-                }}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-trash text-danger" viewBox="0 0 16 16">
-                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                </svg>
-              </button>
 
-              {/* Freccia di reindirizzamento */}
+        {/* Lista Cantieri */}
+        <div className="row g-3">
+          {filteredBuildingSites.map((site) => (
+            <div key={site.id} className="col-12">
               <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  window.location.href = `/building-site-actions/${site.id}`;
-                }}
-                style={{ cursor: 'pointer' }}
+                className={`card border-0 shadow-sm rounded-3 transition-all ${highlightedId === site.id ? 'border-start border-primary border-4 bg-light' : 'bg-white'}`}
+                style={{ cursor: 'pointer', transition: '0.2s' }}
+                onClick={() => handleRecordClick(site)}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-arrow-bar-right" viewBox="0 0 16 16">
-                  <path fillRule="evenodd" d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8m-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5" />
-                </svg>
+                <div className="card-body d-flex align-items-center py-3">
+                  {/* Info Cantiere */}
+                  <div className="flex-grow-1">
+                    <div className="text-uppercase text-muted small fw-bold mb-1">{site.city}</div>
+                    <h5 className="card-title mb-1 fw-bold text-dark">{site.name}</h5>
+                    {site.notes && (
+                      <p className="card-text text-secondary small mb-0">
+                        <span className="fw-semibold">Note:</span> {site.notes}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Azioni */}
+                  <div className="d-flex align-items-center gap-2">
+                    <button
+                      className="btn btn-link text-danger p-2 text-decoration-none"
+                      onClick={(e) => handleDeleteClick(site, e)}
+                      title="Elimina cantiere"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                      </svg>
+                    </button>
+
+                    <button
+                      className="btn btn-primary rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                      style={{ width: '40px', height: '40px' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.location.href = `/building-site-actions/${site.id}`;
+                      }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                        <path fillRule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-      
+
       {/* Modale di conferma eliminazione */}
       {showDeleteModal && siteToDelete && (
         <DeleteRecordComponent

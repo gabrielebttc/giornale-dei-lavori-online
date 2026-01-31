@@ -9,7 +9,7 @@ Gestisce le anagrafiche degli utenti e dei proprietari del sistema.
 | :--- | :--- | :--- |
 | **id** | integer | PRIMARY KEY, AUTO_INCREMENT |
 | **first_name** | varchar(100) | NOT NULL |
-| **last_name** | varchar(100) | NOT NULL |
+| **last_name** | varchar(100) | - |
 | **username** | varchar(50) | - |
 | **email** | varchar(100) | - |
 | **password** | varchar(255) | - |

@@ -116,99 +116,108 @@ const AddBuildingSiteFormComponent: React.FC<Props> = ({ onClose }) => {
         });
 
     return (
-        <div className="container mt-4">
-            <h2>Aggiungi Nuovo Cantiere</h2>
-            {error && <div className="alert alert-danger">{error}</div>}
-            {success && <div className="alert alert-success">{success}</div>}
+        <div className="add-site-form">
+            <h2 className="h4 fw-bold mb-3">Dati Cantiere</h2>
+            <hr className="mb-4 opacity-25" />
+
+            {error && <div className="alert alert-danger rounded-3">{error}</div>}
+            {success && <div className="alert alert-success rounded-3">{success}</div>}
+
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                    <label htmlFor="name" className="form-label">Nome</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
+                <label htmlFor="name" className="form-label fw-semibold">Nome Cantiere</label>
+                <input
+                    type="text"
+                    className="form-control rounded-3"
+                    id="name"
+                    placeholder="Es: Ristrutturazione Villa Rossi"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                />
                 </div>
+
                 <div className="mb-3">
-                    <label htmlFor="notes" className="form-label">Note</label>
-                    <textarea
-                        className="form-control"
-                        id="notes"
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                    ></textarea>
+                <label htmlFor="notes" className="form-label fw-semibold">Note</label>
+                <textarea
+                    className="form-control rounded-3"
+                    id="notes"
+                    rows={2}
+                    placeholder="Dettagli aggiuntivi..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                ></textarea>
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="city" className="form-label">Città</label>
+
+                <div className="row g-3 mb-3">
+                <div className="col-md-6">
+                    <label htmlFor="city" className="form-label fw-semibold">Città</label>
                     <div className="dropdown">
-                        <button
+                    <button
+                        type="button"
+                        className="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center rounded-3"
+                        onClick={toggleDropdown}
+                    >
+                        {selectedCity || 'Seleziona...'}
+                    </button>
+                    {dropdownVisible && (
+                        <div className="dropdown-menu show shadow w-100 p-2 rounded-3 border-0" style={{ maxHeight: '200px', overflowY: 'auto', zIndex: 1100 }}>
+                        <div className="sticky-top bg-white pb-2">
+                            <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            placeholder="Filtra..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            autoFocus
+                            />
+                        </div>
+                        {sortedGeoData.map((item) => (
+                            <button
+                            key={item.istat}
+                            className="dropdown-item rounded-2"
                             type="button"
-                            className="btn btn-secondary dropdown-toggle"
-                            style={{ width: '100%' }}
-                            onClick={toggleDropdown}
-                        >
-                            {selectedCity || 'Seleziona una città'}
-                        </button>
-                        {dropdownVisible && (
-                            <div className="dropdown-menu show" style={{ display: 'block', maxHeight: '200px', overflowY: 'auto' }}>
-                                <div style={{ position: 'sticky', top: 0, background: 'white', zIndex: 1 }}>
-                                    <input
-                                        type="text"
-                                        className="form-control mb-2"
-                                        placeholder="Cerca una città"
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                    />
-                                </div>
-                                {sortedGeoData.map((item) => (
-                                    <button
-                                        key={item.istat}
-                                        className="dropdown-item"
-                                        type="button"
-                                        onClick={() => handleCitySelect(item.comune, item.lat, item.lng)}
-                                    >
-                                        {item.comune}
-                                    </button>
-                                ))}
-                            </div>
-                        )}
+                            onClick={() => handleCitySelect(item.comune, item.lat, item.lng)}
+                            >
+                            {item.comune}
+                            </button>
+                        ))}
+                        </div>
+                    )}
                     </div>
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="address" className="form-label">Indirizzo</label>
+                <div className="col-md-6">
+                    <label htmlFor="address" className="form-label fw-semibold">Indirizzo</label>
                     <input
-                        type="text"
-                        className="form-control"
-                        id="address"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                    type="text"
+                    className="form-control rounded-3"
+                    id="address"
+                    placeholder="Via/Piazza..."
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                     />
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="start-date" className="form-label">Data di inizio</label>
-                    <input
-                        type="date"
-                        className="form-control"
-                        id="start-date"
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
-                        required
-                    />
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="end-date" className="form-label">Data di fine (opzionale)</label>
-                    <input
-                        type="date"
-                        className="form-control"
-                        id="end-date"
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                    />
+
+                <div className="row g-3 mb-4">
+                <div className="col-md-6">
+                    <label htmlFor="start-date" className="form-label fw-semibold">Data Inizio</label>
+                    <input type="date" className="form-control rounded-3" id="start-date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
                 </div>
-                <button type="submit" className="btn btn-primary">Aggiungi</button>
+                <div className="col-md-6">
+                    <label htmlFor="end-date" className="form-label fw-semibold text-muted">Data Fine (opz.)</label>
+                    <input type="date" className="form-control rounded-3" id="end-date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+                </div>
+                </div>
+
+                <div className="d-flex gap-2">
+                <button type="button" className="btn btn-light btn-lg flex-grow-1 fw-bold rounded-3" onClick={onClose}>
+                    Annulla
+                </button>
+                <button type="submit" className="btn btn-primary btn-lg flex-grow-2 fw-bold shadow-sm rounded-3 px-5">
+                    Salva Cantiere
+                </button>
+                </div>
             </form>
         </div>
     );

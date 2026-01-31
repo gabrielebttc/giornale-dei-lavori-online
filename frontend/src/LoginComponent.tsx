@@ -52,40 +52,57 @@ const LoginComponent: React.FC = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">Accesso</h2>
-      {alert && (
-        <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
-          {alert.message}
-          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <div className="row justify-content-center">
+        {/* Larghezza ottimizzata: 100% su mobile, 5 colonne su desktop */}
+        <div className="col-12 col-md-6 col-lg-4 shadow-lg p-4 mb-5 bg-white rounded-4 border">
+          
+          <h2 className="text-center fw-bold mb-4 text-primary">Accesso</h2>
+          <hr className="mb-4 opacity-25" />
+
+          {alert && (
+            <div className={`alert alert-${alert.type} alert-dismissible fade show rounded-3`} role="alert">
+              {alert.message}
+              <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label fw-semibold">Email</label>
+              <input
+                type="email"
+                className="form-control form-control-lg rounded-3"
+                id="email"
+                placeholder="nome@esempio.com"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="password" className="form-label fw-semibold">Password</label>
+              <input
+                type="password"
+                className="form-control form-control-lg rounded-3"
+                id="password"
+                placeholder="La tua password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <button type="submit" className="btn btn-primary btn-lg w-100 fw-bold shadow-sm rounded-3">
+              Accedi
+            </button>
+            
+            <div className="text-center mt-3">
+              <small className="text-muted">Non hai un account? <a href="/register" className="text-decoration-none">Registrati</a></small>
+            </div>
+          </form>
         </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            placeholder="Inserisci la tua email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            placeholder="Inserisci la tua password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary w-100">Accedi</button>
-      </form>
+      </div>
     </div>
   );
 };

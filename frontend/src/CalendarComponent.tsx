@@ -40,37 +40,38 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateSelect }) =
     };
 
     return (
-        <div className="d-flex align-items-center justify-content-center">
-            <button className="btn btn-outline-primary me-2" onClick={handlePreviousDay}>
-                &lt;
+        <div className="d-flex align-items-center justify-content-between px-2">
+            <button className="btn btn-sm btn-light border rounded-circle shadow-sm" onClick={handlePreviousDay}>
+                <i className="bi bi-chevron-left"></i>
             </button>
-            <div className="position-relative">
-                <span
-                    className="fw-bold text-primary"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => setShowDatePicker(!showDatePicker)}
+            
+            <div className="position-relative text-center mx-2">
+                <div 
+                className="fw-bold text-primary px-3 py-1 rounded-pill hover-bg-light transition-all" 
+                style={{ cursor: 'pointer', fontSize: '0.95rem' }}
+                onClick={() => setShowDatePicker(!showDatePicker)}
                 >
-                    {format(selectedDate, 'dd MMMM yyyy', { locale: it })} {isToday(selectedDate) && '(oggi)'}
-                </span>
+                <i className="bi bi-calendar3 me-2"></i>
+                {format(selectedDate, 'dd MMM yyyy', { locale: it })} {isToday(selectedDate) && '(oggi)'}
+                </div>
+
                 {showDatePicker && (
-                    <div className="position-absolute mt-2" style={{ zIndex: 10 }}>
-                        <DatePicker
-                            selected={selectedDate}
-                            onChange={handleDateChange}
-                            inline
-                            locale={it}
-                        />
-                        <button
-                            className="btn btn-sm btn-secondary w-100 mt-2"
-                            onClick={handleSetToday}
-                        >
-                            Oggi
-                        </button>
-                    </div>
+                <div className="position-absolute mt-2 shadow-lg border rounded-4 bg-white p-2" style={{ zIndex: 1100, right: '50%', transform: 'translateX(50%)' }}>
+                    <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => { handleDateChange(date); setShowDatePicker(false); }}
+                    inline
+                    locale={it}
+                    />
+                    <button className="btn btn-sm btn-primary w-100 mt-2 rounded-3" onClick={handleSetToday}>
+                    Vai a oggi
+                    </button>
+                </div>
                 )}
             </div>
-            <button className="btn btn-outline-primary ms-2" onClick={handleNextDay}>
-                &gt;
+
+            <button className="btn btn-sm btn-light border rounded-circle shadow-sm" onClick={handleNextDay}>
+                <i className="bi bi-chevron-right"></i>
             </button>
         </div>
     );
