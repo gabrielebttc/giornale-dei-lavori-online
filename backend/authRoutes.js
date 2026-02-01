@@ -63,7 +63,7 @@ router.post('/register', async (req, res) => {
 
 // 1. Cantiere
 const siteRes = await client.query(
-    'INSERT INTO building_sites (name, notes, address, owner_id, start_date) VALUES ($1, $2, $3, $4, CURRENT_DATE) RETURNING id',
+    'INSERT INTO building_sites (name, notes, address, owner_id, start_date, end_date) VALUES ($1, $2, $3, $4, CURRENT_DATE, CURRENT_DATE + 20) RETURNING id',
     ['Cantiere di Prova - Conad ASG SRL', 'Note di prova per il cantiere.', 'Via Roma 10, Milano', newUserId]
 );
 const testBuildingSiteId = siteRes.rows[0].id;
