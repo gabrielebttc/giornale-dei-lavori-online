@@ -132,8 +132,8 @@ router.put('/building-sites/:id', authenticateToken, async (req, res) => {
   const { name, notes, city, address, latitude, longitude, start_date, end_date } = req.body;
   const ownerId = req.user.id;
 
-  if (!name || !city || !latitude || !longitude || !start_date) {
-    return res.status(400).json({ message: 'Nome, città, coordinate e data di inizio sono obbligatori.' });
+  if (!name || !start_date) {
+    return res.status(400).json({ message: 'Nome e data di inizio sono obbligatori.' });
   }
 
   // 🛠️ MODIFICA 1: Formatta le date per evitare il problema del fuso orario.

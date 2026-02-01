@@ -61,70 +61,99 @@ router.post('/register', async (req, res) => {
 
         // --- INIZIO DATI DI ESEMPIO ---
 
-        // --- CONFIGURAZIONE DATI EXTRA ---
-        const aziendeExtra = [
-            { name: 'BRUNO E FRETTO SRL', notes: 'POS - DURC - CAMERALE - Patente a credito' },
-            { name: 'Sicurezza Totale S.p.A.', notes: 'Consulenza sicurezza e DPI' },
-            { name: 'Scavi e Movimento Terra G.B.', notes: 'Mezzi pesanti e scavi' }
-        ];
+// 1. Cantiere
+const siteRes = await client.query(
+    'INSERT INTO building_sites (name, notes, address, owner_id, start_date) VALUES ($1, $2, $3, $4, CURRENT_DATE) RETURNING id',
+    ['Cantiere di Prova - Conad ASG SRL', 'Note di prova per il cantiere.', 'Via Roma 10, Milano', newUserId]
+);
+const testBuildingSiteId = siteRes.rows[0].id;
 
-        const lavoratoriExtra = [
-            { first: 'Russo Morto', last: 'Salvatore', note: 'Carpentiere - Visita medica, UNILAV, DPI' },
-            { first: 'Vasile Marian', last: 'Cristian', note: 'Manovale - Visita medica, UNILAV, DPI' },
-            { first: 'Barrera', last: 'Mirko', note: 'Manovale - Visita medica, UNILAV, DPI' },
-            { first: 'Cuffaro', last: 'Giuseppe', note: 'Visita medica, UNILAV, DPI' },
-            { first: 'Esposito', last: 'Gennaro', note: 'Gruista - Visita medica ok' }
-        ];
+// 2. Aziende
+const aziende = ['Fratelli Russo Idraulica Srl', 'BRUNO E FRETTO SRL', 'Edilizia Generale S.p.A.', 'Studio Tecnico Associato'];
+const companyIds = [];
+for (const nome of aziende) {
+    const res = await client.query(
+        'INSERT INTO companies (name, owner_id) VALUES ($1, $2) RETURNING id',
+        [nome, newUserId]
+    );
+    companyIds.push(res.rows[0].id);
+}
 
-        // --- 1. Inserimento Aziende ---
-        const companyIds = [];
-        for (const az of aziendeExtra) {
-            const res = await client.query(
-                'INSERT INTO companies (name, notes, owner_id) VALUES ($1, $2, $3) RETURNING id',
-                [az.name, az.notes, newUserId]
-            );
-            companyIds.push(res.rows[0].id);
-        }
+// 3. Definizione Ruoli (User Types)
+const ruoli = ['Idraulico', 'Imbianchino', 'Muratore', 'Manovale', 'Gessista', 'Architetto', 'Responsabile Sicurezza'];
+const roleIds = {};
+for (const nomeRuolo of ruoli) {
+    const res = await client.query(
+        'INSERT INTO user_type (name, owner_id) VALUES ($1, $2) RETURNING id',
+        [nomeRuolo, newUserId]
+    );
+    roleIds[nomeRuolo] = res.rows[0].id;
+}
 
-        // --- 2. Inserimento Lavoratori ---
-        const workerIds = [testWorkerId]; // Includiamo Giustino creato prima
-        for (const lav of lavoratoriExtra) {
-            const res = await client.query(
-                'INSERT INTO users (first_name, last_name, notes, owner_id) VALUES ($1, $2, $3, $4) RETURNING id',
-                [lav.first, lav.last, lav.note, newUserId]
-            );
-            const wid = res.rows[0].id;
-            workerIds.push(wid);
+// 4. Lavoratori (6 in totale)
+const lavoratori = [
+    { first: 'Giustino', last: 'La Rocca', role: 'Idraulico', note: 'Responsabile impianti' },
+    { first: 'Russo Morto', last: 'Salvatore', role: 'Muratore', note: 'Carpentiere esperto' },
+    { first: 'Vasile Marian', last: 'Cristian', role: 'Manovale', note: 'Patente C' },
+    { first: 'Barrera', last: 'Mirko', role: 'Gessista', note: 'Finiture interne' },
+    { first: 'Cuffaro', last: 'Giuseppe', role: 'Architetto', note: 'Direzione lavori' },
+    { first: 'Esposito', last: 'Gennaro', role: 'Responsabile Sicurezza', note: 'Controllo POS e DPI' }
+];
 
-            // Colleghiamo ogni lavoratore al cantiere e a una ditta a caso tra quelle nuove
-            await client.query('INSERT INTO users_building_sites (user_id, site_id) VALUES ($1, $2)', [wid, testBuildingSiteId]);
-            await client.query('INSERT INTO users_companies (user_id, company_id) VALUES ($1, $2)', [wid, companyIds[Math.floor(Math.random() * companyIds.length)]]);
-        }
+const allWorkerIds = [];
+for (let i = 0; i < lavoratori.length; i++) {
+    const lav = lavoratori[i];
+    const res = await client.query(
+        'INSERT INTO users (first_name, last_name, notes, owner_id) VALUES ($1, $2, $3, $4) RETURNING id',
+        [lav.first, lav.last, lav.note, newUserId]
+    );
+    const wid = res.rows[0].id;
+    allWorkerIds.push(wid);
 
-        // --- 3. Generazione Note e Presenze per i prossimi 10 giorni ---
-        for (let i = 0; i < 10; i++) {
-            // Calcoliamo la data (oggi + i giorni)
-            const dateQuery = `CURRENT_DATE + interval '${i} days'`;
+    // Associazioni: Cantiere, Azienda (distribuite), Ruolo Specifico
+    await client.query('INSERT INTO users_building_sites (user_id, site_id) VALUES ($1, $2)', [wid, testBuildingSiteId]);
+    await client.query('INSERT INTO users_companies (user_id, company_id) VALUES ($1, $2)', [wid, companyIds[i % companyIds.length]]);
+    await client.query('INSERT INTO users_user_type (user_id, user_type_id) VALUES ($1, $2)', [wid, roleIds[lav.role]]);
+}
 
-            // Inseriamo la nota giornaliera (Rapportino)
-            await client.query(
-                `INSERT INTO daily_notes (date, building_site_id, notes, other_notes, personal_notes, owner_id) 
-                VALUES (${dateQuery}, $1, $2, $3, $4, $5)
-                ON CONFLICT (building_site_id, date) DO NOTHING`,
-                [testBuildingSiteId, `Lavori giorno ${i+1}: progressione cantiere`, 'Nulla da segnalare', 'Verificare materiali domani', newUserId]
-            );
+// 5. Generazione Presenze e Note Dettagliate per 20 giorni
+const progressioneLavori = [
+    "Allestimento cantiere e scarico materiali", "Tracciamento impianti e scavi", "Posa tubazioni scarico primarie",
+    "Getto di pulizia e armatura", "Chiusura tracce e verifica livelli", "Inizio murature perimetrali",
+    "Posa controtelai e soglie", "Intonacatura grezza piano terra", "Impianto elettrico: posa corrugati",
+    "Verifica sicurezza e sopralluogo tecnico", "Montaggio cartongessi e orditure", "Rasatura pareti zona A",
+    "Posa massetto autolivellante", "Installazione centralina idraulica", "Posa pavimenti e rivestimenti",
+    "Montaggio infissi esterni", "Pittura prima mano e finiture", "Installazione sanitari e rubinetterie",
+    "Pulizia fine cantiere e smaltimento macerie", "Collaudo finale e consegna chiavi"
+];
 
-            // Inseriamo le presenze per TUTTI i lavoratori (6 in totale)
-            for (const wid of workerIds) {
-                await client.query(
-                    `INSERT INTO daily_presences (building_site_id, user_id, date, is_present, owner_id) 
-                    VALUES ($1, $2, ${dateQuery}, 'present', $3)`,
-                    [testBuildingSiteId, wid, newUserId]
-                );
-            }
-        }
+for (let i = 0; i < 20; i++) {
+    const dateQuery = `CURRENT_DATE + ${i}`;
 
-        // --- FINE DATI DI ESEMPIO ---
+    // Note Giornaliere con avanzamento reale
+    await client.query(
+        `INSERT INTO daily_notes (date, building_site_id, notes, other_notes, personal_notes, owner_id) 
+         VALUES (${dateQuery}, $1, $2, $3, $4, $5)`,
+        [
+            testBuildingSiteId, 
+            progressioneLavori[i], // notes (visibili)
+            "Meteo sereno, forniture arrivate in orario.", // other_notes
+            `Nota privata giorno ${i+1}: verificare qualità dei materiali forniti oggi.`, // personal_notes
+            newUserId
+        ]
+    );
+
+    // Presenze per ogni lavoratore
+    for (const wid of allWorkerIds) {
+        await client.query(
+            `INSERT INTO daily_presences (building_site_id, user_id, date, is_present, owner_id) 
+             VALUES ($1, $2, ${dateQuery}, 'present', $3)`,
+            [testBuildingSiteId, wid, newUserId]
+        );
+    }
+}
+
+// --- FINE DATI DI ESEMPIO ---
 
         await client.query('COMMIT'); // Commit della transazione
         res.status(201).json({ message: 'Registrazione avvenuta con successo. L\'utente è stato registrato.' });
