@@ -59,6 +59,55 @@ router.post('/register', async (req, res) => {
             [newUserId, adminTypeId]
         );
 
+        // --- INIZIO DATI DI ESEMPIO ---
+
+        // 4. Creazione Ditta di esempio
+        const newCompanyResult = await client.query(
+            'INSERT INTO companies (name, notes, owner_id) VALUES ($1, $2, $3) RETURNING id',
+            ['Edilizia Moderna S.r.l.', 'Ditta specializzata in ristrutturazioni', newUserId]
+        );
+        const companyId = newCompanyResult.rows[0].id;
+
+        // 5. Creazione Squadra di esempio
+        const newTeamResult = await client.query(
+            'INSERT INTO teams (name) VALUES ($1) RETURNING id',
+            ['Squadra A - Muratori']
+        );
+        const teamId = newTeamResult.rows[0].id;
+
+        // 6. Creazione Operaio di esempio (un utente legato all'admin registrato)
+        const newWorkerResult = await client.query(
+            'INSERT INTO users (first_name, last_name, owner_id, notes) VALUES ($1, $2, $3, $4) RETURNING id',
+            ['Mario', 'Rossi', newUserId, 'Operaio specializzato']
+        );
+        const workerId = newWorkerResult.rows[0].id;
+
+        // 7. Associazioni dell'operaio a Ditta e Squadra
+        await client.query('INSERT INTO users_companies (user_id, company_id) VALUES ($1, $2)', [workerId, companyId]);
+        await client.query('INSERT INTO users_teams (user_id, team_id) VALUES ($1, $2)', [workerId, teamId]);
+
+        // 8. Creazione Cantiere di esempio
+        const newSiteResult = await client.query(
+            `INSERT INTO building_sites 
+            (name, city, address, latitude, longitude, start_date, owner_id, notes) 
+            VALUES ($1, $2, $3, $4, $5, CURRENT_DATE, $6, $7) RETURNING id`,
+            ['Cantiere Demo - Centro Storico', 'Roma', 'Via del Corso, 1', 41.9028, 12.4964, newUserId, 'Cantiere di prova creato automaticamente']
+        );
+        const siteId = newSiteResult.rows[0].id;
+
+        // 9. Associazione Operaio al Cantiere
+        await client.query('INSERT INTO users_building_sites (user_id, site_id) VALUES ($1, $2)', [workerId, siteId]);
+
+        // 10. Inserimento di una Presenza di esempio per oggi
+        await client.query(
+            `INSERT INTO daily_presences 
+            (building_site_id, user_id, date, is_present, owner_id, notes) 
+            VALUES ($1, $2, CURRENT_DATE, $3, $4, $5)`,
+            [siteId, workerId, 'present', newUserId, 'Arrivato in orario']
+        );
+
+        // --- FINE DATI DI ESEMPIO ---
+
         await client.query('COMMIT'); // Commit della transazione
         res.status(201).json({ message: 'Registrazione avvenuta con successo. L\'utente è stato registrato.' });
 
