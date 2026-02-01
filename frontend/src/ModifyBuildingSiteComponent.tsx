@@ -99,7 +99,7 @@ const ModifyBuildingSiteComponent: React.FC<Props> = ({ buildingSiteId, onClose,
         setSuccess('');
         setIsSubmitting(true);
 
-        if (!name || !selectedCity || !startDate) {
+        if (!name || !startDate) {
             setError('Il nome, la città e la data di inizio sono campi obbligatori.');
             setIsSubmitting(false);
             return;

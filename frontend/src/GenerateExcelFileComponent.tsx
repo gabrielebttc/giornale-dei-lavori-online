@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
@@ -9,10 +9,58 @@ interface Props {
   onSuccess: () => void;
 }
 
+interface BuildingSite {
+  id: number;
+  name: string;
+  notes: string;
+  city: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  start_date: string;
+  end_date: string | null;
+}
+
 const GenerateExcelFileComponent: React.FC<Props> = ({ buildingSiteId, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isModifyEndDatePopupOpen, setIsModifyEndDatePopupOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if(token)
+      isEndDateNotSet(token)
+
+  }, []);
+
+  async function isEndDateNotSet(token: string){
+    try {
+      const response = await axios.get(
+        `${apiUrl}/api/building-sites/${buildingSiteId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      if(response.data){
+        const buildingSite: BuildingSite = response.data;
+        if(!buildingSite.end_date){
+          console.log("è abilitato");
+          console.log(buildingSite.end_date)
+          setIsModifyEndDatePopupOpen(true);
+        }
+      }
+
+    } catch (err) {
+      console.error('Errore durante la verifica della data di fine del cantiere: ', err);
+      setError('Errore durante la verifica della data di fine del cantiere. Riprova.');
+      setIsModifyEndDatePopupOpen(true);
+    }
+  }
 
   const handleGenerateExcel = async () => {
     setLoading(true);
@@ -101,13 +149,21 @@ const GenerateExcelFileComponent: React.FC<Props> = ({ buildingSiteId, onClose, 
             </div>
           )}
 
+          {!loading && isModifyEndDatePopupOpen && (
+            <div className="py-3">
+              <div className="spinner-border text-success mb-3" role="status" style={{ width: '3rem', height: '3rem' }}></div>
+              <p className="fw-medium text-muted">Devi impostare una data di fine cantiere per generare il report, per farlo <a href={`/action-page/modify-building-site/${buildingSiteId}/:date`}>clicca qui</a></p>
+              <small className="text-secondary">Se non hai una data in mente, puoi metterne una provvisoria e cambiarla quando vuoi</small>
+            </div>
+          )}
+
           {!loading && !downloadUrl && !error && (
             <div>
               <div className="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style={{ width: '80px', height: '80px' }}>
                 <i className="bi bi-file-earmark-spreadsheet fs-1"></i>
               </div>
               <p className="text-muted mb-4 px-3">Sei pronto a generare il report dettagliato in formato Excel?</p>
-              <button className="btn btn-success w-100 py-3 fw-bold shadow-sm rounded-3" onClick={handleGenerateExcel}>
+              <button className="btn btn-success w-100 py-3 fw-bold shadow-sm rounded-3" disabled={isModifyEndDatePopupOpen} onClick={handleGenerateExcel}>
                 <i className="bi bi-gear-fill me-2"></i> Genera Report
               </button>
             </div>
