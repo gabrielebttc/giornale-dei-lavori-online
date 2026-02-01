@@ -4,7 +4,7 @@ const pool = require('./db'); // Importa la connessione al database
 function initializeSocket(server) {
     const io = new Server(server, {
         cors: {
-            origin: ['http://localhost:5173', 'http://localhost:80', 'http://localhost'],
+            origin: ['http://localhost:5173', 'http://localhost:80', 'http://localhost', 'https://giornaledeilavori.gabrielebuttice.com'],
             methods: ["GET", "POST", 'PATCH', 'DELETE', 'PUT', 'OPTIONS', 'HEAD'],
         },
     });
