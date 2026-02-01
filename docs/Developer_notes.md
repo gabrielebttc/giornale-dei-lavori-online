@@ -3,6 +3,7 @@
 - togliere not null in last_name (LO STO sistemando sul mio pc di casa -> quindi aggiornare il db_schema.sql)
 
 # FUNZIONALITA' DA SISTEMARE
+- sistemare elimina utente che non funziona
 - alla registrazione → se esiste già uno user email uguale e user_types.name = 'ispettore di cantiere' → dire che la mail è già in uso
 - aggiugere record necessari alla creazione del db con docker
 - spiegare nella documentazione l'uso dei seguenti record nel db e crearli in automatico alla creazione del container:
@@ -15,6 +16,7 @@
 - scrivere nella documentazione il fatto che ci possono essere piu mail uguali nella tabella users, ma non per users che si registrano come ispettori di cantiere
 
 # FUNZIONALITA' DA AGGIUNGERE
+- mettere un sistema di backup del database (ogni tanto un pg_dump)
 - mettere in documentazione:
     - come avviare app
     - dove gira backend e dove websocket
