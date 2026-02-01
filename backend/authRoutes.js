@@ -61,50 +61,68 @@ router.post('/register', async (req, res) => {
 
         // --- INIZIO DATI DI ESEMPIO ---
 
-        // 4. Creazione Ditta di esempio
-        const newCompanyResult = await client.query(
-            'INSERT INTO companies (name, notes, owner_id) VALUES ($1, $2, $3) RETURNING id',
-            ['Edilizia Moderna S.r.l.', 'Ditta specializzata in ristrutturazioni', newUserId]
-        );
-        const companyId = newCompanyResult.rows[0].id;
+        // --- CONFIGURAZIONE DATI EXTRA ---
+        const aziendeExtra = [
+            { name: 'BRUNO E FRETTO SRL', notes: 'POS - DURC - CAMERALE - Patente a credito' },
+            { name: 'Sicurezza Totale S.p.A.', notes: 'Consulenza sicurezza e DPI' },
+            { name: 'Scavi e Movimento Terra G.B.', notes: 'Mezzi pesanti e scavi' }
+        ];
 
-        // 5. Creazione Squadra di esempio
-        const newTeamResult = await client.query(
-            'INSERT INTO teams (name) VALUES ($1) RETURNING id',
-            ['Squadra A - Muratori']
-        );
-        const teamId = newTeamResult.rows[0].id;
+        const lavoratoriExtra = [
+            { first: 'Russo Morto', last: 'Salvatore', note: 'Carpentiere - Visita medica, UNILAV, DPI' },
+            { first: 'Vasile Marian', last: 'Cristian', note: 'Manovale - Visita medica, UNILAV, DPI' },
+            { first: 'Barrera', last: 'Mirko', note: 'Manovale - Visita medica, UNILAV, DPI' },
+            { first: 'Cuffaro', last: 'Giuseppe', note: 'Visita medica, UNILAV, DPI' },
+            { first: 'Esposito', last: 'Gennaro', note: 'Gruista - Visita medica ok' }
+        ];
 
-        // 6. Creazione Operaio di esempio (un utente legato all'admin registrato)
-        const newWorkerResult = await client.query(
-            'INSERT INTO users (first_name, last_name, owner_id, notes) VALUES ($1, $2, $3, $4) RETURNING id',
-            ['Mario', 'Rossi', newUserId, 'Operaio specializzato']
-        );
-        const workerId = newWorkerResult.rows[0].id;
+        // --- 1. Inserimento Aziende ---
+        const companyIds = [];
+        for (const az of aziendeExtra) {
+            const res = await client.query(
+                'INSERT INTO companies (name, notes, owner_id) VALUES ($1, $2, $3) RETURNING id',
+                [az.name, az.notes, newUserId]
+            );
+            companyIds.push(res.rows[0].id);
+        }
 
-        // 7. Associazioni dell'operaio a Ditta e Squadra
-        await client.query('INSERT INTO users_companies (user_id, company_id) VALUES ($1, $2)', [workerId, companyId]);
-        await client.query('INSERT INTO users_teams (user_id, team_id) VALUES ($1, $2)', [workerId, teamId]);
+        // --- 2. Inserimento Lavoratori ---
+        const workerIds = [testWorkerId]; // Includiamo Giustino creato prima
+        for (const lav of lavoratoriExtra) {
+            const res = await client.query(
+                'INSERT INTO users (first_name, last_name, notes, owner_id) VALUES ($1, $2, $3, $4) RETURNING id',
+                [lav.first, lav.last, lav.note, newUserId]
+            );
+            const wid = res.rows[0].id;
+            workerIds.push(wid);
 
-        // 8. Creazione Cantiere di esempio
-        const newSiteResult = await client.query(
-            `INSERT INTO building_sites 
-            (name, city, address, latitude, longitude, start_date, owner_id, notes) 
-            VALUES ($1, $2, $3, $4, $5, CURRENT_DATE, $6, $7) RETURNING id`,
-            ['Cantiere Demo - Centro Storico', 'Roma', 'Via del Corso, 1', 41.9028, 12.4964, newUserId, 'Cantiere di prova creato automaticamente']
-        );
-        const siteId = newSiteResult.rows[0].id;
+            // Colleghiamo ogni lavoratore al cantiere e a una ditta a caso tra quelle nuove
+            await client.query('INSERT INTO users_building_sites (user_id, site_id) VALUES ($1, $2)', [wid, testBuildingSiteId]);
+            await client.query('INSERT INTO users_companies (user_id, company_id) VALUES ($1, $2)', [wid, companyIds[Math.floor(Math.random() * companyIds.length)]]);
+        }
 
-        // 9. Associazione Operaio al Cantiere
-        await client.query('INSERT INTO users_building_sites (user_id, site_id) VALUES ($1, $2)', [workerId, siteId]);
+        // --- 3. Generazione Note e Presenze per i prossimi 10 giorni ---
+        for (let i = 0; i < 10; i++) {
+            // Calcoliamo la data (oggi + i giorni)
+            const dateQuery = `CURRENT_DATE + interval '${i} days'`;
 
-        // 10. Inserimento di una Presenza di esempio per oggi
-        await client.query(
-            `INSERT INTO daily_presences 
-            (building_site_id, user_id, date, is_present, owner_id, notes) 
-            VALUES ($1, $2, CURRENT_DATE, $3, $4, $5)`,
-            [siteId, workerId, 'present', newUserId, 'Arrivato in orario']
-        );
+            // Inseriamo la nota giornaliera (Rapportino)
+            await client.query(
+                `INSERT INTO daily_notes (date, building_site_id, notes, other_notes, personal_notes, owner_id) 
+                VALUES (${dateQuery}, $1, $2, $3, $4, $5)
+                ON CONFLICT (building_site_id, date) DO NOTHING`,
+                [testBuildingSiteId, `Lavori giorno ${i+1}: progressione cantiere`, 'Nulla da segnalare', 'Verificare materiali domani', newUserId]
+            );
+
+            // Inseriamo le presenze per TUTTI i lavoratori (6 in totale)
+            for (const wid of workerIds) {
+                await client.query(
+                    `INSERT INTO daily_presences (building_site_id, user_id, date, is_present, owner_id) 
+                    VALUES ($1, $2, ${dateQuery}, 'present', $3)`,
+                    [testBuildingSiteId, wid, newUserId]
+                );
+            }
+        }
 
         // --- FINE DATI DI ESEMPIO ---
 
