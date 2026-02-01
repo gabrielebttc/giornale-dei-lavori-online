@@ -41,7 +41,9 @@ services:
     depends_on:
       - backend
     volumes:
-      - /var/www/giornaledeilavori.gabrielebuttice.com:/app/dist
+      volumes:
+      - /var/www/giornaledeilavori.gabrielebuttice.com:/app/dist_folder_vps
+    command: sh -c "cp -r /app/dist/* /app/dist_folder_vps/ && tail -f /dev/null"
 
 volumes:
   postgres_data:
