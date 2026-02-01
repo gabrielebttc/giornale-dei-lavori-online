@@ -203,111 +203,131 @@ const AllWorkersComponent: React.FC<Props> = ({ buildingSiteId }) => {
   }
 
   return (
-    <div className="container-fluid">
-      <h1 className="text-center my-4">Lista Lavoratori</h1>
-      <div className="mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Cerca per nome, cognome, azienda..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      <button
-        className="btn btn-primary mb-2"
-        onClick={fetchWorkers}
-        disabled={loading}
-        style={{
-          position: 'fixed',
-          bottom: window.innerWidth <= 768 ? '80px' : '20px',
-          right: '90px',
-          borderRadius: '50%',
-          width: '60px',
-          height: '60px',
-          opacity: 0.8,
-          fontSize: '24px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        &#x21bb;
-      </button>
-      <button
-        className="btn btn-success mb-2"
-        onClick={() => setShowAddWorkerPopup(true)}
-        style={{
-          position: 'fixed',
-          bottom: window.innerWidth <= 768 ? '80px' : '20px',
-          right: '20px',
-          borderRadius: '50%',
-          width: '60px',
-          height: '60px',
-          opacity: 0.8,
-        }}
-      >
-        +
-      </button>
-      {loading ? (
-        <div className="text-center">
-          <span>Caricamento...</span>
+    <div className="container-fluid py-4 bg-light min-vh-100">
+      <div className="container">
+        {/* Header Section */}
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+          <h2 className="fw-bold text-dark mb-3 mb-md-0">
+            <i className="bi bi-people-fill me-2 text-primary"></i>
+            Lista Lavoratori
+          </h2>
+          <div className="position-relative w-100 style={{ maxWidth: '400px' }}">
+            <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+            <input
+              type="text"
+              className="form-control ps-5 border-0 shadow-sm rounded-pill"
+              placeholder="Cerca nome, azienda, mansione..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
         </div>
-      ) : (
-        <table className="table table-striped table-bordered table-hover">
-          <thead className="thead-dark">
-            <tr>
-              <th>Nome</th>
-              <th>Cognome</th>
-              <th>Azienda</th>
-              <th>Mansione</th>
-              {!buildingSiteId && <th>Cantieri</th>}
-              <th>Azioni</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredWorkers.map((worker) => (
-              <tr key={worker.user_id} onClick={() => handleModifyUser(worker)} style={{ cursor: 'pointer' }}>
-                <td>{worker.first_name}</td>
-                <td>{worker.last_name}</td>
-                <td>{worker.company_names && worker.company_names.join(', ')}</td>
-                <td>{worker.user_types && worker.user_types.join(', ')}</td>
-                {!buildingSiteId && <td>{worker.building_site_names?.join(', ') || 'N/A'}</td>}
-                <td onClick={(e) => e.stopPropagation()}>
-                  <div className="d-flex justify-content-around">
-                    {/* Pulsante di disassociazione, visibile solo se buildingSiteId esiste */}
-                    {buildingSiteId && (
-                      <button
-                        className="btn btn-warning btn-sm me-2"
-                        onClick={(e) => handleUnlinkWorker(worker, e)}
-                        title="Scollega da questo cantiere"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-link-slash" viewBox="0 0 16 16">
-                          <path d="m6.146 9.146-4.353 4.353a.5.5 0 0 1-.708-.708L5.439 8.439l-.382-.382A.5.5 0 0 1 5.5 7.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.36.48l-.357-.357zM9.146 6.146l4.353 4.353a.5.5 0 0 1-.708.708L8.439 6.439l-.382-.382A.5.5 0 0 1 8.5 5.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.36.48l-.357-.357z"/>
-                          <path d="M12.984 8H13c0 .768-.184 1.497-.514 2.155l-.658-.658A6 6 0 0 0 12 8a6 6 0 0 0-4.146-5.656l-.658-.658A7 7 0 0 1 13 8h-.016zm-5.419 4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5V8a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5zm-.935-4.5c0-.98.396-1.896 1.054-2.553l-.658-.658A7.001 7.001 0 0 0 2 8c0 1.933.914 3.655 2.373 4.887l.658-.658A6 6 0 0 1 3 8c0-1.657.894-3.111 2.23-3.965l-.357-.357a.5.5 0 0 1-.48-.36zM3.5 7.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5zm9.5-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5z"/>
-                        </svg>
-                      </button>
-                    )}
-                    {/* Pulsante di eliminazione */}
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={(e) => handleDeleteWorker(worker, e)}
-                      title="Elimina lavoratore"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                      </svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
 
-      {/* Modale di conferma eliminazione */}
+        {/* Content Area */}
+        {loading ? (
+          <div className="d-flex flex-column align-items-center mt-5">
+            <div className="spinner-border text-primary mb-2" role="status"></div>
+            <span className="text-muted fw-semibold">Caricamento lavoratori...</span>
+          </div>
+        ) : (
+          <div className="table-responsive shadow-sm rounded-4 bg-white border">
+            <table className="table table-hover align-middle mb-0">
+              <thead className="bg-light">
+                <tr>
+                  <th className="px-4 py-3 border-0 text-secondary small text-uppercase">Lavoratore</th>
+                  <th className="py-3 border-0 text-secondary small text-uppercase">Azienda</th>
+                  <th className="py-3 border-0 text-secondary small text-uppercase">Mansione</th>
+                  {!buildingSiteId && <th className="py-3 border-0 text-secondary small text-uppercase">Cantieri</th>}
+                  <th className="py-3 border-0 text-secondary small text-uppercase text-end px-4">Azioni</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredWorkers.map((worker) => (
+                  <tr key={worker.user_id} onClick={() => handleModifyUser(worker)} style={{ cursor: 'pointer' }}>
+                    <td className="px-4 py-3">
+                      <div className="d-flex align-items-center">
+                        <div className="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center fw-bold me-3" style={{ width: '40px', height: '40px' }}>
+                          {worker.first_name[0]}{worker.last_name[0]}
+                        </div>
+                        <div>
+                          <div className="fw-bold text-dark">{worker.first_name} {worker.last_name}</div>
+                          <small className="text-muted">ID: #{worker.user_id}</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-3">
+                      <span className="badge bg-light text-dark border fw-normal px-2 py-1">
+                        {worker.company_names?.join(', ') || 'N/A'}
+                      </span>
+                    </td>
+                    <td className="py-3">
+                      <div className="small text-dark fw-medium">
+                        {worker.user_types?.join(', ') || '-'}
+                      </div>
+                    </td>
+                    {!buildingSiteId && (
+                      <td className="py-3">
+                        <small className="text-muted lh-sm d-block" style={{ maxWidth: '200px' }}>
+                          {worker.building_site_names?.join(', ') || 'Nessuno'}
+                        </small>
+                      </td>
+                    )}
+                    <td className="py-3 px-4 text-end" onClick={(e) => e.stopPropagation()}>
+                      <div className="btn-group shadow-sm rounded-3 overflow-hidden">
+                        {buildingSiteId && (
+                          <button
+                            className="btn btn-white border-end py-2 px-3 hover-warning"
+                            onClick={(e) => handleUnlinkWorker(worker, e)}
+                            title="Scollega dal cantiere"
+                          >
+                            <i className="bi bi-link-45deg text-warning fs-5"></i>
+                          </button>
+                        )}
+                        <button
+                          className="btn btn-white py-2 px-3 hover-danger"
+                          onClick={(e) => handleDeleteWorker(worker, e)}
+                          title="Elimina definitivamente"
+                        >
+                          <i className="bi bi-trash3 text-danger fs-5"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Floating Action Buttons */}
+        <div 
+          className="position-fixed d-flex flex-column gap-3" 
+          style={{ 
+            bottom: window.innerWidth <= 768 ? '30px' : '40px', 
+            right: '30px', 
+            zIndex: 1050 
+          }}
+        >
+          <button
+            className="btn btn-white shadow-lg border rounded-circle d-flex align-items-center justify-content-center transition-all"
+            onClick={fetchWorkers}
+            disabled={loading}
+            style={{ width: '56px', height: '56px' }}
+          >
+            <i className={`bi bi-arrow-clockwise fs-4 ${loading ? 'spin' : ''}`}></i>
+          </button>
+          
+          <button
+            className="btn btn-primary shadow-lg rounded-circle d-flex align-items-center justify-content-center transition-all"
+            onClick={() => setShowAddWorkerPopup(true)}
+            style={{ width: '64px', height: '64px' }}
+          >
+            <i className="bi bi-plus-lg fs-2 text-white"></i>
+          </button>
+        </div>
+      </div>
+
+      {/* Modali (invariati come logica) */}
       {showDeleteModal && workerToDelete && (
         <DeleteRecordComponent
           tableName="users"
@@ -317,7 +337,6 @@ const AllWorkersComponent: React.FC<Props> = ({ buildingSiteId }) => {
         />
       )}
 
-      {/* Modale di conferma disassociazione */}
       {showUnlinkModal && workerToUnlink && buildingSiteId && (
         <UnlinkWorkerFromBuildingSite
           workerId={workerToUnlink.user_id}
@@ -326,6 +345,19 @@ const AllWorkersComponent: React.FC<Props> = ({ buildingSiteId }) => {
           onSuccess={handleSuccessUnlink}
         />
       )}
+
+      {/* Style Inline per pulizia */}
+      <style>{`
+        .hover-shadow-sm:hover { box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important; }
+        .btn-white { background: white; border: 1px solid #dee2e6; }
+        .btn-white:hover { background: #f8f9fa; }
+        .hover-danger:hover { background-color: #fff5f5!important; }
+        .hover-warning:hover { background-color: #fff9db!important; }
+        .transition-all { transition: all 0.2s ease-in-out; }
+        .transition-all:hover { transform: scale(1.05); }
+        .spin { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 };

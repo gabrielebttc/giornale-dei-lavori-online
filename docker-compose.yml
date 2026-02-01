@@ -11,7 +11,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./docs/database/db_schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docs/database/db_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./docs/database/db_seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
     ports:
       - "5434:5432"
 
@@ -37,10 +38,10 @@ services:
     restart: always
     environment:
       VITE_BACKEND_URL: ${FRONTEND_BACKEND_URL}
-    ports:
-      - "80:80"
     depends_on:
       - backend
+    volumes:
+      - /var/www/giornaledeilavori.gabrielebuttice.com:/app/dist
 
 volumes:
   postgres_data:

@@ -230,144 +230,126 @@ const AddWorkerComponent: React.FC<Props> = ({ onClose, onWorkerAdded, buildingS
   }
 
   return (
-    <div className="modal show d-block" tabIndex={-1} role="dialog" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-      <div className="modal-dialog" role="document">
-        <div className="modal-content">
-          <div className="modal-header d-flex justify-content-between align-items-center">
-            <h5 className="modal-title">Aggiungi Lavoratore</h5>
-            <button type="button" className="close" onClick={onClose} aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+    <div className="modal show d-block px-3" tabIndex={-1} role="dialog" style={{ backgroundColor: 'rgba(24, 28, 33, 0.7)', backdropFilter: 'blur(4px)' }}>
+      <div className="modal-dialog modal-dialog-centered" role="document">
+        <div className="modal-content border-0 shadow-lg rounded-4">
+          
+          {/* Header pulito */}
+          <div className="modal-header border-0 pb-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+            <h4 className="fw-bold text-dark mb-0">Nuovo Lavoratore</h4>
+            <button type="button" className="btn-close shadow-none" onClick={onClose} aria-label="Close"></button>
           </div>
-          <div className="modal-body">
-            <div className="text-center mb-3">
-              <button className="btn btn-link p-0" onClick={() => setMode('existing')} disabled={buildingSiteId === null}>
-                Aggiungi lavoratore esistente
+
+          <div className="modal-body p-4">
+            {/* Switch Mode Sezione */}
+            <div className="bg-light rounded-3 p-3 mb-4 text-center border">
+              <button 
+                className={`btn btn-sm text-decoration-none fw-bold ${buildingSiteId ? 'text-primary' : 'text-muted'}`} 
+                onClick={() => setMode('existing')} 
+                disabled={!buildingSiteId}
+              >
+                <i className="bi bi-person-plus me-2"></i>
+                Seleziona da lavoratori esistenti
               </button>
-              {buildingSiteId === null && (
-                <small className="d-block text-muted">Devi essere in un cantiere per usare questa opzione</small>
+              {!buildingSiteId && (
+                <div className="text-danger mt-1" style={{ fontSize: '0.75rem' }}>
+                  <i className="bi bi-info-circle me-1"></i> Opzione disponibile solo dentro un cantiere
+                </div>
               )}
             </div>
 
             {loading ? (
-              <p>Caricamento opzioni...</p>
+              <div className="text-center py-5">
+                <div className="spinner-border text-primary" role="status"></div>
+                <p className="mt-2 text-muted">Caricamento opzioni...</p>
+              </div>
             ) : (
               <form onSubmit={handleSubmit}>
-                <div className="form-group mb-3">
-                  <label htmlFor="nome">Nome *</label>
-                  <input type="text" className="form-control" id="nome" name="nome" value={formData.nome} onChange={handleChange} required disabled={isSubmitting}/>
-                </div>
-                <div className="form-group mb-3">
-                  <label htmlFor="cognome">Cognome *</label>
-                  <input type="text" className="form-control" id="cognome" name="cognome" value={formData.cognome} onChange={handleChange} required disabled={isSubmitting}/>
-                </div>
-                <div className="form-group mb-3">
-                  <label htmlFor="email">Email</label>
-                  <input type="email" className="form-control" id="email" name="email" value={formData.email} onChange={handleChange} disabled={isSubmitting}/>
-                </div>
-                <div className="form-group mb-3">
-                  <label htmlFor="cellulare">Cellulare</label>
-                  <input type="text" className="form-control mb-3" id="cellulare" name="cellulare" value={formData.cellulare} onChange={handleChange} disabled={isSubmitting}/>
-                </div>
-                
-                <div className="form-group mb-3">
-                  <label>Azienda/e *</label>
-                  <div className="mb-2 d-flex flex-wrap gap-2">
-                    {companies.map((company) => {
-                      const isSelected = formData.companyIds.includes(company.id);
-                      return (
-                        <div key={company.id} className="d-flex align-items-center me-2 mb-1">
-                          <button
-                            type="button"
-                            className={`btn btn-sm ${isSelected ? 'btn-primary' : 'btn-outline-primary'}`}
+                <div className="row g-3">
+                  {/* Nome e Cognome sulla stessa riga su desktop */}
+                  <div className="col-md-6">
+                    <label className="form-label small fw-bold text-uppercase text-muted">Nome *</label>
+                    <input type="text" className="form-control border-2 bg-light shadow-none" name="nome" value={formData.nome} onChange={handleChange} required disabled={isSubmitting}/>
+                  </div>
+                  <div className="col-md-6">
+                    <label className="form-label small fw-bold text-uppercase text-muted">Cognome *</label>
+                    <input type="text" className="form-control border-2 bg-light shadow-none" name="cognome" value={formData.cognome} onChange={handleChange} required disabled={isSubmitting}/>
+                  </div>
+
+                  <div className="col-12 mt-3">
+                    <label className="form-label small fw-bold text-uppercase text-muted">Contatti</label>
+                    <div className="input-group mb-2">
+                      <span className="input-group-text bg-white border-2 border-end-0"><i className="bi bi-envelope text-muted"></i></span>
+                      <input type="email" className="form-control border-2 border-start-0 bg-light shadow-none" placeholder="Email" name="email" value={formData.email} onChange={handleChange} disabled={isSubmitting}/>
+                    </div>
+                    <div className="input-group">
+                      <span className="input-group-text bg-white border-2 border-end-0"><i className="bi bi-telephone text-muted"></i></span>
+                      <input type="text" className="form-control border-2 border-start-0 bg-light shadow-none" placeholder="Cellulare" name="cellulare" value={formData.cellulare} onChange={handleChange} disabled={isSubmitting}/>
+                    </div>
+                  </div>
+
+                  {/* Sezione Aziende */}
+                  <div className="col-12 mt-4">
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <label className="form-label small fw-bold text-uppercase text-muted mb-0">Aziende *</label>
+                      <button type="button" className="btn btn-sm btn-link p-0 text-decoration-none" onClick={() => setShowAddCompanyModal(true)}>+ Nuova</button>
+                    </div>
+                    <div className="d-flex flex-wrap gap-2 p-2 rounded-3 border bg-light min-vh-10">
+                      {companies.map((company) => (
+                        <div key={company.id} className="badge-pill-container d-flex align-items-center shadow-sm">
+                          <span 
                             onClick={() => toggleSelection('companyIds', company.id)}
-                            disabled={isSubmitting}
+                            className={`badge-pill-main ${formData.companyIds.includes(company.id) ? 'active' : ''}`}
                           >
                             {company.name}
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-danger ms-1"
-                            onClick={(e) => handleDeleteItemClick(company.id, 'companies', company.name, e)}
-                            disabled={isSubmitting}
-                            title={`Elimina ${company.name}`}
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
-                              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                            </svg>
+                          </span>
+                          <button type="button" className="badge-pill-del" onClick={(e) => handleDeleteItemClick(company.id, 'companies', company.name, e)}>
+                            <i className="bi bi-x"></i>
                           </button>
                         </div>
-                      );
-                    })}
-                    <button
-                      className="btn btn-sm btn-outline-secondary"
-                      type="button"
-                      onClick={() => setShowAddCompanyModal(true)}
-                      disabled={isSubmitting}
-                    >
-                      + Nuova
-                    </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                <div className="form-group mb-3">
-                  <label>Mansione/e *</label>
-                  <div className="mb-2 d-flex flex-wrap gap-2">
-                    {userTypes.map((userType) => {
-                      const isSelected = formData.userTypeIds.includes(userType.id);
-                      return (
-                        <div key={userType.id} className="d-flex align-items-center me-2 mb-1">
-                          {userType.id != 17 && (<><button
-                            type="button"
-                            className={`btn btn-sm ${isSelected ? 'btn-success' : 'btn-outline-success'}`}
+                  {/* Sezione Mansioni */}
+                  <div className="col-12 mt-4">
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <label className="form-label small fw-bold text-uppercase text-muted mb-0">Mansioni *</label>
+                      <button type="button" className="btn btn-sm btn-link p-0 text-decoration-none" onClick={() => setShowAddUserTypeModal(true)}>+ Nuova</button>
+                    </div>
+                    <div className="d-flex flex-wrap gap-2 p-2 rounded-3 border bg-light">
+                      {userTypes.filter(ut => ut.id !== 17).map((userType) => (
+                        <div key={userType.id} className="badge-pill-container d-flex align-items-center shadow-sm">
+                          <span 
                             onClick={() => toggleSelection('userTypeIds', userType.id)}
-                            disabled={isSubmitting}
+                            className={`badge-pill-main-alt ${formData.userTypeIds.includes(userType.id) ? 'active-alt' : ''}`}
                           >
                             {userType.name}
+                          </span>
+                          <button type="button" className="badge-pill-del-alt" onClick={(e) => handleDeleteItemClick(userType.id, 'user_type', userType.name, e)}>
+                            <i className="bi bi-x"></i>
                           </button>
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-danger ms-1"
-                            onClick={(e) => handleDeleteItemClick(userType.id, 'user_type', userType.name, e)}
-                            disabled={isSubmitting}
-                            title={`Elimina ${userType.name}`}
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
-                              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                            </svg>
-                          </button></>)}
                         </div>
-                      );
-                    })}
-                    <button
-                      className="btn btn-sm btn-outline-secondary"
-                      type="button"
-                      onClick={() => setShowAddUserTypeModal(true)}
-                      disabled={isSubmitting}
-                    >
-                      + Nuova
-                    </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
-                {error && (
-                  <div className="alert alert-danger" role="alert">
-                    {error}
+                {/* Messaggi di Alert */}
+                {(error || success) && (
+                  <div className={`alert ${error ? 'alert-danger' : 'alert-success'} mt-4 border-0 rounded-3`} role="alert">
+                    <i className={`bi ${error ? 'bi-exclamation-circle' : 'bi-check-circle'} me-2`}></i>
+                    {error || success}
                   </div>
                 )}
-                {success && (
-                  <div className="alert alert-success" role="alert">
-                    {success}
-                  </div>
-                )}
-                <div className="d-flex justify-content-end">
-                  <button type="button" className="btn btn-secondary me-2" onClick={onClose} disabled={isSubmitting}>
-                    Annulla
-                  </button>
-                  <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-                    {isSubmitting ? 'Aggiungendo...' : 'Aggiungi Lavoratore'}
+
+                {/* Footer Buttons */}
+                <div className="d-flex gap-2 justify-content-end mt-5">
+                  <button type="button" className="btn btn-light px-4 fw-bold text-muted border" onClick={onClose} disabled={isSubmitting}>Annulla</button>
+                  <button type="submit" className="btn btn-primary px-4 fw-bold shadow" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <><span className="spinner-border spinner-border-sm me-2"></span>Invio...</>
+                    ) : 'Crea Lavoratore'}
                   </button>
                 </div>
               </form>
@@ -376,7 +358,24 @@ const AddWorkerComponent: React.FC<Props> = ({ onClose, onWorkerAdded, buildingS
         </div>
       </div>
 
-      {/* Modale di conferma eliminazione */}
+      <style>{`
+        .badge-pill-container { background: white; border-radius: 8px; overflow: hidden; border: 1px solid #dee2e6; transition: 0.2s; }
+        
+        .badge-pill-main { padding: 6px 12px; cursor: pointer; font-size: 0.85rem; font-weight: 500; color: #0d6efd; flex-grow: 1; }
+        .badge-pill-main.active { background: #0d6efd; color: white; }
+        .badge-pill-del { border: none; background: #fff1f1; color: #dc3545; padding: 6px 8px; transition: 0.2s; border-left: 1px solid #dee2e6; }
+        .badge-pill-del:hover { background: #dc3545; color: white; }
+
+        .badge-pill-main-alt { padding: 6px 12px; cursor: pointer; font-size: 0.85rem; font-weight: 500; color: #198754; flex-grow: 1; }
+        .badge-pill-main-alt.active-alt { background: #198754; color: white; }
+        .badge-pill-del-alt { border: none; background: #f1fbf1; color: #dc3545; padding: 6px 8px; transition: 0.2s; border-left: 1px solid #dee2e6; }
+        .badge-pill-del-alt:hover { background: #dc3545; color: white; }
+
+        .input-group-text { border: 2px solid #dee2e6; }
+        .form-control:focus { border-color: #0d6efd; background: white; }
+      `}</style>
+
+      {/* Componente Eliminazione */}
       {showDeleteModal && itemToDelete && (
         <DeleteRecordComponent
           tableName={itemToDelete.tableName}

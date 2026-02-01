@@ -6,20 +6,25 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 interface CalendarComponentProps {
     onDateSelect: (date: Date) => void;
+    selectedDate?: Date;
 }
 
-const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateSelect }) => {
-    // Utilizza la data odierna come stato iniziale
-    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateSelect, selectedDate: externaSelectedDate }) => {
+    const [selectedDate, setSelectedDate] = useState<Date>(externaSelectedDate ? externaSelectedDate : new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
 
-    // Usa useEffect per notificare il genitore ogni volta che la data selezionata cambia
+    useEffect(() => {
+        if (externaSelectedDate) {
+            setSelectedDate(externaSelectedDate);
+        }
+    }, [externaSelectedDate]);
+
     useEffect(() => {
         onDateSelect(selectedDate);
-    }, [selectedDate, onDateSelect]); // L'effetto si attiva quando selectedDate o onDateSelect cambiano
+    }, [selectedDate, onDateSelect]);
 
     const handlePreviousDay = () => {
-        setSelectedDate((prevDate) => addDays(prevDate, -1));
+            setSelectedDate((prevDate) => addDays(prevDate, -1));
     };
 
     const handleNextDay = () => {

@@ -22,10 +22,11 @@ interface ActionCardProps {
   link: string;
 }
 
-// --- COMPONENTE CARD (Separato per pulizia) ---
+// ---- CARD ActionComponent ----
 const BuildingSiteActionComponent: React.FC<ActionCardProps> = ({ 
   siteId, actionName, descriptionSection, selectedDate, link 
 }) => {
+  
   function formatDate(date: Date){
     return date.toISOString().split('T')[0];
   }
@@ -82,12 +83,21 @@ const BuildingSiteActionComponent: React.FC<ActionCardProps> = ({
 const BuildingSiteActionsPage: React.FC = () => {
   const { site_id: siteId } = useParams<{ site_id: string }>();
   const [buildingSiteInfo, setBuildingSiteInfo] = useState<SiteInfo | null>(null);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (siteId) fetchBuildingSiteInfo();
-  }, [siteId]);
+    const queryParams = new URLSearchParams(location.search);
+    const dateFromQuery = queryParams.get('date');
+
+    if (dateFromQuery) {
+      setSelectedDate(new Date(dateFromQuery));
+    } else {
+      setSelectedDate(new Date());
+    }
+
+    fetchBuildingSiteInfo();
+  }, [location.search, siteId]);
 
   const fetchBuildingSiteInfo = async () => {
     try {
@@ -117,6 +127,10 @@ const BuildingSiteActionsPage: React.FC = () => {
     { name: 'Modifica Info', desc: 'Modifica dati anagrafici cantiere', link: 'action-page/modify-building-site' }
   ];
 
+  if (selectedDate === null) {
+    return <>Hello</>;
+  }
+
   return (
     <div className="container mt-4 pb-5">
       {/* Header */}
@@ -126,7 +140,7 @@ const BuildingSiteActionsPage: React.FC = () => {
           <small className="text-muted text-uppercase fw-semibold">Gestione Cantiere</small>
         </div>
         <div className="col-md-5 mt-3 mt-md-0">
-          <CalendarComponent onDateSelect={setSelectedDate} />
+          <CalendarComponent onDateSelect={setSelectedDate} selectedDate={selectedDate} />
         </div>
       </div>
 

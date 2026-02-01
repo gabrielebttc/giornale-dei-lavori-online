@@ -42,29 +42,56 @@ const UnlinkWorkerFromBuildingSite: React.FC<Props> = ({ workerId, buildingSiteI
   };
 
   return (
-    <div className="modal show d-block" tabIndex={-1} role="dialog" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-      <div className="modal-dialog modal-dialog-centered" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Rimuovi Lavoratore dal Cantiere</h5>
-            <button type="button" className="btn-close" onClick={onClose} aria-label="Close"></button>
-          </div>
-          <div className="modal-body">
-            <p>Sei sicuro di voler rimuovere questo lavoratore da questo cantiere?</p>
+    <div className="modal show d-block px-3" tabIndex={-1} role="dialog" style={{ backgroundColor: 'rgba(24, 28, 33, 0.7)', backdropFilter: 'blur(4px)' }}>
+      <div className="modal-dialog modal-dialog-centered shadow" style={{ maxWidth: '400px' }} role="document">
+        <div className="modal-content border-0 rounded-4">
+          
+          {/* Header con icona di avviso */}
+          <div className="modal-body p-4 text-center">
+            <div className="mb-3">
+              <div className="bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center" style={{ width: '70px', height: '70px' }}>
+                <i className="bi bi-link-slash fs-1"></i>
+              </div>
+            </div>
+            
+            <h4 className="fw-bold text-dark">Scollega Lavoratore</h4>
+            <p className="text-muted px-2">
+              Sei sicuro di voler rimuovere questo lavoratore da <strong>questo cantiere</strong>? 
+              <br />
+              <span className="small">Il profilo rimarrà comunque nel database generale.</span>
+            </p>
+
             {error && (
-              <div className="alert alert-danger" role="alert">
+              <div className="alert alert-danger border-0 small py-2" role="alert">
+                <i className="bi bi-exclamation-triangle me-2"></i>
                 {error}
               </div>
             )}
+
+            {/* Pulsanti Verticali per Mobile-first look */}
+            <div className="d-grid gap-2 mt-4">
+              <button 
+                type="button" 
+                className="btn btn-danger py-2 fw-bold rounded-3 shadow-sm" 
+                onClick={handleUnlink} 
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <><span className="spinner-border spinner-border-sm me-2"></span>Esecuzione...</>
+                ) : 'Conferma Rimozione'}
+              </button>
+              
+              <button 
+                type="button" 
+                className="btn btn-light border py-2 fw-bold text-muted rounded-3" 
+                onClick={onClose} 
+                disabled={isSubmitting}
+              >
+                Annulla
+              </button>
+            </div>
           </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={onClose} disabled={isSubmitting}>
-              Annulla
-            </button>
-            <button type="button" className="btn btn-danger" onClick={handleUnlink} disabled={isSubmitting}>
-              {isSubmitting ? 'Rimozione in corso...' : 'Rimuovi'}
-            </button>
-          </div>
+
         </div>
       </div>
     </div>

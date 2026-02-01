@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import AllWorkersComponent from '../AllWorkersComponent';
 import SetDailyPresencesComponent from '../SetDailyPresencesComponent';
 import DailyNotesComponent from '../DailyNotesComponent'; 
@@ -9,6 +9,8 @@ import GenerateExcelFileComponent from '../GenerateExcelFileComponent';
 const ActionPage: React.FC = () => {
   const { link, siteId, date } = useParams<{ link: string; siteId?: string; date: string }>();
   const [isValidDate, setIsValidDate] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (date) {
@@ -91,9 +93,27 @@ const ActionPage: React.FC = () => {
   };
 
   return (
-    <div className="container">
-      buildingSiteId: {buildingSiteId}, date: {buildingDate}
-      {renderComponent()}
+    <div className="container mt-3">
+      {/* Pulsante Indietro */}
+      <div className="row mb-3">
+        <div className="col-12">
+          <button 
+            onClick={() => navigate(`/building-site-actions/${buildingSiteId}?date=${buildingDate}`)}
+            className="btn btn-link text-decoration-none text-secondary p-0 d-inline-flex align-items-center transition-all hover-primary"
+            style={{ transition: '0.2s' }}
+          >
+            <div className="rounded-circle bg-white shadow-sm border d-flex align-items-center justify-content-center me-2" style={{ width: '35px', height: '35px' }}>
+              <i className="bi bi-arrow-left text-primary"></i>
+            </div>
+            <span className="fw-bold small text-uppercase" style={{ letterSpacing: '1px' }}>Torna al cantiere</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="container">
+        {/* buildingSiteId: {buildingSiteId}, date: {buildingDate} */}
+        {renderComponent()}
+      </div>
     </div>
   );
 };

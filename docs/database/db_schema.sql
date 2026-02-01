@@ -229,7 +229,7 @@ ALTER SEQUENCE public.user_type_id_seq OWNED BY public.user_type.id;
 CREATE TABLE public.users (
     id integer NOT NULL,
     first_name character varying(100) NOT NULL,
-    last_name character varying(100) NOT NULL,
+    last_name character varying(100),
     username character varying(50),
     email character varying(100),
     password character varying(255),

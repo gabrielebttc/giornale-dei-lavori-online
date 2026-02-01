@@ -64,43 +64,86 @@ const GenerateExcelFileComponent: React.FC<Props> = ({ buildingSiteId, onClose, 
   };
 
   return (
-    <div className="modal-backdrop-custom">
-      <div className="modal-content-custom">
-        <div className="modal-header">
-          <h5 className="modal-title">Genera Report Excel</h5>
-          <button type="button" className="close" onClick={onClose}>
-            <span>&times;</span>
-          </button>
+    <div className="fixed-top w-100 h-100 d-flex align-items-center justify-content-center px-3" style={{ zIndex: 1080 }}>
+      {/* Overlay con sfocatura */}
+      <div 
+        className="position-absolute top-0 start-0 w-100 h-100" 
+        style={{ backgroundColor: 'rgba(24, 28, 33, 0.6)', backdropFilter: 'blur(4px)' }}
+        onClick={onClose}
+      ></div>
+
+      <div className="bg-white shadow-lg rounded-4 overflow-hidden position-relative" style={{ maxWidth: '400px', width: '100%' }}>
+        
+        {/* Header con gradiente discreto */}
+        <div className="p-4 border-bottom bg-light d-flex justify-content-between align-items-center">
+          <h5 className="fw-bold text-dark mb-0">
+            <i className="bi bi-file-earmark-excel me-2 text-success"></i>
+            Report Excel
+          </h5>
+          <button type="button" className="btn-close shadow-none" onClick={onClose} disabled={loading}></button>
         </div>
-        <div className="modal-body text-center">
-          {error && <div className="alert alert-danger">{error}</div>}
-          {loading && (
-            <div className="d-flex justify-content-center">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
+
+        <div className="p-5 text-center">
+          {error && (
+            <div className="mb-4">
+              <div className="bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style={{ width: '60px', height: '60px' }}>
+                <i className="bi bi-exclamation-triangle fs-3"></i>
               </div>
+              <div className="alert alert-danger border-0 small">{error}</div>
             </div>
           )}
-          {!loading && !downloadUrl && !error && (
-            <button className="btn btn-primary" onClick={handleGenerateExcel}>
-              Genera File Excel
-            </button>
+
+          {loading && (
+            <div className="py-3">
+              <div className="spinner-border text-success mb-3" role="status" style={{ width: '3rem', height: '3rem' }}></div>
+              <p className="fw-medium text-muted">Elaborazione dati in corso...</p>
+              <small className="text-secondary">Potrebbe volerci qualche secondo</small>
+            </div>
           )}
-          {!loading && downloadUrl && (
-            <>
-              <p className="text-success">File generato con successo!</p>
-              <button className="btn btn-success" onClick={handleDownload}>
-                Scarica File Excel
+
+          {!loading && !downloadUrl && !error && (
+            <div>
+              <div className="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style={{ width: '80px', height: '80px' }}>
+                <i className="bi bi-file-earmark-spreadsheet fs-1"></i>
+              </div>
+              <p className="text-muted mb-4 px-3">Sei pronto a generare il report dettagliato in formato Excel?</p>
+              <button className="btn btn-success w-100 py-3 fw-bold shadow-sm rounded-3" onClick={handleGenerateExcel}>
+                <i className="bi bi-gear-fill me-2"></i> Genera Report
               </button>
-            </>
+            </div>
+          )}
+
+          {!loading && downloadUrl && (
+            <div className="animate-pop">
+              <div className="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4 shadow-lg" style={{ width: '80px', height: '80px' }}>
+                <i className="bi bi-check-lg fs-1"></i>
+              </div>
+              <h5 className="fw-bold text-success">Pronto per il Download!</h5>
+              <p className="text-muted mb-4 small">Il file è stato generato e può essere scaricato.</p>
+              <button className="btn btn-primary w-100 py-3 fw-bold shadow rounded-3 mb-2" onClick={handleDownload}>
+                <i className="bi bi-download me-2"></i> Scarica Excel
+              </button>
+            </div>
           )}
         </div>
-        <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" onClick={onClose}>
-            Chiudi
+
+        {/* Footer semplice */}
+        <div className="p-3 bg-light text-center border-top">
+          <button type="button" className="btn btn-link text-decoration-none text-secondary fw-bold small" onClick={onClose}>
+            Chiudi finestra
           </button>
         </div>
       </div>
+
+      <style>{`
+        .animate-pop {
+          animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes pop {
+          0% { transform: scale(0.8); opacity: 0; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 };

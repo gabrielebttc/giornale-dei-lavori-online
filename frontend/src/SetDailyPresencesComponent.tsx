@@ -133,64 +133,123 @@ const SetDailyPresencesComponent: React.FC<Props> = ({ buildingSiteId, date }) =
   }
 
   return (
-    <div className="container mt-4">
-      <h3 className="mb-4">Appello Giornaliero - {date}</h3>
-      <div className="list-group">
-        {workers.map((worker) => {
-          const presence = presences.find(p => p.user_id === worker.user_id) || { status: 'not_required', notes: '' };
-          return (
-            <div key={worker.user_id} className="list-group-item d-flex flex-column mb-3 p-3">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h5>{worker.first_name} {worker.last_name}</h5>
-                  <small className="text-muted">Azienda: {worker.company_names.join(', ')}</small>
-                  <br />
-                  <small className="text-muted">Mansione: {worker.user_types.join(', ')}</small>
+    <div className="container py-4 bg-light min-vh-100">
+  <div className="d-flex justify-content-between align-items-center mb-4">
+    <h3 className="fw-bold text-dark mb-0">
+      <i className="bi bi-clipboard-check me-2 text-primary"></i>
+      Appello <span className="text-primary">{date}</span>
+    </h3>
+    <button 
+      className="btn btn-primary shadow-sm fw-bold px-4 rounded-pill d-none d-md-block" 
+      onClick={handleSave} 
+      disabled={isSaving}
+    >
+      {isSaving ? <span className="spinner-border spinner-border-sm me-2"></span> : <i className="bi bi-cloud-arrow-up me-2"></i>}
+      Salva Presenze
+    </button>
+  </div>
+
+  <div className="row g-3">
+    {workers.map((worker) => {
+      const presence = presences.find(p => p.user_id === worker.user_id) || { status: 'not_required', notes: '' };
+      
+      // Colori dinamici basati sullo stato per feedback immediato
+      const getStatusColor = () => {
+        if (presence.status === 'present') return 'border-success bg-success bg-opacity-10';
+        if (presence.status === 'absent') return 'border-danger bg-danger bg-opacity-10';
+        return 'border-light bg-white';
+      };
+
+      return (
+        <div key={worker.user_id} className="col-12">
+          <div className={`card shadow-sm border-2 transition-all ${getStatusColor()} rounded-4 overflow-hidden`}>
+            <div className="card-body p-3">
+              <div className="row align-items-center">
+                {/* Info Lavoratore */}
+                <div className="col-md-5 mb-3 mb-md-0">
+                  <div className="d-flex align-items-center">
+                    <div className="rounded-circle bg-white shadow-sm d-flex align-items-center justify-content-center fw-bold me-3 text-primary border" style={{ width: '48px', height: '48px' }}>
+                      {worker.first_name[0]}{worker.last_name[0]}
+                    </div>
+                    <div>
+                      <h6 className="fw-bold mb-0 text-dark">{worker.first_name} {worker.last_name}</h6>
+                      <small className="text-muted d-block">{worker.company_names.join(', ')}</small>
+                      <span className="badge bg-white text-muted border fw-normal mt-1" style={{ fontSize: '0.7rem' }}>
+                        {worker.user_types.join(', ')}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="btn-group" role="group">
-                  <button
-                    type="button"
-                    className={`btn btn-sm ${presence.status === 'present' ? 'btn-success' : 'btn-outline-success'}`}
-                    onClick={() => handleStatusChange(worker.user_id, 'present')}
-                  >
-                    Presente
-                  </button>
-                  <button
-                    type="button"
-                    className={`btn btn-sm ${presence.status === 'absent' ? 'btn-danger' : 'btn-outline-danger'}`}
-                    onClick={() => handleStatusChange(worker.user_id, 'absent')}
-                  >
-                    Assente
-                  </button>
-                  <button
-                    type="button"
-                    className={`btn btn-sm ${presence.status === 'not_required' ? 'btn-secondary' : 'btn-outline-secondary'}`}
-                    onClick={() => handleStatusChange(worker.user_id, 'not_required')}
-                  >
-                    N/R
-                  </button>
+
+                {/* Bottoni Stato (Pill Style) */}
+                <div className="col-md-7 text-md-end">
+                  <div className="btn-group bg-white rounded-pill p-1 shadow-sm border" role="group">
+                    <button
+                      type="button"
+                      className={`btn btn-sm rounded-pill px-3 py-2 fw-bold transition-all ${presence.status === 'present' ? 'btn-success text-white shadow' : 'btn-light text-muted border-0'}`}
+                      onClick={() => handleStatusChange(worker.user_id, 'present')}
+                    >
+                      Presente
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn btn-sm rounded-pill px-3 py-2 fw-bold transition-all ${presence.status === 'absent' ? 'btn-danger text-white shadow' : 'btn-light text-muted border-0'}`}
+                      onClick={() => handleStatusChange(worker.user_id, 'absent')}
+                    >
+                      Assente
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn btn-sm rounded-pill px-3 py-2 fw-bold transition-all ${presence.status === 'not_required' ? 'btn-secondary text-white shadow' : 'btn-light text-muted border-0'}`}
+                      onClick={() => handleStatusChange(worker.user_id, 'not_required')}
+                    >
+                      N/R
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="mt-2">
-                <textarea
-                  className="form-control"
-                  placeholder="Aggiungi una nota (es. 'arrivato tardi', 'in malattia')"
-                  value={presence.notes || ''}
-                  onChange={(e) => handleNotesChange(worker.user_id, e.target.value)}
-                />
+
+              {/* Sezione Note Expansible o sempre visibile */}
+              <div className="mt-3">
+                <div className="input-group input-group-sm">
+                  <span className="input-group-text bg-white border-0 ps-0 text-muted">
+                    <i className="bi bi-chat-left-text me-2"></i> Note:
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control border-0 bg-transparent shadow-none"
+                    placeholder="E es. 'Ritardo', 'Malattia'..."
+                    value={presence.notes || ''}
+                    onChange={(e) => handleNotesChange(worker.user_id, e.target.value)}
+                  />
+                </div>
               </div>
             </div>
-          );
-        })}
-      </div>
-      {error && <div className="alert alert-danger mt-3">{error}</div>}
-      {successMessage && <div className="alert alert-success mt-3">{successMessage}</div>}
-      <div className="text-end mt-4">
-        <button className="btn btn-primary" onClick={handleSave} disabled={isSaving}>
-          {isSaving ? 'Salvataggio...' : 'Salva Presenze'}
-        </button>
-      </div>
-    </div>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+
+  {/* Messaggi */}
+  <div className="mt-4">
+    {error && <div className="alert alert-danger border-0 shadow-sm rounded-3"><i className="bi bi-exclamation-circle me-2"></i>{error}</div>}
+    {successMessage && <div className="alert alert-success border-0 shadow-sm rounded-3"><i className="bi bi-check-lg me-2"></i>{successMessage}</div>}
+  </div>
+
+  {/* Bottone Mobile Salva */}
+  <div className="d-md-none position-fixed bottom-0 mb-5 start-0 w-100 p-3 bg-white border-top shadow-lg" style={{ zIndex: 1000 }}>
+    <button className="btn btn-primary w-100 py-3 fw-bold rounded-4" onClick={handleSave} disabled={isSaving}>
+      {isSaving ? 'Salvataggio...' : 'Salva Presenze'}
+    </button>
+  </div>
+
+  <style>{`
+    .transition-all { transition: all 0.3s ease; }
+    .card:hover { transform: translateY(-2px); }
+    .btn-group .btn { min-width: 80px; }
+  `}</style>
+</div>
   );
 };
 
