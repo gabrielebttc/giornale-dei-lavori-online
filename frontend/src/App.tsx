@@ -10,6 +10,7 @@ import NavbarComponent from './NavbarComponent';
 import BuildingSiteActionsPage from './pages/BuildingSiteActionsPage';
 import ActionPage from './pages/ActionPage';
 import TestPage from './test/TestPage';
+import UploadFilesComponent from './UploadFilesComponent';
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
                     <Route path="/building-site-actions/:site_id" element={<BuildingSiteActionsPage />} />
                     <Route path="/action-page/:link/:siteId/:date" element={<ActionPage />} />
                     <Route path="/test-page" element={<TestPage />} />
+                    <Route path="/file-manager" element={<UploadFilesComponent buildingSiteId={1} />} />
                   </Routes>
               </div>
             </div>
