@@ -28,18 +28,14 @@ services:
     depends_on:
       - db
 
-  frontend:
+  frontend-build:
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend
-    container_name: frontend
-    restart: always
-    environment:
-      VITE_BACKEND_URL: ${FRONTEND_BACKEND_URL}
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
+    working_dir: /app
+    command: npm run build
+    volumes:
+      - ./frontend:/app
 
 volumes:
   postgres_data:
