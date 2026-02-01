@@ -1,6 +1,7 @@
 # DA SISTEMARE IMMEDIATAMENTE
 
-- togliere not null in last_name (LO STO sistemando sul mio pc di casa -> quindi aggiornare il db_schema.sql)
+- mettere il fatto che con un tasto puoi aggiungere l'app alla scheramta
+- usare questo "C:\Users\Gabriele\AppData\Roaming\Python\Python314\Scripts\b2.exe" bucket update giornaledeilavori-bucket --cors-rules "[{\"corsRuleName\":\"allow-all\",\"allowedOrigins\":[\"https://localhost:5173\",\"http://localhost:5173\"],\"allowedOperations\":[\"b2_upload_file\",\"b2_upload_part\",\"b2_download_file_by_name\",\"b2_download_file_by_id\"],\"allowedHeaders\":[\"*\"],\"exposeHeaders\":[\"ETag\"],\"maxAgeSeconds\":3600}]"
 
 # FUNZIONALITA' DA SISTEMARE
 - sistemare elimina utente che non funziona

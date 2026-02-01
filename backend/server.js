@@ -3,8 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const pool = require('./db');
-const authRoutes = require('./authRoutes'); // Importa il router da authRoutes.js
+const authRoutes = require('./authRoutes');
 const apiRoutes = require('./apiRoutes');
+const fileManagerRoutes = require('./fileManagerRoutes');
 const { initializeSocket } = require('./socket');
 
 const app = express();
@@ -16,10 +17,13 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Aggiungi le rotte di autenticazione
+// Rotte di autenticazione
 app.use('/api/auth', authRoutes);
 
-// Usa le altre rotte API
+// Rotte per gesione dei file(foto, video, documenti, ecc...)
+app.use('/api/file-manager', fileManagerRoutes);
+
+// Altre rotte API
 app.use('/api/', apiRoutes);
 
 const server = http.createServer(app);

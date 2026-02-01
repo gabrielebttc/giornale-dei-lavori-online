@@ -1,7 +1,6 @@
 const express = require('express');
 const pool = require('./db');
 const router = express.Router();
-const jwt = require('jsonwebtoken'); // Importa il modulo JWT
 const bcrypt = require('bcrypt'); // Per confrontare le password hashate
 const authenticateToken = require('./authMiddleware'); // Middleware di autenticazione
 const ExcelJS = require('exceljs');
