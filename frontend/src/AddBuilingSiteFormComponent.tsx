@@ -104,7 +104,6 @@ const AddBuildingSiteFormComponent: React.FC<Props> = ({ onClose }) => {
             setError('Errore durante l\'inserimento del building site.');
             console.error('Error:', error);
         }
-        onClose();
     };
 
     const sortedGeoData = geoData

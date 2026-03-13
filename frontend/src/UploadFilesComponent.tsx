@@ -1,4 +1,6 @@
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
+import CalendarComponent from './CalendarComponent';
+
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 interface UploadFilesProps {
@@ -9,6 +11,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId }) =>
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [isUploading, setIsUploading] = useState<boolean>(false);
     const [message, setMessage] = useState<{ text: string; type: string } | null>(null);
+    const [fileDate, setFileDate] = useState<Date>(new Date());
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -31,7 +34,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId }) =>
                     body: JSON.stringify({ 
                         fileName: file.name, 
                         fileType: file.type, 
-                        buildingSiteId 
+                        buildingSiteId
                     }),
                     headers: { 
                         'Content-Type': 'application/json',
@@ -40,25 +43,23 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId }) =>
                 });
                 const { uploadUrl, storageKey } = await resLink.json();
 
-                // 2. Upload binario su Backblaze B2
+                // 2. Upload binario
                 const resB2 = await fetch(uploadUrl, {
                     method: 'PUT',
                     body: file,
                 });
 
-                if (!resB2.ok) {
-                    console.error("Upload fallito su storage");
-                    throw new Error("Upload fallito su storage");
-                }
+                if (!resB2.ok) throw new Error("Upload fallito su storage");
 
-                // 3. Conferma nel Database
+                // 3. Conferma nel Database (Passando la data selezionata)
                 const resConfirm = await fetch(`${apiUrl}/api/file-manager/confirm-file-upload`, {
                     method: 'POST',
                     body: JSON.stringify({ 
                         storageKey, 
                         originalName: file.name, 
-                        buildingSiteId, 
-                        mimeType: file.type 
+                        buildingSiteId,
+                        mimeType: file.type,
+                        date: fileDate
                     }),
                     headers: { 
                         'Content-Type': 'application/json',
@@ -89,6 +90,14 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId }) =>
             <h5 className="card-title mb-3">Allega Documenti o Foto</h5>
             
             <form onSubmit={handleMultipleUploads}>
+                <div className="mb-4 p-2 border rounded bg-light">
+                    <label className="form-label d-block mb-2 small fw-bold text-muted">Data di riferimento:</label>
+                    <CalendarComponent 
+                        onDateSelect={(date) => setFileDate(date)} 
+                        selectedDate={fileDate}
+                    />
+                </div>
+
                 <div className="mb-3">
                     <label htmlFor="fileInput" className="form-label">Seleziona file</label>
                     <input 

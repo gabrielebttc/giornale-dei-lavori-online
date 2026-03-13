@@ -5,6 +5,7 @@ import './styles/MapComponent.css';
 
 // Importa il componente di eliminazione
 import DeleteRecordComponent from './DeleteRecordComponent'; 
+import SearchBarComponent from './SearchBarComponent';
 
 // Declare bootstrap as a global variable
 declare const bootstrap: {
@@ -17,7 +18,12 @@ const apiUrl = import.meta.env.VITE_BACKEND_URL;
 const INITIAL_CENTER: [number, number] = [14.0863, 37.4460];
 const INITIAL_ZOOM = 7.05;
 
-const MapComponent = () => {
+type MapComponentProps = {
+  reloadBuildingSitesList: boolean,
+  onReloadCompleted: () => void
+}
+
+const MapComponent = ({ reloadBuildingSitesList, onReloadCompleted }: MapComponentProps) => {
   const mapRef = useRef<Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -27,8 +33,7 @@ const MapComponent = () => {
     { id: number; name: string; notes: string; city: string; address: string; latitude: number; longitude: number }[]
   >([]);
   const [highlightedId, setHighlightedId] = useState<number | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>(''); // Nuovo stato per la ricerca
-  const [loading, setLoading] = useState<boolean>(true); // Nuovo stato per il caricamento
+  const [loading, setLoading] = useState<boolean>(true);
   const markerRefs = useRef<mapboxgl.Marker[]>([]); // Per tenere traccia dei marker
 
   // Stati per la gestione del modale di eliminazione
@@ -94,6 +99,7 @@ const MapComponent = () => {
       }
       const sites = await response.json();
       setBuildingSites(sites);
+      onReloadCompleted();
 
       if (mapRef.current) {
         clearMarkers(); // Pulisce i marker prima di aggiungerne di nuovi
@@ -161,9 +167,10 @@ const MapComponent = () => {
         mapRef.current.remove();
       }
     };
-  }, []);
+  }, [reloadBuildingSitesList]);
 
   // Logica di ricerca dei cantieri
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const filteredBuildingSites = buildingSites.filter(site => {
     const term = searchTerm.toLowerCase();
     return (
@@ -184,32 +191,7 @@ const MapComponent = () => {
       ></div>
 
       <div className="records-container container-fluid px-0">
-        {/* Barra di ricerca e refresh */}
-        <div className="d-flex mb-4 gap-2">
-          <div className="input-group">
-            <span className="input-group-text bg-white border-end-0">
-              <i className="bi bi-search text-muted"></i>
-            </span>
-            <input
-              type="text"
-              className="form-control border-start-0 ps-0 shadow-none"
-              placeholder="Cerca cantiere per nome, città o note..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <button
-            className="btn btn-outline-primary shadow-sm d-flex align-items-center justify-content-center"
-            onClick={fetchBuildingSites}
-            disabled={loading}
-            title="Aggiorna lista cantieri"
-            style={{ width: '45px' }}
-          >
-            <span className={loading ? 'spinner-border spinner-border-sm' : ''}>
-              {!loading && '↻'}
-            </span>
-          </button>
-        </div>
+        <SearchBarComponent searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
 
         {/* Lista Cantieri */}
         <div className="row g-3">

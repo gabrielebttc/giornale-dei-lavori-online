@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import AddBuildingSiteFormComponent from './AddBuilingSiteFormComponent';
+import UploadFilesComponent from './UploadFilesComponent';
 
 interface AddRecordComponentProps {
     tableName: string;
+    buildingSiteId?: number;
+    onSuccess: () => void;
 }
 
-const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName }) => {
+const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName, buildingSiteId, onSuccess }: AddRecordComponentProps) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const togglePopup = () => {
         setIsPopupOpen(!isPopupOpen);
+        onSuccess();
     };
 
     return (
@@ -18,7 +22,7 @@ const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName }) =>
             <button
                 className="btn btn-primary rounded-circle position-fixed shadow-lg d-flex align-items-center justify-content-center fw-bold"
                 style={{
-                bottom: '30px',
+                bottom: window.innerWidth < 576 ? '80px' : '30px',
                 right: '30px',
                 width: '60px',
                 height: '60px',
@@ -49,7 +53,10 @@ const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName }) =>
                     </div>
                     <div className="modal-body p-4">
                         {tableName === 'building_sites' && (
-                        <AddBuildingSiteFormComponent onClose={() => setIsPopupOpen(false)} />
+                        <AddBuildingSiteFormComponent onClose={togglePopup} />
+                        )}
+                        {(tableName === 'files' && buildingSiteId) && (
+                        <UploadFilesComponent buildingSiteId={buildingSiteId} />
                         )}
                     </div>
                     </div>

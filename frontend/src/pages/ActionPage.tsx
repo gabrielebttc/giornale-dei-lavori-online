@@ -5,6 +5,8 @@ import SetDailyPresencesComponent from '../SetDailyPresencesComponent';
 import DailyNotesComponent from '../DailyNotesComponent'; 
 import ModifyBuildingSiteComponent from '../ModifyBuildingSiteComponent'; 
 import GenerateExcelFileComponent from '../GenerateExcelFileComponent';
+import FileManagerComponent from '../FileManagerComponent';
+import { stringToDate } from '../../utils/formatDate';
 
 const ActionPage: React.FC = () => {
   const { link, siteId, date } = useParams<{ link: string; siteId?: string; date: string }>();
@@ -85,6 +87,16 @@ const ActionPage: React.FC = () => {
             onClose={() => window.history.back()}
             // 🛠️ MODIFICA: Utilizza la nuova funzione handleExcelSuccess
             onSuccess={handleExcelSuccess}
+          />
+        );
+      case 'file-manager':
+        if (buildingDate === null) {
+          return <h1 className="text-center my-4">Data mancante.</h1>;
+        }
+        return (
+          <FileManagerComponent 
+            buildingSiteId={buildingSiteId}
+            selectedDate={stringToDate(buildingDate)}
           />
         );
       default:
