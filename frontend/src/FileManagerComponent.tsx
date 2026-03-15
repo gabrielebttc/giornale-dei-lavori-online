@@ -4,18 +4,21 @@ import type { FilesRecord } from "./types/dbTables";
 import DeleteRecordComponent from "./DeleteRecordComponent";
 import SearchBarComponent from "./SearchBarComponent";
 import FileViewerComponent from "./FileViewerComponent";
+import FileCardComponent from "./FileCardComponent";
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
-type FileManagerComponenteProps = {
+type FileManagerComponentProps = {
     buildingSiteId: number,
-    // selectedDate: Date --> non ci serve per ora
+    selectedDate: string,
+    handleEditFile: (fileAlreadyExists: boolean) => void;
 }
 
-export default function FileManagerComponent({ buildingSiteId }: FileManagerComponenteProps) {
+export default function FileManagerComponent({ buildingSiteId, selectedDate, handleEditFile }: FileManagerComponentProps) {
 
     const [filesList, setFilesList] = useState<FilesRecord[]>([]);
     const [deleteRecordPopup, isDeleteRecordPopupVisible] = useState<boolean>(false);
     const [itemToDeleteId, setItemToDeleteId] = useState<number>(0);
+    const [itemToDeleteStorageKey, setItemToDeleteStorageKey] = useState<string>("");
     const [selectedFile, setSelectedFile] = useState<FilesRecord | null>(null);
     
     const sortedFiles = [...filesList].sort((a, b) => {
@@ -24,15 +27,12 @@ export default function FileManagerComponent({ buildingSiteId }: FileManagerComp
         return dateA - dateB;
     });
 
-    async function deleteFile (item?: FilesRecord) {
-        if(item) {
-            setItemToDeleteId(item.id);
-            isDeleteRecordPopupVisible(true);
-            deleteFileFromCloudStorage(item.storage_key);
-        }
+    async function deleteFile () {
+        isDeleteRecordPopupVisible(true);
+        deleteFileFromCloudStorage(itemToDeleteStorageKey); // qualora lo storage_key non fosse un valido storage_key, non riporta alcun errore, non so perchè, ma meglio così
     }
 
-    const onFileUploadSuccess = async (buildingSiteId: number) => {
+    const fetchFiles = async (buildingSiteId: number) => {
         const data = await fetchFilesFromBuildingSiteId(buildingSiteId);
         setFilesList(data);
     }
@@ -58,7 +58,7 @@ export default function FileManagerComponent({ buildingSiteId }: FileManagerComp
     }, {});
 
     useEffect(() => {
-        onFileUploadSuccess(buildingSiteId);
+        fetchFiles(buildingSiteId);
     }, []);
 
     return(
@@ -76,49 +76,39 @@ export default function FileManagerComponent({ buildingSiteId }: FileManagerComp
 
                         <div className="row g-4">
                             {groupedFiles[date].map((item) => (
-                                <div className="col-6 col-md-4 col-lg-3" key={item.id}>
-                                    <div 
-                                        className="card h-100 border-0 shadow-sm overflow-hidden hover-shadow transition-all"
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={() => setSelectedFile(item)}
-                                    >
-                                        <div className="card-body d-flex flex-column align-items-center py-4">
-                                            {/* Icona File */}
-                                            <div 
-                                                className="bg-primary bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center mb-3 text-primary"
-                                                style={{ width: '50px', height: '50px' }}
-                                            >
-                                                <i className={`bi ${getFileIcon(item.file_type)} fs-3`}></i>
-                                            </div>
-
-                                            {/* Nome File */}
-                                            <p className="card-title mb-3 fw-semibold text-dark text-truncate w-100 text-center" style={{ fontSize: '0.8rem' }}>
-                                                {item.name}
-                                            </p>
-
-                                            {/* Pulsante Elimina */}
-                                            <button 
-                                                className="btn btn-link text-danger btn-sm p-0 mt-auto decoration-none"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    deleteFile(item);
-                                                }}
-                                            >
-                                                <i className="bi bi-trash3 me-1"></i> Elimina
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <FileCardComponent 
+                                    handleDeleteClick={ () => {
+                                        setItemToDeleteId(item.id);
+                                        setItemToDeleteStorageKey(item.storage_key);
+                                        deleteFile();
+                                    }}
+                                    title={item.name}
+                                    biIconName={getFileIcon(item.file_type)}
+                                    handleCardClick={() => setSelectedFile(item)}
+                                    itemId={item.id}
+                                />
                             ))}
                         </div>
                     </div>
                 ))}
             </div>
-            <AddRecordComponent tableName="files" buildingSiteId={buildingSiteId} onSuccess={() => onFileUploadSuccess(buildingSiteId)}/>
+            <AddRecordComponent
+                tableName="files"
+                buildingSiteId={buildingSiteId}
+                selectedDate={selectedDate}
+                onSuccess={() => fetchFiles(buildingSiteId)}
+                handleEditFile={(fileAlreadyExists) => handleEditFile(fileAlreadyExists)}
+            />
             {deleteRecordPopup && 
                 <DeleteRecordComponent tableName={"files"} recordId={itemToDeleteId}
-                    onClose={() => {onFileUploadSuccess(buildingSiteId); isDeleteRecordPopupVisible(false)}}
-                    onSuccess={() => {onFileUploadSuccess(buildingSiteId); isDeleteRecordPopupVisible(false)}}
+                    onClose={() => {
+                        fetchFiles(buildingSiteId);
+                        isDeleteRecordPopupVisible(false)
+                    }}
+                    onSuccess={() => {
+                        fetchFiles(buildingSiteId);
+                        isDeleteRecordPopupVisible(false);
+                    }}
                 />
             }
             {selectedFile && (
@@ -165,6 +155,7 @@ const getFileIcon = (mimeType: string) => {
     'image/png': 'bi-file-earmark-image',
     'image/webp': 'bi-file-earmark-image',
     'application/vnd.ms-excel': 'bi-file-earmark-excel',
+    'application/vnd.openxmlformats-offic': 'bi-file-earmark-excel',
     'text/csv': 'bi-filetype-csv',
   };
 

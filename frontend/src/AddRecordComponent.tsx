@@ -6,9 +6,11 @@ interface AddRecordComponentProps {
     tableName: string;
     buildingSiteId?: number;
     onSuccess: () => void;
+    selectedDate: string;
+    handleEditFile: (fileAlreadyExists: boolean) => void;
 }
 
-const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName, buildingSiteId, onSuccess }: AddRecordComponentProps) => {
+const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName, buildingSiteId, onSuccess, selectedDate, handleEditFile }: AddRecordComponentProps) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const togglePopup = () => {
@@ -56,7 +58,12 @@ const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName, buil
                         <AddBuildingSiteFormComponent onClose={togglePopup} />
                         )}
                         {(tableName === 'files' && buildingSiteId) && (
-                        <UploadFilesComponent buildingSiteId={buildingSiteId} />
+                        <UploadFilesComponent 
+                            buildingSiteId={buildingSiteId}
+                            selectedDate={selectedDate}
+                            // handleEditFile passa false che indica che il file che si cerca di editare non esiste ancora (deve essere creato)
+                            handleEditFile={() => handleEditFile(false)}
+                        />
                         )}
                     </div>
                     </div>

@@ -1,4 +1,4 @@
-// record tabella files
+// Record della tabella files
 export type FilesRecord = {
   id: number;
   name: string;
@@ -9,4 +9,12 @@ export type FilesRecord = {
   owner_id: number;
   uploaded_at: string;
   storage_key: string;
+  is_generated: boolean;
+};
+
+// Record della tabella documents
+export type DocumentsRecord = {
+  id: number;
+  file_id: number;
+  content_json: any;
 };
