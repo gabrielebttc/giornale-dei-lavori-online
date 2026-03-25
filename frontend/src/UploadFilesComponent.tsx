@@ -16,12 +16,34 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
 
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [isUploading, setIsUploading] = useState<boolean>(false);
+    const [isDragging, setIsDragging] = useState<boolean>(false);
     const [message, setMessage] = useState<{ text: string; type: string } | null>(null);
     const [fileDate, setFileDate] = useState<Date>(new Date());
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             setSelectedFiles(Array.from(event.target.files));
+        }
+    };
+
+    const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
+        event.preventDefault();
+        if (!isUploading) setIsDragging(true);
+    };
+
+    const handleDragLeave = (event: React.DragEvent<HTMLLabelElement>) => {
+        event.preventDefault();
+        setIsDragging(false);
+    };
+
+    const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
+        event.preventDefault();
+        setIsDragging(false);
+        if (isUploading) return;
+
+        const droppedFiles = event.dataTransfer.files;
+        if (droppedFiles && droppedFiles.length > 0) {
+            setSelectedFiles(Array.from(droppedFiles));
         }
     };
 
@@ -147,19 +169,41 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             <label className="form-label d-block mb-3 small fw-bold text-uppercase text-primary letter-spacing-1">
                                 2. Scegli i File
                             </label>
-                            <div className="input-group">
+                            <label
+                                htmlFor="fileInput"
+                                className={`w-100 d-block rounded-4 border border-2 p-4 bg-white cursor-pointer transition-all ${
+                                    isDragging
+                                        ? 'border-primary shadow'
+                                        : 'border-primary border-opacity-25'
+                                }`}
+                                onDragOver={handleDragOver}
+                                onDragLeave={handleDragLeave}
+                                onDrop={handleDrop}
+                                style={{
+                                    borderStyle: 'dashed',
+                                    cursor: isUploading ? 'not-allowed' : 'pointer',
+                                    background: isDragging
+                                        ? 'linear-gradient(135deg, rgba(13,110,253,0.12), rgba(13,110,253,0.04))'
+                                        : 'linear-gradient(135deg, rgba(13,110,253,0.06), rgba(255,255,255,1))'
+                                }}
+                            >
                                 <input 
-                                    className="form-control form-control-lg rounded-start-3 fs-6" 
+                                    className="d-none"
                                     type="file" 
                                     id="fileInput" 
                                     multiple 
                                     onChange={handleFileChange} 
                                     disabled={isUploading}
                                 />
-                                <span className="input-group-text bg-white px-3 border-start-0 rounded-end-3">
-                                    <i className="bi bi-files text-muted"></i>
-                                </span>
-                            </div>
+
+                                <div className="d-flex flex-column align-items-center justify-content-center">
+                                    <div className="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center mb-3" style={{ width: 64, height: 64 }}>
+                                        <i className="bi bi-cloud-arrow-up text-primary fs-2"></i>
+                                    </div>
+                                    <p className="mb-1 fw-bold text-primary">Trascina i file qui o clicca per aggiungere</p>
+                                    <small className="text-muted">Supporto multiplo: documenti, immagini e video</small>
+                                </div>
+                            </label>
                             
                             {selectedFiles.length > 0 && (
                                 <div className="mt-2 animate__animated animate__fadeIn">
@@ -167,6 +211,10 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                                         <i className="bi bi-check2-all me-1"></i>
                                         {selectedFiles.length} file pronti all'invio
                                     </span>
+                                    <div className="small text-muted mt-2">
+                                        {selectedFiles.slice(0, 3).map((file) => file.name).join(' • ')}
+                                        {selectedFiles.length > 3 ? ' • ...' : ''}
+                                    </div>
                                 </div>
                             )}
                         </div>
