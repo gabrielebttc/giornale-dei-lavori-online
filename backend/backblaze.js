@@ -1,7 +1,7 @@
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 require('dotenv').config({ path: './.env' });
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const path = require('path');
 
 const s3 = new S3Client({
@@ -18,7 +18,7 @@ const s3 = new S3Client({
 
 async function getUploadUrl(fileName, contentType, buildingSiteId) {
     const extension = path.extname(fileName);
-    const storageKey = `uploads/${uuidv4()}-site${buildingSiteId}${extension}`;
+    const storageKey = `uploads/${randomUUID()}-site${buildingSiteId}${extension}`;
 
     const command = new PutObjectCommand({
         Bucket: process.env.BACKBLAZE_BUCKET_NAME,

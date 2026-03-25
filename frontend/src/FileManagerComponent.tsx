@@ -76,7 +76,8 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
 
                         <div className="row g-4">
                             {groupedFiles[date].map((item) => (
-                                <FileCardComponent 
+                                <FileCardComponent
+                                    key={item.id}
                                     handleDeleteClick={ () => {
                                         setItemToDeleteId(item.id);
                                         setItemToDeleteStorageKey(item.storage_key);
