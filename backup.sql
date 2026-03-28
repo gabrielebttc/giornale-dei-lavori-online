@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
-\restrict dmV32D9CevT7D0xfwxhQ6Pm7lFblGyHmGeqC9eFUrdqMIYUrqUUOXeYsrxCiJur
+\restrict H1lxZQsBUrB2G9EW5d0H6fQiUtytbc0ubbsgMBVZCHIGZWxBfl2KLCeiFnZEw3m
 
--- Dumped from database version 18.1
--- Dumped by pg_dump version 18.1
+-- Dumped from database version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
+-- Dumped by pg_dump version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -229,7 +229,8 @@ CREATE TABLE public.files (
     owner_id integer NOT NULL,
     uploaded_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     storage_key text NOT NULL,
-    is_generated boolean DEFAULT false NOT NULL
+    is_generated boolean DEFAULT false NOT NULL,
+    project_id integer
 );
 
 
@@ -255,6 +256,45 @@ ALTER SEQUENCE public.files_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.files_id_seq OWNED BY public.files.id;
+
+
+--
+-- Name: projects; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.projects (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_json jsonb NOT NULL,
+    metadata jsonb,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    owner_id integer
+);
+
+
+ALTER TABLE public.projects OWNER TO postgres;
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.projects_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.projects_id_seq OWNER TO postgres;
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.projects_id_seq OWNED BY public.projects.id;
 
 
 --
@@ -550,6 +590,13 @@ ALTER TABLE ONLY public.files ALTER COLUMN id SET DEFAULT nextval('public.files_
 
 
 --
+-- Name: projects id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects ALTER COLUMN id SET DEFAULT nextval('public.projects_id_seq'::regclass);
+
+
+--
 -- Name: teams id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -617,6 +664,7 @@ COPY public.building_sites (id, name, notes, city, address, latitude, longitude,
 12	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	67	2026-03-12	2026-04-01
 13	Villa rossiccia	asdfas	Agliè	boh	45.363433	7.768600	67	2026-03-20	\N
 20	asdfas	fasdfas	Cavour	fsdafsdafa	44.784031	7.375232	67	2026-03-01	\N
+21	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	74	2026-03-25	2026-04-14
 \.
 
 
@@ -665,6 +713,10 @@ COPY public.companies (id, name, notes, owner_id) FROM stdin;
 41	BRUNO E FRETTO SRL	\N	67
 42	Edilizia Generale S.p.A.	\N	67
 43	Studio Tecnico Associato	\N	67
+44	Fratelli Russo Idraulica Srl	\N	74
+45	BRUNO E FRETTO SRL	\N	74
+46	Edilizia Generale S.p.A.	\N	74
+47	Studio Tecnico Associato	\N	74
 \.
 
 
@@ -844,6 +896,26 @@ COPY public.daily_notes (id, date, building_site_id, notes, other_notes, persona
 172	2026-03-29	12	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	67
 173	2026-03-30	12	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	67
 174	2026-03-31	12	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	67
+175	2026-03-25	21	Allestimento cantiere e scarico materiali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 1: verificare qualità dei materiali forniti oggi.	74
+176	2026-03-26	21	Tracciamento impianti e scavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 2: verificare qualità dei materiali forniti oggi.	74
+177	2026-03-27	21	Posa tubazioni scarico primarie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 3: verificare qualità dei materiali forniti oggi.	74
+178	2026-03-28	21	Getto di pulizia e armatura	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 4: verificare qualità dei materiali forniti oggi.	74
+179	2026-03-29	21	Chiusura tracce e verifica livelli	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 5: verificare qualità dei materiali forniti oggi.	74
+180	2026-03-30	21	Inizio murature perimetrali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 6: verificare qualità dei materiali forniti oggi.	74
+181	2026-03-31	21	Posa controtelai e soglie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 7: verificare qualità dei materiali forniti oggi.	74
+182	2026-04-01	21	Intonacatura grezza piano terra	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 8: verificare qualità dei materiali forniti oggi.	74
+183	2026-04-02	21	Impianto elettrico: posa corrugati	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 9: verificare qualità dei materiali forniti oggi.	74
+184	2026-04-03	21	Verifica sicurezza e sopralluogo tecnico	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 10: verificare qualità dei materiali forniti oggi.	74
+185	2026-04-04	21	Montaggio cartongessi e orditure	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 11: verificare qualità dei materiali forniti oggi.	74
+186	2026-04-05	21	Rasatura pareti zona A	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 12: verificare qualità dei materiali forniti oggi.	74
+187	2026-04-06	21	Posa massetto autolivellante	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 13: verificare qualità dei materiali forniti oggi.	74
+188	2026-04-07	21	Installazione centralina idraulica	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 14: verificare qualità dei materiali forniti oggi.	74
+189	2026-04-08	21	Posa pavimenti e rivestimenti	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 15: verificare qualità dei materiali forniti oggi.	74
+190	2026-04-09	21	Montaggio infissi esterni	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 16: verificare qualità dei materiali forniti oggi.	74
+191	2026-04-10	21	Pittura prima mano e finiture	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 17: verificare qualità dei materiali forniti oggi.	74
+192	2026-04-11	21	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	74
+193	2026-04-12	21	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	74
+194	2026-04-13	21	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	74
 \.
 
 
@@ -1872,6 +1944,126 @@ COPY public.daily_presences (id, building_site_id, user_id, date, is_present, no
 1018	12	71	2026-03-31	present	\N	67
 1019	12	72	2026-03-31	present	\N	67
 1020	12	73	2026-03-31	present	\N	67
+1021	21	75	2026-03-25	present	\N	74
+1022	21	76	2026-03-25	present	\N	74
+1023	21	77	2026-03-25	present	\N	74
+1024	21	78	2026-03-25	present	\N	74
+1025	21	79	2026-03-25	present	\N	74
+1026	21	80	2026-03-25	present	\N	74
+1027	21	75	2026-03-26	present	\N	74
+1028	21	76	2026-03-26	present	\N	74
+1029	21	77	2026-03-26	present	\N	74
+1030	21	78	2026-03-26	present	\N	74
+1031	21	79	2026-03-26	present	\N	74
+1032	21	80	2026-03-26	present	\N	74
+1033	21	75	2026-03-27	present	\N	74
+1034	21	76	2026-03-27	present	\N	74
+1035	21	77	2026-03-27	present	\N	74
+1036	21	78	2026-03-27	present	\N	74
+1037	21	79	2026-03-27	present	\N	74
+1038	21	80	2026-03-27	present	\N	74
+1039	21	75	2026-03-28	present	\N	74
+1040	21	76	2026-03-28	present	\N	74
+1041	21	77	2026-03-28	present	\N	74
+1042	21	78	2026-03-28	present	\N	74
+1043	21	79	2026-03-28	present	\N	74
+1044	21	80	2026-03-28	present	\N	74
+1045	21	75	2026-03-29	present	\N	74
+1046	21	76	2026-03-29	present	\N	74
+1047	21	77	2026-03-29	present	\N	74
+1048	21	78	2026-03-29	present	\N	74
+1049	21	79	2026-03-29	present	\N	74
+1050	21	80	2026-03-29	present	\N	74
+1051	21	75	2026-03-30	present	\N	74
+1052	21	76	2026-03-30	present	\N	74
+1053	21	77	2026-03-30	present	\N	74
+1054	21	78	2026-03-30	present	\N	74
+1055	21	79	2026-03-30	present	\N	74
+1056	21	80	2026-03-30	present	\N	74
+1057	21	75	2026-03-31	present	\N	74
+1058	21	76	2026-03-31	present	\N	74
+1059	21	77	2026-03-31	present	\N	74
+1060	21	78	2026-03-31	present	\N	74
+1061	21	79	2026-03-31	present	\N	74
+1062	21	80	2026-03-31	present	\N	74
+1063	21	75	2026-04-01	present	\N	74
+1064	21	76	2026-04-01	present	\N	74
+1065	21	77	2026-04-01	present	\N	74
+1066	21	78	2026-04-01	present	\N	74
+1067	21	79	2026-04-01	present	\N	74
+1068	21	80	2026-04-01	present	\N	74
+1069	21	75	2026-04-02	present	\N	74
+1070	21	76	2026-04-02	present	\N	74
+1071	21	77	2026-04-02	present	\N	74
+1072	21	78	2026-04-02	present	\N	74
+1073	21	79	2026-04-02	present	\N	74
+1074	21	80	2026-04-02	present	\N	74
+1075	21	75	2026-04-03	present	\N	74
+1076	21	76	2026-04-03	present	\N	74
+1077	21	77	2026-04-03	present	\N	74
+1078	21	78	2026-04-03	present	\N	74
+1079	21	79	2026-04-03	present	\N	74
+1080	21	80	2026-04-03	present	\N	74
+1081	21	75	2026-04-04	present	\N	74
+1082	21	76	2026-04-04	present	\N	74
+1083	21	77	2026-04-04	present	\N	74
+1084	21	78	2026-04-04	present	\N	74
+1085	21	79	2026-04-04	present	\N	74
+1086	21	80	2026-04-04	present	\N	74
+1087	21	75	2026-04-05	present	\N	74
+1088	21	76	2026-04-05	present	\N	74
+1089	21	77	2026-04-05	present	\N	74
+1090	21	78	2026-04-05	present	\N	74
+1091	21	79	2026-04-05	present	\N	74
+1092	21	80	2026-04-05	present	\N	74
+1093	21	75	2026-04-06	present	\N	74
+1094	21	76	2026-04-06	present	\N	74
+1095	21	77	2026-04-06	present	\N	74
+1096	21	78	2026-04-06	present	\N	74
+1097	21	79	2026-04-06	present	\N	74
+1098	21	80	2026-04-06	present	\N	74
+1099	21	75	2026-04-07	present	\N	74
+1100	21	76	2026-04-07	present	\N	74
+1101	21	77	2026-04-07	present	\N	74
+1102	21	78	2026-04-07	present	\N	74
+1103	21	79	2026-04-07	present	\N	74
+1104	21	80	2026-04-07	present	\N	74
+1105	21	75	2026-04-08	present	\N	74
+1106	21	76	2026-04-08	present	\N	74
+1107	21	77	2026-04-08	present	\N	74
+1108	21	78	2026-04-08	present	\N	74
+1109	21	79	2026-04-08	present	\N	74
+1110	21	80	2026-04-08	present	\N	74
+1111	21	75	2026-04-09	present	\N	74
+1112	21	76	2026-04-09	present	\N	74
+1113	21	77	2026-04-09	present	\N	74
+1114	21	78	2026-04-09	present	\N	74
+1115	21	79	2026-04-09	present	\N	74
+1116	21	80	2026-04-09	present	\N	74
+1117	21	75	2026-04-10	present	\N	74
+1118	21	76	2026-04-10	present	\N	74
+1119	21	77	2026-04-10	present	\N	74
+1120	21	78	2026-04-10	present	\N	74
+1121	21	79	2026-04-10	present	\N	74
+1122	21	80	2026-04-10	present	\N	74
+1123	21	75	2026-04-11	present	\N	74
+1124	21	76	2026-04-11	present	\N	74
+1125	21	77	2026-04-11	present	\N	74
+1126	21	78	2026-04-11	present	\N	74
+1127	21	79	2026-04-11	present	\N	74
+1128	21	80	2026-04-11	present	\N	74
+1129	21	75	2026-04-12	present	\N	74
+1130	21	76	2026-04-12	present	\N	74
+1131	21	77	2026-04-12	present	\N	74
+1132	21	78	2026-04-12	present	\N	74
+1133	21	79	2026-04-12	present	\N	74
+1134	21	80	2026-04-12	present	\N	74
+1135	21	75	2026-04-13	present	\N	74
+1136	21	76	2026-04-13	present	\N	74
+1137	21	77	2026-04-13	present	\N	74
+1138	21	78	2026-04-13	present	\N	74
+1139	21	79	2026-04-13	present	\N	74
+1140	21	80	2026-04-13	present	\N	74
 \.
 
 
@@ -1887,12 +2079,27 @@ COPY public.documents (id, file_id, content_json) FROM stdin;
 -- Data for Name: files; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.files (id, name, tag, file_type, date, building_site_id, owner_id, uploaded_at, storage_key, is_generated) FROM stdin;
-94	cartellone.pdf	\N	application/pdf	2026-03-13	12	67	2026-03-13 14:54:45.008269	uploads/358c17e8-f1e5-4151-bdd7-215ae4d157e5-site12.pdf	f
-95	header.png	\N	image/png	2026-03-13	12	67	2026-03-13 14:54:45.012992	uploads/60eb45de-fdda-40bd-b1de-7215f48ee5cf-site12.png	f
-96	cartellone sistemato.pdf	\N	application/pdf	2026-03-13	12	67	2026-03-13 14:54:45.026692	uploads/a27fb747-e047-40f3-b2fe-4a3a866e6cb2-site12.pdf	f
-97	header 1.jpg	\N	image/jpeg	2026-03-13	12	67	2026-03-13 14:54:45.10425	uploads/3893fbd3-055a-4e13-be83-de1769495859-site12.jpg	f
-98	insegna petraleuka (corsivo).pdf	\N	application/pdf	2026-03-13	12	67	2026-03-13 14:54:45.233792	uploads/099cd9a1-7f83-451e-9324-0322dc38df66-site12.pdf	f
+COPY public.files (id, name, tag, file_type, date, building_site_id, owner_id, uploaded_at, storage_key, is_generated, project_id) FROM stdin;
+94	cartellone.pdf	\N	application/pdf	2026-03-13	12	67	2026-03-13 14:54:45.008269	uploads/358c17e8-f1e5-4151-bdd7-215ae4d157e5-site12.pdf	f	\N
+95	header.png	\N	image/png	2026-03-13	12	67	2026-03-13 14:54:45.012992	uploads/60eb45de-fdda-40bd-b1de-7215f48ee5cf-site12.png	f	\N
+96	cartellone sistemato.pdf	\N	application/pdf	2026-03-13	12	67	2026-03-13 14:54:45.026692	uploads/a27fb747-e047-40f3-b2fe-4a3a866e6cb2-site12.pdf	f	\N
+97	header 1.jpg	\N	image/jpeg	2026-03-13	12	67	2026-03-13 14:54:45.10425	uploads/3893fbd3-055a-4e13-be83-de1769495859-site12.jpg	f	\N
+98	insegna petraleuka (corsivo).pdf	\N	application/pdf	2026-03-13	12	67	2026-03-13 14:54:45.233792	uploads/099cd9a1-7f83-451e-9324-0322dc38df66-site12.pdf	f	\N
+100	immagine di prova.jpeg	\N	image/jpeg	2026-03-25	21	74	2026-03-25 21:54:37.213413	uploads/aa82cd13-82c5-4c4a-9ef4-69161a83c1a6-site21.jpeg	f	\N
+101	immagine di prova.jpeg	\N	image/jpeg	2026-03-28	21	74	2026-03-28 13:56:30.402354	uploads/974ee3c0-608d-4f5b-8302-5cf3edfda43e-site21.jpeg	f	\N
+102	BustaPaga_GABRIELE_BUTTICE'_Febbraio_2026.pdf	\N	application/pdf	2026-03-28	21	74	2026-03-28 13:56:35.222471	uploads/c89346b0-2d6f-4deb-ba85-58782211ecfb-site21.pdf	f	\N
+103	APP DEMO NAUTICA_fx ANCORA.pdf	\N	application/pdf	2026-03-28	21	74	2026-03-28 13:56:36.345002	uploads/7a4287f2-88f6-419a-a861-a7fdb46ee6eb-site21.pdf	f	\N
+104	1945878_0.pdf	\N	application/pdf	2026-03-28	21	74	2026-03-28 13:56:36.942332	uploads/bbed5998-4d8a-46ae-8166-d126d7729474-site21.pdf	f	\N
+105	certificato Gabriele Buttice.pdf	\N	application/pdf	2026-03-28	21	74	2026-03-28 13:56:38.336729	uploads/abd27f6b-2531-4fb5-84c3-208a91d144e3-site21.pdf	f	\N
+106	certificato Gabriele Buttice.jpg	\N	image/jpeg	2026-03-28	21	74	2026-03-28 13:56:40.004289	uploads/abdbd87b-5599-4739-a990-02e0ea3661bb-site21.jpg	f	\N
+\.
+
+
+--
+-- Data for Name: projects; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.projects (id, name, content_json, metadata, created_at, updated_at, owner_id) FROM stdin;
 \.
 
 
@@ -1969,6 +2176,13 @@ COPY public.user_type (id, name, owner_id) FROM stdin;
 56	Gessista	67
 57	Architetto	67
 58	Responsabile Sicurezza	67
+59	Idraulico	74
+60	Imbianchino	74
+61	Muratore	74
+62	Manovale	74
+63	Gessista	74
+64	Architetto	74
+65	Responsabile Sicurezza	74
 \.
 
 
@@ -2049,6 +2263,13 @@ COPY public.users (id, first_name, last_name, username, email, password, phone, 
 71	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	67
 72	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	67
 73	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	67
+74	authorized1			authorized1@gmail.com	$2b$10$hbwaqmmILw.mes/UhYYmEOutpGdTmY2MGWAILcCcFD/b9NqPOMJ1e		\N	1
+75	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	74
+76	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	74
+77	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	74
+78	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	74
+79	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	74
+80	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	74
 \.
 
 
@@ -2116,6 +2337,12 @@ COPY public.users_building_sites (id, user_id, site_id) FROM stdin;
 60	71	12
 61	72	12
 62	73	12
+63	75	21
+64	76	21
+65	77	21
+66	78	21
+67	79	21
+68	80	21
 \.
 
 
@@ -2186,6 +2413,12 @@ COPY public.users_companies (id, user_id, company_id) FROM stdin;
 62	71	43
 63	72	40
 64	73	41
+65	75	44
+66	76	45
+67	77	46
+68	78	47
+69	79	44
+70	80	45
 \.
 
 
@@ -2288,6 +2521,13 @@ COPY public.users_user_type (id, user_id, user_type_id) FROM stdin;
 75	71	56
 76	72	57
 77	73	58
+78	74	2
+79	75	59
+80	76	61
+81	77	62
+82	78	63
+83	79	64
+84	80	65
 \.
 
 
@@ -2295,28 +2535,28 @@ COPY public.users_user_type (id, user_id, user_type_id) FROM stdin;
 -- Name: building_sites_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.building_sites_id_seq', 20, true);
+SELECT pg_catalog.setval('public.building_sites_id_seq', 21, true);
 
 
 --
 -- Name: companies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.companies_id_seq', 43, true);
+SELECT pg_catalog.setval('public.companies_id_seq', 47, true);
 
 
 --
 -- Name: daily_notes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.daily_notes_id_seq', 174, true);
+SELECT pg_catalog.setval('public.daily_notes_id_seq', 194, true);
 
 
 --
 -- Name: daily_presences_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.daily_presences_id_seq', 1020, true);
+SELECT pg_catalog.setval('public.daily_presences_id_seq', 1140, true);
 
 
 --
@@ -2330,7 +2570,14 @@ SELECT pg_catalog.setval('public.documents_id_seq', 1, false);
 -- Name: files_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.files_id_seq', 99, true);
+SELECT pg_catalog.setval('public.files_id_seq', 106, true);
+
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.projects_id_seq', 1, false);
 
 
 --
@@ -2344,28 +2591,28 @@ SELECT pg_catalog.setval('public.teams_id_seq', 2, true);
 -- Name: user_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.user_type_id_seq', 58, true);
+SELECT pg_catalog.setval('public.user_type_id_seq', 65, true);
 
 
 --
 -- Name: users_bulding_sites_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_bulding_sites_id_seq', 62, true);
+SELECT pg_catalog.setval('public.users_bulding_sites_id_seq', 68, true);
 
 
 --
 -- Name: users_companies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_companies_id_seq', 64, true);
+SELECT pg_catalog.setval('public.users_companies_id_seq', 70, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 73, true);
+SELECT pg_catalog.setval('public.users_id_seq', 80, true);
 
 
 --
@@ -2379,7 +2626,7 @@ SELECT pg_catalog.setval('public.users_teams_id_seq', 12, true);
 -- Name: users_user_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_user_type_id_seq', 77, true);
+SELECT pg_catalog.setval('public.users_user_type_id_seq', 84, true);
 
 
 --
@@ -2436,6 +2683,14 @@ ALTER TABLE ONLY public.files
 
 ALTER TABLE ONLY public.files
     ADD CONSTRAINT files_storage_key_key UNIQUE (storage_key);
+
+
+--
+-- Name: projects projects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
 
 
 --
@@ -2591,6 +2846,22 @@ ALTER TABLE ONLY public.files
 
 
 --
+-- Name: projects fk_owner_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT fk_owner_id FOREIGN KEY (owner_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: files fk_project; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.files
+    ADD CONSTRAINT fk_project FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE SET NULL;
+
+
+--
 -- Name: user_type fk_user_type_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2674,5 +2945,5 @@ ALTER TABLE ONLY public.users_user_type
 -- PostgreSQL database dump complete
 --
 
-\unrestrict dmV32D9CevT7D0xfwxhQ6Pm7lFblGyHmGeqC9eFUrdqMIYUrqUUOXeYsrxCiJur
+\unrestrict H1lxZQsBUrB2G9EW5d0H6fQiUtytbc0ubbsgMBVZCHIGZWxBfl2KLCeiFnZEw3m
 

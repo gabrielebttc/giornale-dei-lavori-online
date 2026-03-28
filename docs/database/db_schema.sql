@@ -2,12 +2,15 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.13
--- Dumped by pg_dump version 15.13
+\restrict CbY4AuoVV9vHvKjFj7pNrebQf5vmnNdSRLetSqx4I8JWLq6LstOLV2bbWFRcVDk
+
+-- Dumped from database version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
+-- Dumped by pg_dump version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -21,7 +24,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: building_sites; Type: TABLE; Schema: public; Owner: -
+-- Name: building_sites; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.building_sites (
@@ -38,8 +41,10 @@ CREATE TABLE public.building_sites (
 );
 
 
+ALTER TABLE public.building_sites OWNER TO postgres;
+
 --
--- Name: building_sites_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: building_sites_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.building_sites_id_seq
@@ -51,15 +56,17 @@ CREATE SEQUENCE public.building_sites_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.building_sites_id_seq OWNER TO postgres;
+
 --
--- Name: building_sites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: building_sites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.building_sites_id_seq OWNED BY public.building_sites.id;
 
 
 --
--- Name: companies; Type: TABLE; Schema: public; Owner: -
+-- Name: companies; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.companies (
@@ -70,8 +77,10 @@ CREATE TABLE public.companies (
 );
 
 
+ALTER TABLE public.companies OWNER TO postgres;
+
 --
--- Name: companies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: companies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.companies_id_seq
@@ -83,15 +92,17 @@ CREATE SEQUENCE public.companies_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.companies_id_seq OWNER TO postgres;
+
 --
--- Name: companies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: companies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.companies_id_seq OWNED BY public.companies.id;
 
 
 --
--- Name: daily_notes; Type: TABLE; Schema: public; Owner: -
+-- Name: daily_notes; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.daily_notes (
@@ -105,8 +116,10 @@ CREATE TABLE public.daily_notes (
 );
 
 
+ALTER TABLE public.daily_notes OWNER TO postgres;
+
 --
--- Name: daily_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: daily_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.daily_notes_id_seq
@@ -118,15 +131,17 @@ CREATE SEQUENCE public.daily_notes_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.daily_notes_id_seq OWNER TO postgres;
+
 --
--- Name: daily_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: daily_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.daily_notes_id_seq OWNED BY public.daily_notes.id;
 
 
 --
--- Name: daily_presences; Type: TABLE; Schema: public; Owner: -
+-- Name: daily_presences; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.daily_presences (
@@ -141,8 +156,10 @@ CREATE TABLE public.daily_presences (
 );
 
 
+ALTER TABLE public.daily_presences OWNER TO postgres;
+
 --
--- Name: daily_presences_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: daily_presences_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.daily_presences_id_seq
@@ -154,15 +171,134 @@ CREATE SEQUENCE public.daily_presences_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.daily_presences_id_seq OWNER TO postgres;
+
 --
--- Name: daily_presences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: daily_presences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.daily_presences_id_seq OWNED BY public.daily_presences.id;
 
 
 --
--- Name: teams; Type: TABLE; Schema: public; Owner: -
+-- Name: documents; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.documents (
+    id integer NOT NULL,
+    file_id integer NOT NULL,
+    content_json jsonb
+);
+
+
+ALTER TABLE public.documents OWNER TO postgres;
+
+--
+-- Name: documents_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.documents_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.documents_id_seq OWNER TO postgres;
+
+--
+-- Name: documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.documents_id_seq OWNED BY public.documents.id;
+
+
+--
+-- Name: files; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.files (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    tag character varying(36),
+    file_type character varying(36) NOT NULL,
+    date date NOT NULL,
+    building_site_id integer NOT NULL,
+    owner_id integer NOT NULL,
+    uploaded_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    storage_key text NOT NULL,
+    is_generated boolean DEFAULT false NOT NULL,
+    project_id integer
+);
+
+
+ALTER TABLE public.files OWNER TO postgres;
+
+--
+-- Name: files_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.files_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.files_id_seq OWNER TO postgres;
+
+--
+-- Name: files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.files_id_seq OWNED BY public.files.id;
+
+
+--
+-- Name: projects; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.projects (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_json jsonb NOT NULL,
+    metadata jsonb,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    owner_id integer
+);
+
+
+ALTER TABLE public.projects OWNER TO postgres;
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.projects_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.projects_id_seq OWNER TO postgres;
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.projects_id_seq OWNED BY public.projects.id;
+
+
+--
+-- Name: teams; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.teams (
@@ -171,8 +307,10 @@ CREATE TABLE public.teams (
 );
 
 
+ALTER TABLE public.teams OWNER TO postgres;
+
 --
--- Name: teams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: teams_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.teams_id_seq
@@ -184,15 +322,17 @@ CREATE SEQUENCE public.teams_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.teams_id_seq OWNER TO postgres;
+
 --
--- Name: teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.teams_id_seq OWNED BY public.teams.id;
 
 
 --
--- Name: user_type; Type: TABLE; Schema: public; Owner: -
+-- Name: user_type; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.user_type (
@@ -202,8 +342,10 @@ CREATE TABLE public.user_type (
 );
 
 
+ALTER TABLE public.user_type OWNER TO postgres;
+
 --
--- Name: user_type_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: user_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.user_type_id_seq
@@ -215,21 +357,23 @@ CREATE SEQUENCE public.user_type_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.user_type_id_seq OWNER TO postgres;
+
 --
--- Name: user_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: user_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.user_type_id_seq OWNED BY public.user_type.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.users (
     id integer NOT NULL,
     first_name character varying(100) NOT NULL,
-    last_name character varying(100),
+    last_name character varying(100) NOT NULL,
     username character varying(50),
     email character varying(100),
     password character varying(255),
@@ -239,8 +383,10 @@ CREATE TABLE public.users (
 );
 
 
+ALTER TABLE public.users OWNER TO postgres;
+
 --
--- Name: users_building_sites; Type: TABLE; Schema: public; Owner: -
+-- Name: users_building_sites; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.users_building_sites (
@@ -250,8 +396,10 @@ CREATE TABLE public.users_building_sites (
 );
 
 
+ALTER TABLE public.users_building_sites OWNER TO postgres;
+
 --
--- Name: users_bulding_sites_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: users_bulding_sites_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.users_bulding_sites_id_seq
@@ -263,15 +411,17 @@ CREATE SEQUENCE public.users_bulding_sites_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.users_bulding_sites_id_seq OWNER TO postgres;
+
 --
--- Name: users_bulding_sites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: users_bulding_sites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.users_bulding_sites_id_seq OWNED BY public.users_building_sites.id;
 
 
 --
--- Name: users_companies; Type: TABLE; Schema: public; Owner: -
+-- Name: users_companies; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.users_companies (
@@ -281,8 +431,10 @@ CREATE TABLE public.users_companies (
 );
 
 
+ALTER TABLE public.users_companies OWNER TO postgres;
+
 --
--- Name: users_companies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: users_companies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.users_companies_id_seq
@@ -294,15 +446,17 @@ CREATE SEQUENCE public.users_companies_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.users_companies_id_seq OWNER TO postgres;
+
 --
--- Name: users_companies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: users_companies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.users_companies_id_seq OWNED BY public.users_companies.id;
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.users_id_seq
@@ -314,15 +468,17 @@ CREATE SEQUENCE public.users_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
+
 --
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: users_teams; Type: TABLE; Schema: public; Owner: -
+-- Name: users_teams; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.users_teams (
@@ -332,8 +488,10 @@ CREATE TABLE public.users_teams (
 );
 
 
+ALTER TABLE public.users_teams OWNER TO postgres;
+
 --
--- Name: users_teams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: users_teams_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.users_teams_id_seq
@@ -345,15 +503,17 @@ CREATE SEQUENCE public.users_teams_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.users_teams_id_seq OWNER TO postgres;
+
 --
--- Name: users_teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: users_teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.users_teams_id_seq OWNED BY public.users_teams.id;
 
 
 --
--- Name: users_user_type; Type: TABLE; Schema: public; Owner: -
+-- Name: users_user_type; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.users_user_type (
@@ -363,8 +523,10 @@ CREATE TABLE public.users_user_type (
 );
 
 
+ALTER TABLE public.users_user_type OWNER TO postgres;
+
 --
--- Name: users_user_type_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: users_user_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.users_user_type_id_seq
@@ -376,92 +538,115 @@ CREATE SEQUENCE public.users_user_type_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.users_user_type_id_seq OWNER TO postgres;
+
 --
--- Name: users_user_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: users_user_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.users_user_type_id_seq OWNED BY public.users_user_type.id;
 
 
 --
--- Name: building_sites id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: building_sites id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.building_sites ALTER COLUMN id SET DEFAULT nextval('public.building_sites_id_seq'::regclass);
 
 
 --
--- Name: companies id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: companies id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.companies ALTER COLUMN id SET DEFAULT nextval('public.companies_id_seq'::regclass);
 
 
 --
--- Name: daily_notes id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: daily_notes id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.daily_notes ALTER COLUMN id SET DEFAULT nextval('public.daily_notes_id_seq'::regclass);
 
 
 --
--- Name: daily_presences id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: daily_presences id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.daily_presences ALTER COLUMN id SET DEFAULT nextval('public.daily_presences_id_seq'::regclass);
 
 
 --
--- Name: teams id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: documents id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.documents ALTER COLUMN id SET DEFAULT nextval('public.documents_id_seq'::regclass);
+
+
+--
+-- Name: files id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.files ALTER COLUMN id SET DEFAULT nextval('public.files_id_seq'::regclass);
+
+
+--
+-- Name: projects id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects ALTER COLUMN id SET DEFAULT nextval('public.projects_id_seq'::regclass);
+
+
+--
+-- Name: teams id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.teams ALTER COLUMN id SET DEFAULT nextval('public.teams_id_seq'::regclass);
 
 
 --
--- Name: user_type id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: user_type id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.user_type ALTER COLUMN id SET DEFAULT nextval('public.user_type_id_seq'::regclass);
 
 
 --
--- Name: users id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
--- Name: users_building_sites id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users_building_sites id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_building_sites ALTER COLUMN id SET DEFAULT nextval('public.users_bulding_sites_id_seq'::regclass);
 
 
 --
--- Name: users_companies id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users_companies id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_companies ALTER COLUMN id SET DEFAULT nextval('public.users_companies_id_seq'::regclass);
 
 
 --
--- Name: users_teams id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users_teams id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_teams ALTER COLUMN id SET DEFAULT nextval('public.users_teams_id_seq'::regclass);
 
 
 --
--- Name: users_user_type id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users_user_type id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_user_type ALTER COLUMN id SET DEFAULT nextval('public.users_user_type_id_seq'::regclass);
 
 
 --
--- Name: building_sites building_sites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: building_sites building_sites_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.building_sites
@@ -469,7 +654,7 @@ ALTER TABLE ONLY public.building_sites
 
 
 --
--- Name: companies companies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: companies companies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.companies
@@ -477,7 +662,7 @@ ALTER TABLE ONLY public.companies
 
 
 --
--- Name: daily_notes daily_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: daily_notes daily_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.daily_notes
@@ -485,7 +670,7 @@ ALTER TABLE ONLY public.daily_notes
 
 
 --
--- Name: daily_presences daily_presences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: daily_presences daily_presences_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.daily_presences
@@ -493,7 +678,39 @@ ALTER TABLE ONLY public.daily_presences
 
 
 --
--- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: documents documents_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.documents
+    ADD CONSTRAINT documents_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: files files_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.files
+    ADD CONSTRAINT files_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: files files_storage_key_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.files
+    ADD CONSTRAINT files_storage_key_key UNIQUE (storage_key);
+
+
+--
+-- Name: projects projects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.teams
@@ -501,7 +718,7 @@ ALTER TABLE ONLY public.teams
 
 
 --
--- Name: daily_notes unique_building_site_date; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: daily_notes unique_building_site_date; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.daily_notes
@@ -509,7 +726,7 @@ ALTER TABLE ONLY public.daily_notes
 
 
 --
--- Name: users_building_sites unique_user_site; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_building_sites unique_user_site; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_building_sites
@@ -517,7 +734,7 @@ ALTER TABLE ONLY public.users_building_sites
 
 
 --
--- Name: user_type user_type_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: user_type user_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.user_type
@@ -525,7 +742,7 @@ ALTER TABLE ONLY public.user_type
 
 
 --
--- Name: users_building_sites users_bulding_sites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_building_sites users_bulding_sites_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_building_sites
@@ -533,7 +750,7 @@ ALTER TABLE ONLY public.users_building_sites
 
 
 --
--- Name: users_companies users_companies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_companies users_companies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_companies
@@ -541,7 +758,7 @@ ALTER TABLE ONLY public.users_companies
 
 
 --
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users
@@ -549,7 +766,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users_teams users_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_teams users_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_teams
@@ -557,7 +774,7 @@ ALTER TABLE ONLY public.users_teams
 
 
 --
--- Name: users_user_type users_user_type_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_user_type users_user_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_user_type
@@ -565,7 +782,7 @@ ALTER TABLE ONLY public.users_user_type
 
 
 --
--- Name: daily_notes daily_notes_building_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: daily_notes daily_notes_building_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.daily_notes
@@ -573,7 +790,7 @@ ALTER TABLE ONLY public.daily_notes
 
 
 --
--- Name: daily_presences daily_presences_building_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: daily_presences daily_presences_building_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.daily_presences
@@ -581,7 +798,7 @@ ALTER TABLE ONLY public.daily_presences
 
 
 --
--- Name: daily_presences daily_presences_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: daily_presences daily_presences_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.daily_presences
@@ -589,7 +806,15 @@ ALTER TABLE ONLY public.daily_presences
 
 
 --
--- Name: building_sites fk_building_sites_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: documents documents_file_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.documents
+    ADD CONSTRAINT documents_file_id_fkey FOREIGN KEY (file_id) REFERENCES public.files(id) ON DELETE CASCADE;
+
+
+--
+-- Name: building_sites fk_building_sites_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.building_sites
@@ -597,7 +822,7 @@ ALTER TABLE ONLY public.building_sites
 
 
 --
--- Name: companies fk_companies_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: companies fk_companies_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.companies
@@ -605,7 +830,7 @@ ALTER TABLE ONLY public.companies
 
 
 --
--- Name: daily_notes fk_daily_notes_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: daily_notes fk_daily_notes_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.daily_notes
@@ -613,7 +838,7 @@ ALTER TABLE ONLY public.daily_notes
 
 
 --
--- Name: daily_presences fk_daily_presences_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: daily_presences fk_daily_presences_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.daily_presences
@@ -621,7 +846,39 @@ ALTER TABLE ONLY public.daily_presences
 
 
 --
--- Name: user_type fk_user_type_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: files fk_files_building_site_id_building_sites_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.files
+    ADD CONSTRAINT fk_files_building_site_id_building_sites_id FOREIGN KEY (building_site_id) REFERENCES public.building_sites(id);
+
+
+--
+-- Name: files fk_files_owner_id_users_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.files
+    ADD CONSTRAINT fk_files_owner_id_users_id FOREIGN KEY (owner_id) REFERENCES public.users(id);
+
+
+--
+-- Name: projects fk_owner_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT fk_owner_id FOREIGN KEY (owner_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: files fk_project; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.files
+    ADD CONSTRAINT fk_project FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE SET NULL;
+
+
+--
+-- Name: user_type fk_user_type_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.user_type
@@ -629,7 +886,7 @@ ALTER TABLE ONLY public.user_type
 
 
 --
--- Name: users fk_users_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users fk_users_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users
@@ -637,7 +894,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users_building_sites users_bulding_sites_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users_building_sites users_bulding_sites_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_building_sites
@@ -645,7 +902,7 @@ ALTER TABLE ONLY public.users_building_sites
 
 
 --
--- Name: users_building_sites users_bulding_sites_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users_building_sites users_bulding_sites_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_building_sites
@@ -653,7 +910,7 @@ ALTER TABLE ONLY public.users_building_sites
 
 
 --
--- Name: users_companies users_companies_company_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users_companies users_companies_company_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_companies
@@ -661,7 +918,7 @@ ALTER TABLE ONLY public.users_companies
 
 
 --
--- Name: users_companies users_companies_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users_companies users_companies_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_companies
@@ -669,7 +926,7 @@ ALTER TABLE ONLY public.users_companies
 
 
 --
--- Name: users_teams users_teams_team_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users_teams users_teams_team_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_teams
@@ -677,7 +934,7 @@ ALTER TABLE ONLY public.users_teams
 
 
 --
--- Name: users_teams users_teams_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users_teams users_teams_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_teams
@@ -685,7 +942,7 @@ ALTER TABLE ONLY public.users_teams
 
 
 --
--- Name: users_user_type users_user_type_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users_user_type users_user_type_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_user_type
@@ -693,7 +950,7 @@ ALTER TABLE ONLY public.users_user_type
 
 
 --
--- Name: users_user_type users_user_type_user_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users_user_type users_user_type_user_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.users_user_type
@@ -703,4 +960,6 @@ ALTER TABLE ONLY public.users_user_type
 --
 -- PostgreSQL database dump complete
 --
+
+\unrestrict CbY4AuoVV9vHvKjFj7pNrebQf5vmnNdSRLetSqx4I8JWLq6LstOLV2bbWFRcVDk
 
