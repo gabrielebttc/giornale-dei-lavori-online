@@ -9,6 +9,7 @@ import ProfilePage from './pages/ProfilePage';
 import NavbarComponent from './NavbarComponent';
 import BuildingSiteActionsPage from './pages/BuildingSiteActionsPage';
 import ActionPage from './pages/ActionPage';
+import EditDocumentPage from './pages/EditDocumentPage';
 import TestPage from './test/TestPage';
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/building-site-actions/:site_id" element={<BuildingSiteActionsPage />} />
                     <Route path="/action-page/:link/:siteId/:date" element={<ActionPage />} />
+                    <Route path="/edit-document/:siteId/:date" element={<EditDocumentPage />} />
                     <Route path="/test-page" element={<TestPage />} />
                   </Routes>
               </div>

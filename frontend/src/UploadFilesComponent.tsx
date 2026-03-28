@@ -2,6 +2,8 @@ import React, { useState, type ChangeEvent, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CalendarComponent from './CalendarComponent';
 import FileCardComponent from './FileCardComponent';
+import LoadingScreen from './LoadingScreen';
+import { dateToString } from '../utils/formatDate';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -17,6 +19,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
 
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [isUploading, setIsUploading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isDragging, setIsDragging] = useState<boolean>(false);
     const [message, setMessage] = useState<{ text: string; type: string } | null>(null);
     const [fileDate, setFileDate] = useState<Date>(new Date());
@@ -113,6 +116,55 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
             text: `Caricati con successo ${successCount} di ${selectedFiles.length} file.`, 
             type: successCount === selectedFiles.length ? "success" : "warning" 
         });
+    };
+
+    const handleCreateUntitledProject = async () => {
+        setIsLoading(true);
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${apiUrl}/api/projects-manager/projects`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    name: 'Progetto senza titolo',
+                    content_json: {
+                        type: 'doc',
+                        content: [
+                            {
+                                type: 'paragraph',
+                                content: [{ type: 'text', text: 'Nuovo documento' }],
+                            },
+                        ],
+                    },
+                    metadata: {
+                        source: 'upload-files-component',
+                    },
+                    building_site_id: Number(buildingSiteId),
+                    date: dateToString(fileDate),
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Errore nella creazione progetto: ${response.status}`);
+            }
+
+            const createdProject = await response.json();
+            setIsLoading(false);
+            navigate(
+                `/edit-document/${buildingSiteId}/${selectedDate}?projectId=${createdProject.id}`
+            );
+        } catch (error) {
+            setIsLoading(false);
+            console.error('Errore creazione progetto:', error);
+            setMessage({
+                text: 'Errore durante la creazione del progetto. Riprova.',
+                type: 'danger',
+            });
+        }
     };
 
     // upload file
@@ -250,6 +302,12 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
 
                 {/* Sezione Create Collassabile */}
                 <form className="collapse" id="createFileSection">
+                    <div className="d-inline-block p-2 bg-white rounded-3 shadow-sm border w-100">
+                        <CalendarComponent 
+                            onDateSelect={(date) => setFileDate(date)} 
+                            selectedDate={fileDate}
+                        />
+                    </div>
                     <div className="p-4 border border-primary border-opacity-25 rounded-4 bg-light shadow-sm">
                         <label className="form-label d-block mb-4 small fw-bold text-uppercase text-primary letter-spacing-1">
                             Seleziona Template
@@ -260,7 +318,9 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             }}
                             title={"Documento Vuoto"}
                             biIconName={"bi-file-earmark-plus"}
-                            handleCardClick={() => navigate(`/action-page/edit-document/${buildingSiteId}/${selectedDate}`)}
+                            handleCardClick={() => {
+                                void handleCreateUntitledProject();
+                            }}
                             itemId={0}
                             deletable={false}
                         />
@@ -268,6 +328,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                 </form>
 
             </div>
+            <LoadingScreen isLoading={isLoading} />
         </div>
     );
 };

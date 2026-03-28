@@ -6,12 +6,10 @@ import DailyNotesComponent from '../DailyNotesComponent';
 import ModifyBuildingSiteComponent from '../ModifyBuildingSiteComponent'; 
 import GenerateExcelFileComponent from '../GenerateExcelFileComponent';
 import FileManagerComponent from '../FileManagerComponent';
-import EditDocumentComponent from '@/EditDocumentComponent';
 
 const ActionPage: React.FC = () => {
   const { link, siteId, date } = useParams<{ link: string; siteId?: string; date: string; }>();
   const [isValidDate, setIsValidDate] = useState<boolean>(false);
-  const [fileAlreadyExists, setFileAlreadyExists] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
@@ -98,17 +96,8 @@ const ActionPage: React.FC = () => {
           <FileManagerComponent 
             buildingSiteId={buildingSiteId}
             selectedDate={buildingDate}
-            handleEditFile={(booleanValue) => {
-              setFileAlreadyExists(booleanValue);
-            }}
+            handleEditFile={() => {}}
           />
-        );
-      case 'edit-document':
-        if (buildingDate === null) {
-          return <h1 className="text-center my-4">Data mancante.</h1>;
-        }
-        return (
-          <EditDocumentComponent documentAlreadyExist={fileAlreadyExists} />
         );
       default:
         return <h1 className="text-center my-4">Pagina non trovata</h1>;

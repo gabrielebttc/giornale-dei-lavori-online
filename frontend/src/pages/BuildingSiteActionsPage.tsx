@@ -48,7 +48,7 @@ const BuildingSiteActionComponent: React.FC<ActionCardProps> = ({
       'Osservazioni DL': 'bi-eye',
       'Genera Report': 'bi-file-earmark-excel',
       'Modifica Info': 'bi-gear',
-      'I Miei Files': 'bi-folder2-open'
+      'I Miei Documenti': 'bi-folder2-open'
     };
     return map[name] || 'bi-pencil';
   };
@@ -126,7 +126,7 @@ const BuildingSiteActionsPage: React.FC = () => {
     { name: 'Osservazioni DL', desc: 'Direzione lavori e sicurezza', link: 'action-page/daily-other-notes' },
     { name: 'Genera Report', desc: 'Esporta file Excel (.xlsx)', link: 'action-page/generate-excel-file' },
     { name: 'Modifica Info', desc: 'Modifica dati anagrafici cantiere', link: 'action-page/modify-building-site' },
-    { name: 'I Miei Files', desc: 'Visualizza/Carica Documenti, Foto, Video...', link: 'action-page/file-manager' }
+    { name: 'I Miei Documenti', desc: 'Visualizza/Carica Documenti, Foto, Video...', link: 'action-page/file-manager' }
   ];
 
   if (selectedDate === null) {

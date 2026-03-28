@@ -21,6 +21,9 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
     const [itemToDeleteId, setItemToDeleteId] = useState<number>(0);
     const [itemToDeleteStorageKey, setItemToDeleteStorageKey] = useState<string>("");
     const [selectedFile, setSelectedFile] = useState<FilesRecord | null>(null);
+    const [selectedProject, setSelectedProject] = useState<ProjectsRecord | null>(null);
+    const [deleteProjectPopup, isDeleteProjectPopupVisible] = useState<boolean>(false);
+    const [projectToDeleteId, setProjectToDeleteId] = useState<number>(0);
     
     const sortedFiles = [...filesList].sort((a, b) => {
         const dateA = new Date(a.date ?? "").getTime();
@@ -179,29 +182,31 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
 
                                         <div className="row g-4 mb-2">
                                             <FileCardComponent
-                                                handleDeleteClick={() => {}}
+                                                handleDeleteClick={() => {
+                                                    setProjectToDeleteId(project.id);
+                                                    isDeleteProjectPopupVisible(true);
+                                                }}
                                                 title={project.name}
                                                 biIconName={"bi-pencil-square"}
                                                 handleCardClick={() => {}}
                                                 itemId={project.id}
-                                                deletable={false}
                                             />
                                         </div>
 
                                         {projectFiles.length > 0 ? (
                                             <div className="row g-4">
-                                                {projectFiles.map((item) => (
+                                                {projectFiles.map((file) => (
                                                     <FileCardComponent
-                                                        key={item.id}
+                                                        key={file.id}
                                                         handleDeleteClick={ () => {
-                                                            setItemToDeleteId(item.id);
-                                                            setItemToDeleteStorageKey(item.storage_key);
+                                                            setItemToDeleteId(file.id);
+                                                            setItemToDeleteStorageKey(file.storage_key);
                                                             deleteFile();
                                                         }}
-                                                        title={item.name}
-                                                        biIconName={getFileIcon(item.file_type)}
-                                                        handleCardClick={() => setSelectedFile(item)}
-                                                        itemId={item.id}
+                                                        title={file.name}
+                                                        biIconName={getFileIcon(file.file_type)}
+                                                        handleCardClick={() => setSelectedFile(file)}
+                                                        itemId={file.id}
                                                     />
                                                 ))}
                                             </div>
@@ -262,6 +267,26 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                     onClose={() => setSelectedFile(null)} 
                 />
             )}
+            {selectedProject && (
+                <FileViewerComponent 
+                    storageKey={""} 
+                    fileType={"platformProject"} 
+                    fileName={selectedProject.name} 
+                    onClose={() => setSelectedFile(null)} 
+                />
+            )}
+            {deleteProjectPopup && 
+                <DeleteRecordComponent tableName={"projects"} recordId={projectToDeleteId}
+                    onClose={() => {
+                        fetchFilesAndProjects(buildingSiteId);
+                        isDeleteProjectPopupVisible(false)
+                    }}
+                    onSuccess={() => {
+                        fetchFilesAndProjects(buildingSiteId);
+                        isDeleteProjectPopupVisible(false);
+                    }}
+                />
+            }
         </>
     )
 }

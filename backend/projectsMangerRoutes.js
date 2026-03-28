@@ -53,4 +53,118 @@ router.post('/projects', authenticateToken, async (req, res) => {
   }
 });
 
+router.get('/projects/:projectId', authenticateToken, async (req, res) => {
+  const { projectId } = req.params;
+
+  if (!Number.isInteger(Number(projectId)) || Number(projectId) <= 0) {
+    return res.status(400).json({ error: 'projectId non valido.' });
+  }
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM projects WHERE id = $1 AND owner_id = $2',
+      [Number(projectId), req.user.id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Progetto non trovato o non autorizzato.' });
+    }
+
+    return res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error('Errore durante il recupero del progetto:', error);
+    return res.status(500).json({ error: 'Errore durante il recupero del progetto.' });
+  }
+});
+
+router.put('/projects/:projectId', authenticateToken, async (req, res) => {
+  const { projectId } = req.params;
+  const { name, content_json, metadata, building_site_id, date } = req.body;
+
+  if (!Number.isInteger(Number(projectId)) || Number(projectId) <= 0) {
+    return res.status(400).json({ error: 'projectId non valido.' });
+  }
+
+  if (name !== undefined && !String(name).trim()) {
+    return res.status(400).json({ error: 'Il campo "name" non puo essere vuoto.' });
+  }
+
+  if (content_json !== undefined && content_json === null) {
+    return res.status(400).json({ error: 'Il campo "content_json" non puo essere null.' });
+  }
+
+  if (building_site_id !== undefined && (!Number.isInteger(Number(building_site_id)) || Number(building_site_id) <= 0)) {
+    return res.status(400).json({ error: 'Il campo "building_site_id" deve essere un intero positivo.' });
+  }
+
+  if (date !== undefined && (!date || !/^\d{4}-\d{2}-\d{2}$/.test(String(date)))) {
+    return res.status(400).json({ error: 'Il campo "date" deve avere formato YYYY-MM-DD.' });
+  }
+
+  const updates = [];
+  const values = [];
+
+  if (name !== undefined) {
+    values.push(String(name).trim());
+    updates.push(`name = $${values.length}`);
+  }
+
+  if (content_json !== undefined) {
+    values.push(JSON.stringify(content_json));
+    updates.push(`content_json = $${values.length}::jsonb`);
+  }
+
+  if (metadata !== undefined) {
+    values.push(metadata === null ? null : JSON.stringify(metadata));
+    updates.push(`metadata = $${values.length}::jsonb`);
+  }
+
+  if (building_site_id !== undefined) {
+    values.push(Number(building_site_id));
+    updates.push(`building_site_id = $${values.length}`);
+  }
+
+  if (date !== undefined) {
+    values.push(String(date));
+    updates.push(`date = $${values.length}`);
+  }
+
+  if (updates.length === 0) {
+    return res.status(400).json({ error: 'Nessun campo da aggiornare.' });
+  }
+
+  try {
+    if (building_site_id !== undefined) {
+      const siteCheck = await pool.query(
+        'SELECT id FROM building_sites WHERE id = $1 AND owner_id = $2',
+        [Number(building_site_id), req.user.id]
+      );
+
+      if (siteCheck.rowCount === 0) {
+        return res.status(404).json({ error: 'Cantiere non trovato o non autorizzato.' });
+      }
+    }
+
+    values.push(Number(projectId));
+    values.push(req.user.id);
+
+    const query = `
+      UPDATE projects
+      SET ${updates.join(', ')}, updated_at = CURRENT_TIMESTAMP
+      WHERE id = $${values.length - 1} AND owner_id = $${values.length}
+      RETURNING *`;
+
+    const result = await pool.query(query, values);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Progetto non trovato o non autorizzato.' });
+    }
+
+    return res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error('Errore durante la modifica del progetto:', error);
+    return res.status(500).json({ error: 'Errore durante la modifica del progetto.' });
+  }
+});
+
 module.exports = router;
