@@ -87,9 +87,29 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
         })
         : sortedFiles;
 
+    const normalizeDateKey = (value?: string | null) => {
+        if (!value) return '';
+        const raw = String(value);
+
+        if (/^\d{4}-\d{2}-\d{2}/.test(raw)) {
+            return raw.slice(0, 10);
+        }
+
+        const parsed = new Date(raw);
+        if (Number.isNaN(parsed.getTime())) return '';
+        return parsed.toISOString().slice(0, 10);
+    };
+
+    const areSameCalendarDate = (left?: string | null, right?: string | null) => {
+        const leftKey = normalizeDateKey(left);
+        const rightKey = normalizeDateKey(right);
+        return leftKey !== '' && leftKey === rightKey;
+    };
+
     // Raggruppa i contenuti per data (chiave stabile) e lega i files ai rispettivi progetti.
     const groupedByDate = (() => {
-        const groups: Record<string, { label: string; projects: ProjectsRecord[]; standaloneFiles: FilesRecord[] }> = {};
+        const groups: Record<string, { label: string; projects: ProjectsRecord[]; standaloneFiles: Array<{ file: FilesRecord; warning: string | null }> }> = {};
+        const projectsById = new Map(sortedProjects.map((project) => [project.id, project]));
 
         const ensureGroup = (dateKey: string, dateLabel: string) => {
             if (!groups[dateKey]) {
@@ -109,8 +129,17 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
             const dateLabel = file.date ? new Date(file.date).toLocaleDateString() : 'Senza data';
             ensureGroup(dateKey, dateLabel);
 
-            if (!file.project_id) {
-                groups[dateKey].standaloneFiles.push(file);
+            const linkedProject = file.project_id ? projectsById.get(file.project_id) : null;
+            const isDateMismatch = Boolean(linkedProject) && !areSameCalendarDate(file.date, linkedProject?.date);
+            const canStayInsideProject = Boolean(linkedProject) && areSameCalendarDate(file.date, linkedProject?.date);
+
+            if (!file.project_id || isDateMismatch || !canStayInsideProject) {
+                groups[dateKey].standaloneFiles.push({
+                    file,
+                    warning: isDateMismatch
+                        ? 'Attenzione, questo file e associato ad un progetto con una data diversa'
+                        : null,
+                });
             }
         });
 
@@ -141,7 +170,7 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                         <div className="d-flex flex-column gap-4">
                             {groupedByDate[dateKey].projects.map((project) => {
                                 const projectFiles = filteredSortedFiles.filter(
-                                    (file) => file.project_id === project.id
+                                    (file) => file.project_id === project.id && areSameCalendarDate(file.date, project.date)
                                 );
 
                                 return (
@@ -185,18 +214,19 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
 
                             {groupedByDate[dateKey].standaloneFiles.length > 0 && (
                                 <div className="row g-4">
-                                    {groupedByDate[dateKey].standaloneFiles.map((item) => (
+                                    {groupedByDate[dateKey].standaloneFiles.map(({ file, warning }) => (
                                         <FileCardComponent
-                                            key={item.id}
+                                            key={file.id}
                                             handleDeleteClick={ () => {
-                                                setItemToDeleteId(item.id);
-                                                setItemToDeleteStorageKey(item.storage_key);
+                                                setItemToDeleteId(file.id);
+                                                setItemToDeleteStorageKey(file.storage_key);
                                                 deleteFile();
                                             }}
-                                            title={item.name}
-                                            biIconName={getFileIcon(item.file_type)}
-                                            handleCardClick={() => setSelectedFile(item)}
-                                            itemId={item.id}
+                                            title={file.name}
+                                            biIconName={getFileIcon(file.file_type)}
+                                            handleCardClick={() => setSelectedFile(file)}
+                                            itemId={file.id}
+                                            warningText={warning || undefined}
                                         />
                                     ))}
                                 </div>

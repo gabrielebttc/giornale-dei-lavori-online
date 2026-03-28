@@ -5,10 +5,11 @@ type FileCardComponentProps = {
     biIconName: string,
     handleCardClick: (number: number) => void,
     itemId: number,
-    deletable?: boolean
+    deletable?: boolean,
+    warningText?: string
 };
 
-export default function FileCardComponent ({ handleDeleteClick, title, biIconName, handleCardClick, itemId, deletable = true }: FileCardComponentProps) {
+export default function FileCardComponent ({ handleDeleteClick, title, biIconName, handleCardClick, itemId, deletable = true, warningText }: FileCardComponentProps) {
     return (
         <div className="col-6 col-md-4 col-lg-3" key={itemId}>
             <div 
@@ -29,6 +30,12 @@ export default function FileCardComponent ({ handleDeleteClick, title, biIconNam
                     <p className="card-title mb-3 fw-semibold text-dark text-truncate w-100 text-center" style={{ fontSize: '0.8rem' }}>
                         {title}
                     </p>
+
+                    {warningText && (
+                        <div className="alert alert-warning py-1 px-2 small w-100 mb-2 text-center" role="alert" style={{ fontSize: '0.7rem' }}>
+                            {warningText}
+                        </div>
+                    )}
 
                     {/* Pulsante Elimina */}
                     {deletable && <button
