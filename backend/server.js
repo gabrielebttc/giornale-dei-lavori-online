@@ -6,7 +6,7 @@ const pool = require('./db');
 const authRoutes = require('./authRoutes');
 const apiRoutes = require('./apiRoutes');
 const fileManagerRoutes = require('./fileManagerRoutes');
-const projectsMangerRoutes = require('./projectsMangerRoutes');
+const projectsManagerRoutes = require('./projectsManagerRoutes');
 const { initializeSocket } = require('./socket');
 
 const app = express();
@@ -25,7 +25,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/file-manager', fileManagerRoutes);
 
 // Rotte per la gestione dei progetti
-app.use('/api/projects-manager', projectsMangerRoutes);
+app.use('/api/projects-manager', projectsManagerRoutes);
 
 // Altre rotte API
 app.use('/api/', apiRoutes);

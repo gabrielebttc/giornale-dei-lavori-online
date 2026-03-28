@@ -103,20 +103,6 @@ router.get('/files/:buildingSiteId', authenticateToken, async (req, res) => {
     }
 });
 
-router.get('/projects/:buildingSiteId', authenticateToken, async (req, res) => {
-    try {
-        const { buildingSiteId } = req.params;
-        const resultProjects = await pool.query(
-            'SELECT * FROM projects WHERE building_site_id = $1 AND owner_id = $2 ORDER BY date ASC, created_at ASC',
-            [buildingSiteId, req.user.id]
-        );
-
-        res.status(200).json(resultProjects.rows);
-    } catch {
-        res.status(500).json({ error: 'Errore durante il recupero dei progetti dal database' });
-    }
-});
-
 router.delete('/delete-file/:storage_key', authenticateToken, async (req, res) => {
     const { storage_key } = req.params;
 

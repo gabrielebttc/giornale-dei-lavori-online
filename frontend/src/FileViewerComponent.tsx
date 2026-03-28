@@ -16,10 +16,11 @@ type FileViewerProps = {
     storageKey: string;
     fileType: string;
     fileName: string;
+    projectId?: number;
     onClose: () => void;
 };
 
-const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, fileName, onClose }) => {
+const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, fileName, projectId, onClose }) => {
     const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
     const [excelData, setExcelData] = useState<string[][] | null>(null);
     const [loading, setLoading] = useState(true);
@@ -30,13 +31,12 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
 
     useEffect(() => {
         if (fileType === 'platformProject') {
-            // Assume fileName contiene l'id del progetto
             const fetchProject = async () => {
                 setLoading(true);
                 setError(null);
                 try {
                     const token = localStorage.getItem('token');
-                    const response = await fetch(`${apiUrl}/api/projects-manager/projects/${fileName}`, {
+                    const response = await fetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',

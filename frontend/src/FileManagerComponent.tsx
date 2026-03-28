@@ -320,11 +320,11 @@ async function fetchFilesFromBuildingSiteId(id: number): Promise<FilesRecord[]> 
     }
 }
 
-async function fetchProjectsFromBuildingSiteId(id: number): Promise<ProjectsRecord[]> {
+async function fetchProjectsFromBuildingSiteId(buildingSiteId: number): Promise<ProjectsRecord[]> {
     try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch(`${apiUrl}/api/file-manager/projects/${id}`, {
+        const response = await fetch(`${apiUrl}/api/projects-manager/building-sites/${buildingSiteId}/projects`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

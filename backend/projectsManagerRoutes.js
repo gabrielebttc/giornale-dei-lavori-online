@@ -53,30 +53,6 @@ router.post('/projects', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/projects/:projectId', authenticateToken, async (req, res) => {
-  const { projectId } = req.params;
-
-  if (!Number.isInteger(Number(projectId)) || Number(projectId) <= 0) {
-    return res.status(400).json({ error: 'projectId non valido.' });
-  }
-
-  try {
-    const result = await pool.query(
-      'SELECT * FROM projects WHERE id = $1 AND owner_id = $2',
-      [Number(projectId), req.user.id]
-    );
-
-    if (result.rowCount === 0) {
-      return res.status(404).json({ error: 'Progetto non trovato o non autorizzato.' });
-    }
-
-    return res.status(200).json(result.rows[0]);
-  } catch (error) {
-    console.error('Errore durante il recupero del progetto:', error);
-    return res.status(500).json({ error: 'Errore durante il recupero del progetto.' });
-  }
-});
-
 router.put('/projects/:projectId', authenticateToken, async (req, res) => {
   const { projectId } = req.params;
   const { name, content_json, metadata, building_site_id, date } = req.body;
@@ -164,6 +140,50 @@ router.put('/projects/:projectId', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Errore durante la modifica del progetto:', error);
     return res.status(500).json({ error: 'Errore durante la modifica del progetto.' });
+  }
+});
+
+router.get('/projects/:projectId', authenticateToken, async (req, res) => {
+  const { projectId } = req.params;
+
+  if (!Number.isInteger(Number(projectId)) || Number(projectId) <= 0) {
+    return res.status(400).json({ error: 'projectId non valido.' });
+  }
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM projects WHERE id = $1 AND owner_id = $2',
+      [Number(projectId), req.user.id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Progetto non trovato o non autorizzato.' });
+    }
+
+    return res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error('Errore durante il recupero del progetto:', error);
+    return res.status(500).json({ error: 'Errore durante il recupero del progetto.' });
+  }
+});
+
+router.get('/building-sites/:buildingSiteId/projects', authenticateToken, async (req, res) => {
+  const { buildingSiteId } = req.params;
+
+  if (!Number.isInteger(Number(buildingSiteId)) || Number(buildingSiteId) <= 0) {
+    return res.status(400).json({ error: 'buildingSiteId non valido.' });
+  }
+
+  try {
+    const resultProjects = await pool.query(
+      'SELECT * FROM projects WHERE building_site_id = $1 AND owner_id = $2 ORDER BY date ASC, created_at ASC',
+      [Number(buildingSiteId), req.user.id]
+    );
+
+    return res.status(200).json(resultProjects.rows);
+  } catch (error) {
+    console.error('Errore durante il recupero dei progetti per cantiere:', error);
+    return res.status(500).json({ error: 'Errore durante il recupero dei progetti dal database' });
   }
 });
 
