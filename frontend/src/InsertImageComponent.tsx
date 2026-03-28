@@ -4,17 +4,16 @@ const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 type InsertImageComponentProps = {
     buildingSiteId: string;
+    onClose?: () => void;
+    onComplete?: (results: Array<{ storageKey: string; downloadUrl: string }>) => void;
 };
 
-const InsertImageComponent = ({ buildingSiteId }: InsertImageComponentProps) => {
+const InsertImageComponent = ({ buildingSiteId, onClose, onComplete }: InsertImageComponentProps) => {
 
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [isUploading, setIsUploading] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isDragging, setIsDragging] = useState<boolean>(false);
     const [message, setMessage] = useState<{ text: string; type: string } | null>(null);
-    const [fileDate, setFileDate] = useState<Date>(new Date());
-    const [downloadUrls, setDownloadUrls] = useState<string[]>([]);
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -75,7 +74,25 @@ const InsertImageComponent = ({ buildingSiteId }: InsertImageComponentProps) => 
 
                 if (!resB2.ok) throw new Error("Upload fallito su storage");
 
-                // 3. Richiesta link di download/registrazione
+                // 3. Registra il file nel database
+                const today = new Date().toISOString().split('T')[0];
+                const resConfirm = await fetch(`${apiUrl}/api/file-manager/confirm-file-upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        storageKey,
+                        originalName: file.name,
+                        buildingSiteId,
+                        mimeType: file.type,
+                        date: today,
+                    })
+                });
+                if (!resConfirm.ok) throw new Error("Registrazione file fallita");
+
+                // 4. Richiesta link di download/registrazione
                 const resLink2 = await fetch(`${apiUrl}/api/file-manager/get-download-link`, {
                     method: 'POST',
                     headers: {
@@ -89,7 +106,7 @@ const InsertImageComponent = ({ buildingSiteId }: InsertImageComponentProps) => 
 
                 const { uploadUrl: downloadUrl } = await resLink2.json();
 
-                setDownloadUrls(prev => [...prev, downloadUrl]);
+                return { storageKey, downloadUrl };
 
             } catch (err) {
                 console.error(`Errore file ${file.name}:`, err);
@@ -98,7 +115,8 @@ const InsertImageComponent = ({ buildingSiteId }: InsertImageComponentProps) => 
         });
 
         const results = await Promise.all(uploadPromises);
-        const successCount = results.filter(r => r).length;
+        const successResults = results.filter(Boolean) as Array<{ storageKey: string; downloadUrl: string }>;
+        const successCount = successResults.length;
 
         setIsUploading(false);
         setSelectedFiles([]);
@@ -106,11 +124,26 @@ const InsertImageComponent = ({ buildingSiteId }: InsertImageComponentProps) => 
             text: `Caricati con successo ${successCount} di ${selectedFiles.length} file.`, 
             type: successCount === selectedFiles.length ? "success" : "warning" 
         });
+
+        if (successResults.length > 0) {
+            onComplete?.(successResults);
+        }
+        onClose?.();
     };    
 
     return(
-        <form onSubmit={handleMultipleUploads} className="collapse" id="uploadFileSection">
-            <div className="p-4 border border-primary border-opacity-25 rounded-4 bg-light shadow-sm">
+        <div className="insert-image-modal" style={{position: 'fixed', inset: 0, zIndex: 1050, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <div
+                className="modal-backdrop"
+                onClick={(e) => { if (!isUploading && e.target === e.currentTarget) onClose?.(); }}
+                style={{position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 1040}}
+            />
+            <form onSubmit={handleMultipleUploads} onClick={(e) => e.stopPropagation()} style={{position: 'relative', zIndex: 1050, width: 'min(920px, 96%)', maxHeight: '80vh', overflowY: 'auto'}}>
+                <div className="p-4 border border-primary border-opacity-25 rounded-4 bg-light shadow-sm" style={{background: 'white'}}>
+                    <div className="d-flex justify-content-between align-items-start mb-3">
+                        <h5 className="mb-0">Inserisci Immagini</h5>
+                        <button type="button" className="btn-close" aria-label="Chiudi" onClick={() => { if (!isUploading) onClose?.(); }}></button>
+                    </div>
                 <div className="mb-4 text-center">
                     <label className="form-label d-block mb-3 small fw-bold text-uppercase text-primary letter-spacing-1">
                         2. Scegli i File
@@ -172,6 +205,7 @@ const InsertImageComponent = ({ buildingSiteId }: InsertImageComponentProps) => 
                     </div>
                 )}
 
+                <div className="d-flex gap-2">
                 <button 
                     type="submit" 
                     className="btn btn-primary btn-lg w-100 rounded-3 shadow py-3 transition-all fw-bold" 
@@ -189,8 +223,12 @@ const InsertImageComponent = ({ buildingSiteId }: InsertImageComponentProps) => 
                         </>
                     )}
                 </button>
+                </div>
             </div>
-        </form>
-)
-}
+            </form>
+            </div>
+        )
+        }
+
+        export default InsertImageComponent;
 

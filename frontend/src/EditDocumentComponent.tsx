@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
+import { Editor as TiptapEditor } from '@tiptap/core';
+import StarterKit from '@tiptap/starter-kit';
 import { useNavigate, useParams } from 'react-router-dom';
 import RichTextEditorComponent from './RichTextEditorComponent';
 import { dateToString } from '../utils/formatDate';
@@ -6,6 +8,28 @@ import LoadingScreen from './LoadingScreen';
 import type { ProjectsRecord } from './types/dbTables';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
+
+const resolveImageStorageKeys = async (node: any, token: string): Promise<any> => {
+    if (!node || typeof node !== 'object') return node;
+    const copy: any = { ...node };
+    if (copy.type === 'image' && copy.attrs?.src && !copy.attrs.src.startsWith('http')) {
+        try {
+            const res = await fetch(`${apiUrl}/api/file-manager/get-download-link`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ storageKey: copy.attrs.src }),
+            });
+            if (res.ok) {
+                const { uploadUrl } = await res.json();
+                copy.attrs = { ...copy.attrs, src: uploadUrl };
+            }
+        } catch { /* lascia src invariato */ }
+    }
+    if (Array.isArray(copy.content)) {
+        copy.content = await Promise.all(copy.content.map((child: any) => resolveImageStorageKeys(child, token)));
+    }
+    return copy;
+};
 
 type EditDocumentComponentProps = {
     projectId?: number | null;
@@ -33,7 +57,34 @@ export default function EditDocumentComponent({ projectId = null }: EditDocument
         setSaveError(null);
         
         try {
+            // Ensure content_json is a JS object
+            const parseContent = (c: any) => {
+                try {
+                    return typeof c === 'string' ? JSON.parse(c) : c;
+                } catch {
+                    return c;
+                }
+            };
+
+            const replaceImageSrcWithStorageKey = (node: any): any => {
+                if (!node || typeof node !== 'object') return node;
+                const copy: any = { ...node };
+                if (copy.attrs && copy.type === 'image') {
+                    if (copy.attrs.storageKey) {
+                        copy.attrs = { ...copy.attrs, src: copy.attrs.storageKey };
+                    }
+                }
+                if (Array.isArray(copy.content)) {
+                    copy.content = copy.content.map((child: any) => replaceImageSrcWithStorageKey(child));
+                }
+                return copy;
+            };
+
             const token = localStorage.getItem('token');
+            // transform content_json replacing image src with storageKey when available
+            const originalContent = parseContent(dataToSave.content_json);
+            const transformedContent = replaceImageSrcWithStorageKey(originalContent);
+
             const response = await fetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
                 method: 'PUT',
                 headers: {
@@ -42,7 +93,7 @@ export default function EditDocumentComponent({ projectId = null }: EditDocument
                 },
                 body: JSON.stringify({
                     name: dataToSave.name,
-                    content_json: dataToSave.content_json,
+                    content_json: transformedContent,
                     date: dateToString(new Date(dataToSave.date)),
                 }),
             });
@@ -94,6 +145,39 @@ export default function EditDocumentComponent({ projectId = null }: EditDocument
                 });
                 if (!response.ok) throw new Error();
                 const data = await response.json();
+                // If content_json is an HTML string (legacy), convert to tiptap JSON and persist
+                let content = data.content_json;
+                if (typeof content === 'string' && content.trim().startsWith('<')) {
+                    try {
+                        const tempEditor = new TiptapEditor({ extensions: [StarterKit], content });
+                        const converted = tempEditor.getJSON();
+                        tempEditor.destroy();
+                        data.content_json = converted;
+                        // persist converted JSON to backend
+                        const putResp = await fetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({ content_json: converted }),
+                        });
+                        if (!putResp.ok) {
+                            console.warn('Impossibile aggiornare content_json convertito');
+                        }
+                    } catch (err) {
+                        console.warn('Conversione HTML->JSON fallita, lascio il contenuto originale');
+                    }
+                }
+                // Risolvi i storageKey delle immagini in URL di download
+                let contentJson = data.content_json;
+                if (contentJson) {
+                    try {
+                        const parsed = typeof contentJson === 'string' ? JSON.parse(contentJson) : contentJson;
+                        data.content_json = await resolveImageStorageKeys(parsed, token ?? '');
+                    } catch { /* lascia invariato */ }
+                }
+
                 setProjectData(data);
                 setNewProjectData(data);
             } catch (error) {
@@ -215,9 +299,15 @@ export default function EditDocumentComponent({ projectId = null }: EditDocument
                         <div className="alert alert-danger rounded-3 border-0 shadow-sm">{projectError}</div>
                     ) : (
                         <RichTextEditorComponent
-                            value={newProjectData?.content_json}
-                            onChange={(value) => setNewProjectData(prev => prev ? { ...prev, content_json: value } : prev)}
-                        />
+                                value={newProjectData?.content_json}
+                                buildingSiteId={siteId}
+                                onChange={(value) => setNewProjectData(prev => {
+                                    if (prev) return { ...prev, content_json: value } as ProjectsRecord;
+                                    // if no prev (first update), base from projectData or create minimal object
+                                    const base = projectData ? { ...projectData } as ProjectsRecord : {} as ProjectsRecord;
+                                    return { ...base, content_json: value } as ProjectsRecord;
+                                })}
+                            />
                     )}
                 </div>
 

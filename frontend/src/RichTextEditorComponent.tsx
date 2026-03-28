@@ -1,16 +1,21 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
 import './styles/RichTextEditorComponent.css';
+import InsertImageComponent from './InsertImageComponent';
 
 type RichTextEditorProps = {
-  value?: string;
-  onChange?: (html: string) => void;
+  // content can be a JSON document or a stringified JSON
+  value?: any;
+  // onChange receives the tiptap JSON document
+  onChange?: (doc: any) => void;
   placeholder?: string;
   editable?: boolean;
+  buildingSiteId?: string;
 };
 
 export default function RichTextEditorComponent({
@@ -18,10 +23,13 @@ export default function RichTextEditorComponent({
   onChange,
   placeholder = 'Inizia a scrivere qui...',
   editable = true,
+  buildingSiteId,
 }: RichTextEditorProps) {
-  const editor = useEditor({
+  const [showImageModal, setShowImageModal] = useState(false);
+    const editor = useEditor({
     extensions: [
       StarterKit,
+      Image,
       Underline,
       Link.configure({
         openOnClick: false,
@@ -32,18 +40,21 @@ export default function RichTextEditorComponent({
         placeholder,
       }),
     ],
-    content: value,
+    // value can be a JSON object or a string containing JSON
+    content: typeof value === 'string' ? (value ? JSON.parse(value) : '') : value,
     editable,
     immediatelyRender: false,
     onUpdate: ({ editor: currentEditor }) => {
-      onChange?.(currentEditor.getHTML());
+      onChange?.(currentEditor.getJSON());
     },
   });
 
   useEffect(() => {
     if (!editor) return;
-    if (editor.getHTML() !== value) {
-      editor.commands.setContent(value || '', { emitUpdate: false });
+    const current = editor.getJSON();
+    const incoming = typeof value === 'string' ? (value ? JSON.parse(value) : null) : value;
+    if (JSON.stringify(current) !== JSON.stringify(incoming)) {
+      editor.commands.setContent(incoming || '', { emitUpdate: false });
     }
   }, [editor, value]);
 
@@ -128,6 +139,13 @@ export default function RichTextEditorComponent({
         </button>
         <button
           type="button"
+          className="btn btn-sm btn-outline-secondary"
+          onClick={() => setShowImageModal(true)}
+        >
+          Immagini
+        </button>
+        <button
+          type="button"
           className="btn btn-sm btn-outline-danger"
           onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()}
         >
@@ -136,6 +154,29 @@ export default function RichTextEditorComponent({
       </div>
 
       <EditorContent editor={editor} className="rte-content" />
+
+      {showImageModal && (
+        <InsertImageComponent
+          buildingSiteId={buildingSiteId ?? ''}
+          onClose={() => setShowImageModal(false)}
+          onComplete={(results) => {
+            // insert each image into the editor as an image node including storageKey in attrs
+            results.forEach((r) => {
+              // use insertContent with a raw node object to include custom attrs (storageKey)
+              editor.chain().focus().insertContent({ type: 'image', attrs: { src: r.downloadUrl, storageKey: r.storageKey } } as any).run();
+            });
+            // ensure parent receives the updated JSON (force immediate sync)
+            try {
+              const doc = editor.getJSON();
+              console.debug('Inserted images, editor JSON now:', doc);
+              onChange?.(doc);
+            } catch (err) {
+              console.warn('Failed to emit editor JSON after insert:', err);
+            }
+            setShowImageModal(false);
+          }}
+        />
+      )}
     </div>
   );
 }
