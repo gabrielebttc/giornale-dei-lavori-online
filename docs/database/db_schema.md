@@ -106,6 +106,8 @@ Vincolo unico: `UNIQUE (building_site_id, date)`.
 | **created_at** | timestamptz | DEFAULT CURRENT_TIMESTAMP |
 | **updated_at** | timestamptz | DEFAULT CURRENT_TIMESTAMP |
 | **owner_id** | integer | FK -> users.id, ON DELETE SET NULL |
+| **building_site_id** | integer | NOT NULL, FK -> building_sites.id |
+| **date** | date | NOT NULL |
 
 ### `documents` (Contenuti documenti)
 

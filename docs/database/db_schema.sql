@@ -269,7 +269,9 @@ CREATE TABLE public.projects (
     metadata jsonb,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    owner_id integer
+    owner_id integer,
+    building_site_id integer NOT NULL,
+    date date NOT NULL
 );
 
 
@@ -843,6 +845,14 @@ ALTER TABLE ONLY public.daily_notes
 
 ALTER TABLE ONLY public.daily_presences
     ADD CONSTRAINT fk_daily_presences_owner FOREIGN KEY (owner_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: projects fk_building_site_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT fk_building_site_id FOREIGN KEY (building_site_id) REFERENCES public.building_sites(id);
 
 
 --

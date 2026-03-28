@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict H1lxZQsBUrB2G9EW5d0H6fQiUtytbc0ubbsgMBVZCHIGZWxBfl2KLCeiFnZEw3m
+\restrict uKDXcE5aEN1nsTW5EmzbZY46d4oHB214OQ9Fxn542HUxsUTfU0IQ6DjxvSS5LRZ
 
 -- Dumped from database version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
 -- Dumped by pg_dump version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
@@ -269,7 +269,9 @@ CREATE TABLE public.projects (
     metadata jsonb,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    owner_id integer
+    owner_id integer,
+    building_site_id integer NOT NULL,
+    date date NOT NULL
 );
 
 
@@ -2099,7 +2101,7 @@ COPY public.files (id, name, tag, file_type, date, building_site_id, owner_id, u
 -- Data for Name: projects; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.projects (id, name, content_json, metadata, created_at, updated_at, owner_id) FROM stdin;
+COPY public.projects (id, name, content_json, metadata, created_at, updated_at, owner_id, building_site_id, date) FROM stdin;
 \.
 
 
@@ -2798,6 +2800,14 @@ ALTER TABLE ONLY public.documents
 
 
 --
+-- Name: projects fk_building_site_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT fk_building_site_id FOREIGN KEY (building_site_id) REFERENCES public.building_sites(id);
+
+
+--
 -- Name: building_sites fk_building_sites_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2945,5 +2955,5 @@ ALTER TABLE ONLY public.users_user_type
 -- PostgreSQL database dump complete
 --
 
-\unrestrict H1lxZQsBUrB2G9EW5d0H6fQiUtytbc0ubbsgMBVZCHIGZWxBfl2KLCeiFnZEw3m
+\unrestrict uKDXcE5aEN1nsTW5EmzbZY46d4oHB214OQ9Fxn542HUxsUTfU0IQ6DjxvSS5LRZ
 
