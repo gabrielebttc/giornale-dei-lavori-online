@@ -8,9 +8,10 @@ const apiUrl = import.meta.env.VITE_BACKEND_URL;
 interface UploadFilesProps {
     buildingSiteId: number | string;
     selectedDate?: string;
+    handleEditFile?: () => void;
 }
 
-const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, selectedDate = "2000-01-01"}) => {
+const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, selectedDate = "2000-01-01", handleEditFile }) => {
 
     const navigate = useNavigate();
 
@@ -107,6 +108,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
 
         setIsUploading(false);
         setSelectedFiles([]);
+        handleEditFile?.();
         setMessage({ 
             text: `Caricati con successo ${successCount} di ${selectedFiles.length} file.`, 
             type: successCount === selectedFiles.length ? "success" : "warning" 
