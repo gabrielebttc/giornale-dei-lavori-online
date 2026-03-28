@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import RichTextEditorComponent from './RichTextEditorComponent';
 import { dateToString } from '../utils/formatDate';
 import LoadingScreen from './LoadingScreen';
+import type { ProjectsRecord } from './types/dbTables';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -10,11 +11,10 @@ type EditDocumentComponentProps = {
     projectId?: number | null;
 };
 
-import type { ProjectsRecord } from './types/dbTables';
-
 export default function EditDocumentComponent({ projectId = null }: EditDocumentComponentProps) {
     const navigate = useNavigate();
     const { siteId, date } = useParams<{ siteId?: string; date?: string }>();
+    
     const [projectData, setProjectData] = useState<ProjectsRecord | null>(null);
     const [newProjectData, setNewProjectData] = useState<ProjectsRecord | null>(null);
     const [isLoadingProject, setIsLoadingProject] = useState<boolean>(false);
@@ -22,19 +22,16 @@ export default function EditDocumentComponent({ projectId = null }: EditDocument
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [saveError, setSaveError] = useState<string | null>(null);
     const [lastSaved, setLastSaved] = useState<Date | null>(null);
-    const saveIntervalRef = useRef<NodeJS.Timeout | null>(null);
     const [autoSaveEnabled, setAutoSaveEnabled] = useState<boolean>(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    // Funzione di salvataggio
-    const saveDocument = async () => {
+
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+    const saveDocument = async (dataToSave: ProjectsRecord) => {
         if (!projectId) return;
         setIsSaving(true);
         setSaveError(null);
-        if (!newProjectData) {
-            setSaveError('Dati progetto non disponibili per il salvataggio.');
-            setIsSaving(false);
-            return;
-        }
+        
         try {
             const token = localStorage.getItem('token');
             const response = await fetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
@@ -44,15 +41,15 @@ export default function EditDocumentComponent({ projectId = null }: EditDocument
                     'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    name: newProjectData.name,
-                    content_json: newProjectData.content_json,
-                    date: dateToString(new Date(newProjectData.date)),
+                    name: dataToSave.name,
+                    content_json: dataToSave.content_json,
+                    date: dateToString(new Date(dataToSave.date)),
                 }),
             });
-            if (!response.ok) {
-                throw new Error(`Errore HTTP ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`Errore HTTP ${response.status}`);
+            
             setLastSaved(new Date());
+            setProjectData(dataToSave);
         } catch (error) {
             setSaveError('Errore durante il salvataggio.');
         } finally {
@@ -60,189 +57,200 @@ export default function EditDocumentComponent({ projectId = null }: EditDocument
         }
     };
 
-    // Autosalvataggio ogni 10s
     useEffect(() => {
-        if (!projectId || !autoSaveEnabled) {
-            if (saveIntervalRef.current) clearInterval(saveIntervalRef.current);
-            return;
-        }
-        if (saveIntervalRef.current) clearInterval(saveIntervalRef.current);
-        saveIntervalRef.current = setInterval(() => {
-            saveDocument();
-        }, 10000);
-        return () => {
-            if (saveIntervalRef.current) clearInterval(saveIntervalRef.current);
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [projectId, newProjectData, autoSaveEnabled]);
+        if (!newProjectData || !autoSaveEnabled || !projectId) return;
+        if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
 
-    const handleBackToFiles = () => {
-        while (isSaving) {
-            setIsLoading(true)
+        debounceTimerRef.current = setTimeout(() => {
+            const hasChanged = JSON.stringify(newProjectData) !== JSON.stringify(projectData);
+            if (hasChanged) saveDocument(newProjectData);
+        }, 2000); 
+
+        return () => {
+            if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+        };
+    }, [newProjectData, autoSaveEnabled, projectId]);
+
+    const handleBackToFiles = async () => {
+        if (isSaving) {
+            setIsLoading(true);
+            await new Promise(resolve => setTimeout(resolve, 800));
         }
-        setIsLoading(false)
         if (siteId && date) {
             navigate(`/action-page/file-manager/${siteId}/${date}`);
-            return;
+        } else {
+            navigate(-1);
         }
-
-        navigate(-1);
     };
 
     useEffect(() => {
         const fetchProject = async () => {
-            if (!projectId) {
-                setProjectData(null);
-                setProjectError(null);
-                return;
-            }
-
+            if (!projectId) return;
             setIsLoadingProject(true);
-            setProjectError(null);
-
             try {
                 const token = localStorage.getItem('token');
                 const response = await fetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
+                    headers: { 'Authorization': `Bearer ${token}` },
                 });
-
-                if (!response.ok) {
-                    throw new Error(`Errore HTTP ${response.status}`);
-                }
-
-                const data: ProjectsRecord = await response.json();
+                if (!response.ok) throw new Error();
+                const data = await response.json();
                 setProjectData(data);
                 setNewProjectData(data);
-
             } catch (error) {
-                console.error('Errore durante il recupero progetto:', error);
-                setProjectError('Impossibile recuperare i dati del progetto.');
+                setProjectError('Impossibile recuperare i dati.');
             } finally {
                 setIsLoadingProject(false);
             }
         };
-
-        void fetchProject();
+        fetchProject();
     }, [projectId]);
 
+    const handleExportPDF = () => {
+        // aggiungere logica per export pdf
+    }
+
     return (
-        <>
-            <div className="row mb-3">
-                <div className="col-12">
-                    <button
-                        onClick={handleBackToFiles}
-                        className="btn btn-link text-decoration-none text-secondary p-0 d-inline-flex align-items-center transition-all hover-primary"
-                        style={{ transition: '0.2s' }}
-                    >
-                        <div className="rounded-circle bg-white shadow-sm border d-flex align-items-center justify-content-center me-2" style={{ width: '35px', height: '35px' }}>
-                            <i className="bi bi-arrow-left text-primary"></i>
-                        </div>
-                        <span className="fw-bold small text-uppercase" style={{ letterSpacing: '1px' }}>torna ai tuoi files</span>
-                    </button>
+        <div className="container-fluid py-4" style={{ maxWidth: '1100px' }}>
+            {/* Header di navigazione */}
+            <div className="d-flex align-items-center justify-content-between mb-4">
+                <button 
+                    onClick={handleBackToFiles} 
+                    className="btn btn-link text-decoration-none p-0 group d-flex align-items-center transition-all"
+                    style={{ color: '#6c757d' }}
+                >
+                    <div className="rounded-circle bg-white shadow-sm border d-flex align-items-center justify-content-center me-3" 
+                         style={{ width: 40, height: 40, transition: '0.2s' }}>
+                        <i className="bi bi-chevron-left"></i>
+                    </div>
+                    <span className="fw-semibold text-uppercase ls-1" style={{ fontSize: '0.75rem' }}>I tuoi documenti</span>
+                </button>
+
+                <div className="d-flex align-items-center gap-3">
+                    {/* Status indicator */}
+                    <div className="d-none d-md-flex flex-column align-items-end me-2">
+                        {isSaving ? (
+                            <span className="badge rounded-pill bg-light text-primary border border-primary-subtle px-3 py-2">
+                                <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                                Salvataggio...
+                            </span>
+                        ) : lastSaved ? (
+                            <span className="text-muted" style={{ fontSize: '0.7rem' }}>
+                                <i className="bi bi-cloud-check me-1 text-success"></i>
+                                Salvato alle {lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                        ) : null}
+                    </div>
                 </div>
             </div>
 
-
-            <div className="card border-0 shadow-sm rounded-4 overflow-hidden">
-                <div className="bg-primary bg-gradient p-3 text-white d-flex align-items-center justify-content-between">
-                    <div className="d-flex align-items-center">
-                        <i className="bi bi-file-earmark-richtext me-2" />
+            {/* Editor Card */}
+            <div className="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+                {/* Toolbar superiore integrata */}
+                <div className="px-4 py-3 border-bottom bg-light d-flex flex-wrap align-items-center justify-content-between gap-3">
+                    <div className="d-flex align-items-center flex-grow-1">
+                        <i className="bi bi-file-earmark-text-fill text-primary fs-4 me-3"></i>
                         <input
                             type="text"
-                            className="form-control form-control-sm fw-bold bg-white border-0 shadow-sm px-2"
-                            style={{ maxWidth: 320, fontSize: '1.1rem' }}
-                            value={newProjectData ? newProjectData.name : 'Nuovo documento senza titolo'}
-                            onChange={e => {
-                                setNewProjectData(prev => prev ? { ...prev, name: e.target.value } : prev);
-                            }}
-                            placeholder="Nome progetto"
-                            disabled={isLoadingProject}
+                            className="form-control border-0 bg-transparent fw-bold fs-5 p-0 focus-none"
+                            placeholder="Titolo del documento..."
+                            value={newProjectData?.name || ''}
+                            onChange={e => setNewProjectData(prev => prev ? { ...prev, name: e.target.value } : prev)}
+                            style={{ boxShadow: 'none', borderBottom: '2px solid transparent' }}
+                            onFocus={(e) => e.target.style.borderBottom = '2px solid #0d6efd'}
+                            onBlur={(e) => e.target.style.borderBottom = '2px solid transparent'}
                         />
                     </div>
-                    {projectId && (
-                        <div className="d-flex align-items-center gap-2">
-                            <button
-                                className="btn btn-success btn-sm d-flex align-items-center px-3 fw-bold"
-                                onClick={saveDocument}
-                                disabled={isSaving}
-                                style={{ minWidth: 90 }}
-                            >
-                                {isSaving ? (
-                                    <>
-                                        <span className="spinner-border spinner-border-sm me-2" role="status"></span>
-                                        Salvataggio...
-                                    </>
-                                ) : (
-                                    <>
-                                        <i className="bi bi-save me-2"></i> Salva
-                                    </>
-                                )}
+                    
+                    <div className="d-flex align-items-center gap-2">
+                        <button
+                            className={`btn btn-sm rounded-pill px-3 transition-all ${autoSaveEnabled ? 'btn-soft-primary' : 'btn-outline-secondary opacity-50'}`}
+                            onClick={() => setAutoSaveEnabled(!autoSaveEnabled)}
+                            style={{ fontSize: '0.8rem', fontWeight: 600 }}
+                        >
+                            <i className={`bi ${autoSaveEnabled ? 'bi-check-circle-fill' : 'bi-circle'} me-1`}></i>
+                            Auto-save
+                        </button>
+
+                        {/* Dropdown Export Button */}
+                        <div className="dropdown">
+                            <button className="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold shadow-sm dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i className="bi bi-download me-1"></i> Esporta
                             </button>
-                            <button
-                                className={`btn btn-outline-light btn-sm d-flex align-items-center px-2 fw-bold ${autoSaveEnabled ? '' : 'opacity-50'}`}
-                                onClick={() => setAutoSaveEnabled(v => !v)}
-                                type="button"
-                                title={autoSaveEnabled ? 'Disattiva autosalvataggio' : 'Attiva autosalvataggio'}
-                                style={{ minWidth: 44 }}
-                            >
-                                <i className={`bi ${autoSaveEnabled ? 'bi-pause-circle' : 'bi-play-circle'} me-1`}></i>
-                                <span className="d-none d-md-inline">Auto</span>
-                            </button>
+                            <ul className="dropdown-menu" aria-labelledby="exportDropdown">
+                                <li>
+                                    <button className="dropdown-item" type="button" onClick={handleExportPDF}>
+                                        <i className="bi bi-file-earmark-pdf me-2 text-danger"></i> Esporta come PDF
+                                    </button>
+                                </li>
+                                <li>
+                                    <button className="dropdown-item" type="button">
+                                        <i className="bi bi-file-earmark-word me-2 text-primary"></i> Altri formati presto disponibili...
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
-                    )}
-                </div>
 
-                <div className="card-body p-3 p-md-4">
-                    {projectId && (
-                        <div className="mb-3 p-3 rounded-3 border bg-light">
-                            <div className="fw-semibold text-primary mb-2">Dati progetto</div>
+                        <div className="vr mx-1 my-2"></div>
 
-                            {isLoadingProject && <div className="small text-muted">Caricamento progetto...</div>}
-                            {projectError && <div className="small text-danger">{projectError}</div>}
-
-                            {!isLoadingProject && !projectError && projectData && (
-                                <>
-                                    <div className="small mb-1"><strong>ID:</strong> {projectData.id}</div>
-                                    <div className="small mb-1"><strong>Nome:</strong> {projectData.name}</div>
-                                    <div className="small mb-1"><strong>Owner:</strong> {projectData.owner_id ?? 'N/A'}</div>
-                                    <div className="small mb-1"><strong>Cantiere:</strong> {projectData.building_site_id}</div>
-                                    <div className="small mb-1"><strong>Data:</strong> {projectData.date}</div>
-                                    <div className="small mb-1"><strong>Creato il:</strong> {new Date(projectData.created_at).toLocaleString()}</div>
-                                    <div className="small mb-3"><strong>Aggiornato il:</strong> {new Date(projectData.updated_at).toLocaleString()}</div>
-
-                                    <div className="small fw-semibold mb-1">Metadata</div>
-                                    <pre className="small bg-white border rounded p-2 mb-2" style={{ maxHeight: 140, overflow: 'auto' }}>
-                                        {JSON.stringify(projectData.metadata, null, 2)}
-                                    </pre>
-
-                                    <div className="small fw-semibold mb-1">Content JSON</div>
-                                    <pre className="small bg-white border rounded p-2 mb-0" style={{ maxHeight: 180, overflow: 'auto' }}>
-                                        {JSON.stringify(projectData.content_json, null, 2)}
-                                    </pre>
-                                </>
-                            )}
-                        </div>
-                    )}
-
-                    <RichTextEditorComponent
-                        value={newProjectData?.content_json}
-                        onChange={(value) => setNewProjectData(prev => prev ? { ...prev, content_json: value } : prev)}
-                        placeholder="Scrivi il contenuto del documento..."
-                    />
-
-                    <div className="mt-3 small text-muted d-flex align-items-center gap-3">
-                        <span>Lunghezza HTML attuale: {newProjectData?.content_json.length} caratteri</span>
-                        {isSaving && <span className="text-info">Salvataggio in corso...</span>}
-                        {lastSaved && <span className="text-success">Salvato alle {lastSaved.toLocaleTimeString()}</span>}
-                        {saveError && <span className="text-danger">{saveError}</span>}
+                        <button 
+                            className="btn btn-secondary btn-sm rounded-pill px-3 fw-bold shadow-sm me-2" 
+                            onClick={() => setNewProjectData(projectData)} 
+                            disabled={isSaving || !projectData || JSON.stringify(newProjectData) === JSON.stringify(projectData)}
+                            type="button"
+                        >
+                            <i className="bi bi-arrow-counterclockwise me-1"></i> Ripristina all'ultima versione
+                        </button>
+                        <button 
+                            className="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm" 
+                            onClick={() => newProjectData && saveDocument(newProjectData)} 
+                            disabled={isSaving}
+                        >
+                            {isSaving ? '...' : 'Salva'}
+                        </button>
                     </div>
                 </div>
+
+                <div className="card-body p-4 min-vh-50">
+                    {projectError ? (
+                        <div className="alert alert-danger rounded-3 border-0 shadow-sm">{projectError}</div>
+                    ) : (
+                        <RichTextEditorComponent
+                            value={newProjectData?.content_json}
+                            onChange={(value) => setNewProjectData(prev => prev ? { ...prev, content_json: value } : prev)}
+                        />
+                    )}
+                </div>
+
+                {/* Footer di stato (Mobile & Errori) */}
+                {(saveError || isSaving) && (
+                    <div className="card-footer bg-white border-top-0 px-4 pb-4">
+                        {saveError && (
+                            <div className="alert alert-danger py-2 px-3 small border-0 d-flex align-items-center mb-0">
+                                <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                {saveError}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
+
+            <style>{`
+                .btn-soft-primary {
+                    background-color: #e7f1ff;
+                    color: #0d6efd;
+                    border: 1px solid #cfe2ff;
+                }
+                .btn-soft-primary:hover {
+                    background-color: #0d6efd;
+                    color: white;
+                }
+                .ls-1 { letter-spacing: 1px; }
+                .focus-none:focus { outline: none !important; }
+                .transition-all { transition: all 0.3s ease; }
+                .min-vh-50 { min-height: 60vh; }
+            `}</style>
+
             <LoadingScreen isLoading={isLoading} />
-        </>
+        </div>
     );
 }

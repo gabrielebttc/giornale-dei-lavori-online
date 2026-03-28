@@ -6,8 +6,8 @@ interface AddRecordComponentProps {
     tableName: string;
     buildingSiteId?: number;
     onSuccess: () => void;
-    selectedDate: string;
-    handleEditFile: (fileAlreadyExists: boolean) => void;
+    selectedDate?: string;
+    handleEditFile?: (fileAlreadyExists: boolean) => void;
 }
 
 const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName, buildingSiteId, onSuccess, selectedDate, handleEditFile }: AddRecordComponentProps) => {
@@ -62,7 +62,7 @@ const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName, buil
                             buildingSiteId={buildingSiteId}
                             selectedDate={selectedDate}
                             // handleEditFile passa false che indica che il file che si cerca di editare non esiste ancora (deve essere creato)
-                            handleEditFile={() => handleEditFile(false)}
+                            handleEditFile={handleEditFile ? () => handleEditFile(false) : undefined}
                         />
                         )}
                     </div>

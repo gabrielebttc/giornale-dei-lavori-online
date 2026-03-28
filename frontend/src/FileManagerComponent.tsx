@@ -159,135 +159,139 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
 
     return(
         <>
-            <div className="container py-4">
-                <SearchBarComponent searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+    <div className="container py-5">
+        <div className="mb-5">
+            <SearchBarComponent searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        </div>
 
-                {groupedDateKeys.map((dateKey) => (
-                    <div key={dateKey} className="mb-5">
-                        {/* Header della Data */}
-                        <div className="d-flex align-items-center mb-3">
-                            <h5 className="text-secondary fw-bold mb-0 me-3">{groupedByDate[dateKey].label}</h5>
-                            <div className="flex-grow-1 border-bottom opacity-25"></div>
-                        </div>
+        {groupedDateKeys.map((dateKey) => (
+            <div key={dateKey} className="mb-5">
+                {/* Header Data con linea sottile */}
+                <div className="d-flex align-items-center mb-4">
+                    <h5 className="text-dark fw-bold mb-0 me-3">{groupedByDate[dateKey].label}</h5>
+                    <div className="flex-grow-1 border-bottom border-2 opacity-10"></div>
+                </div>
 
-                        <div className="d-flex flex-column gap-4">
-                            {groupedByDate[dateKey].projects.map((project) => {
-                                const projectFiles = filteredSortedFiles.filter(
-                                    (file) => file.project_id === project.id && areSameCalendarDate(file.date, project.date)
-                                );
+                <div className="d-flex flex-column gap-4">
+                    {groupedByDate[dateKey].projects.map((project) => {
+                        const projectFiles = filteredSortedFiles.filter(
+                            (file) => file.project_id === project.id && areSameCalendarDate(file.date, project.date)
+                        );
 
-                                return (
-                                    <div key={project.id} className="border rounded-4 p-3 bg-light-subtle">
-                                        <div className="small fw-semibold text-muted text-uppercase mb-3">Progetto e file associati</div>
-
-                                        <div className="row g-4 mb-2">
-                                            <FileCardComponent
-                                                handleDeleteClick={() => {
-                                                    setProjectToDeleteId(project.id);
-                                                    isDeleteProjectPopupVisible(true);
-                                                }}
-                                                title={project.name}
-                                                biIconName={"bi-pencil-square"}
-                                                handleCardClick={() => {}}
-                                                itemId={project.id}
-                                            />
-                                        </div>
-
-                                        {projectFiles.length > 0 ? (
-                                            <div className="row g-4">
-                                                {projectFiles.map((file) => (
-                                                    <FileCardComponent
-                                                        key={file.id}
-                                                        handleDeleteClick={ () => {
-                                                            setItemToDeleteId(file.id);
-                                                            setItemToDeleteStorageKey(file.storage_key);
-                                                            deleteFile();
-                                                        }}
-                                                        title={file.name}
-                                                        biIconName={getFileIcon(file.file_type)}
-                                                        handleCardClick={() => setSelectedFile(file)}
-                                                        itemId={file.id}
-                                                    />
-                                                ))}
-                                            </div>
-                                        ) : (
-                                            <div className="text-muted small">Nessun file associato a questo progetto.</div>
-                                        )}
-                                    </div>
-                                );
-                            })}
-
-                            {groupedByDate[dateKey].standaloneFiles.length > 0 && (
-                                <div className="row g-4">
-                                    {groupedByDate[dateKey].standaloneFiles.map(({ file, warning }) => (
-                                        <FileCardComponent
-                                            key={file.id}
-                                            handleDeleteClick={ () => {
-                                                setItemToDeleteId(file.id);
-                                                setItemToDeleteStorageKey(file.storage_key);
-                                                deleteFile();
-                                            }}
-                                            title={file.name}
-                                            biIconName={getFileIcon(file.file_type)}
-                                            handleCardClick={() => setSelectedFile(file)}
-                                            itemId={file.id}
-                                            warningText={warning || undefined}
-                                        />
-                                    ))}
+                        return (
+                            <div key={project.id} className="card border-0 shadow-sm rounded-4 bg-white p-4">
+                                <div className="d-flex align-items-center mb-3">
+                                    <span className="badge rounded-pill bg-primary-subtle text-primary px-3 py-2 small fw-bold text-uppercase">
+                                        Progetto modificabile e Documenti
+                                    </span>
                                 </div>
-                            )}
+
+                                <div className="row g-3 mb-4">
+                                    <FileCardComponent
+                                        handleDeleteClick={() => {
+                                            setProjectToDeleteId(project.id);
+                                            isDeleteProjectPopupVisible(true);
+                                        }}
+                                        title={project.name}
+                                        biIconName={"bi-pencil-square"}
+                                        handleCardClick={() => {}}
+                                        itemId={project.id}
+                                    />
+                                </div>
+
+                                {projectFiles.length > 0 ? (
+                                    <div className="row g-3">
+                                        {projectFiles.map((file) => (
+                                            <FileCardComponent
+                                                key={file.id}
+                                                handleDeleteClick={() => {
+                                                    setItemToDeleteId(file.id);
+                                                    setItemToDeleteStorageKey(file.storage_key);
+                                                    deleteFile();
+                                                }}
+                                                title={file.name}
+                                                biIconName={getFileIcon(file.file_type)}
+                                                handleCardClick={() => setSelectedFile(file)}
+                                                itemId={file.id}
+                                            />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="text-muted small ps-2 italic">Nessun file associato.</div>
+                                )}
+                            </div>
+                        );
+                    })}
+
+                    {groupedByDate[dateKey].standaloneFiles.length > 0 && (
+                        <div className="row g-3">
+                            {groupedByDate[dateKey].standaloneFiles.map(({ file, warning }) => (
+                                <FileCardComponent
+                                    key={file.id}
+                                    handleDeleteClick={() => {
+                                        setItemToDeleteId(file.id);
+                                        setItemToDeleteStorageKey(file.storage_key);
+                                        deleteFile();
+                                    }}
+                                    title={file.name}
+                                    biIconName={getFileIcon(file.file_type)}
+                                    handleCardClick={() => setSelectedFile(file)}
+                                    itemId={file.id}
+                                    warningText={warning || undefined}
+                                />
+                            ))}
                         </div>
-                    </div>
-                ))}
+                    )}
+                </div>
             </div>
-            <AddRecordComponent
-                tableName="files"
-                buildingSiteId={buildingSiteId}
-                selectedDate={selectedDate}
-                onSuccess={() => fetchFilesAndProjects(buildingSiteId)}
-                handleEditFile={(fileAlreadyExists) => handleEditFile(fileAlreadyExists)}
-            />
-            {deleteRecordPopup && 
-                <DeleteRecordComponent tableName={"files"} recordId={itemToDeleteId}
-                    onClose={() => {
-                        fetchFilesAndProjects(buildingSiteId);
-                        isDeleteRecordPopupVisible(false)
-                    }}
-                    onSuccess={() => {
-                        fetchFilesAndProjects(buildingSiteId);
-                        isDeleteRecordPopupVisible(false);
-                    }}
-                />
-            }
-            {selectedFile && (
-                <FileViewerComponent 
-                    storageKey={selectedFile.storage_key} 
-                    fileType={selectedFile.file_type} 
-                    fileName={selectedFile.name} 
-                    onClose={() => setSelectedFile(null)} 
-                />
-            )}
-            {selectedProject && (
-                <FileViewerComponent 
-                    storageKey={""} 
-                    fileType={"platformProject"} 
-                    fileName={selectedProject.name} 
-                    onClose={() => setSelectedFile(null)} 
-                />
-            )}
-            {deleteProjectPopup && 
-                <DeleteRecordComponent tableName={"projects"} recordId={projectToDeleteId}
-                    onClose={() => {
-                        fetchFilesAndProjects(buildingSiteId);
-                        isDeleteProjectPopupVisible(false)
-                    }}
-                    onSuccess={() => {
-                        fetchFilesAndProjects(buildingSiteId);
-                        isDeleteProjectPopupVisible(false);
-                    }}
-                />
-            }
-        </>
+        ))}
+    </div>
+
+    {/* Componenti di Overlay e Modal */}
+    <AddRecordComponent
+        tableName="files"
+        buildingSiteId={buildingSiteId}
+        selectedDate={selectedDate}
+        onSuccess={() => fetchFilesAndProjects(buildingSiteId)}
+        handleEditFile={(fileAlreadyExists) => handleEditFile(fileAlreadyExists)}
+    />
+
+    {deleteRecordPopup && (
+        <DeleteRecordComponent 
+            tableName={"files"} 
+            recordId={itemToDeleteId}
+            onClose={() => { fetchFilesAndProjects(buildingSiteId); isDeleteRecordPopupVisible(false); }}
+            onSuccess={() => { fetchFilesAndProjects(buildingSiteId); isDeleteRecordPopupVisible(false); }}
+        />
+    )}
+
+    {selectedFile && (
+        <FileViewerComponent 
+            storageKey={selectedFile.storage_key} 
+            fileType={selectedFile.file_type} 
+            fileName={selectedFile.name} 
+            onClose={() => setSelectedFile(null)} 
+        />
+    )}
+
+    {selectedProject && (
+        <FileViewerComponent 
+            storageKey={""} 
+            fileType={"platformProject"} 
+            fileName={selectedProject.name} 
+            onClose={() => setSelectedFile(null)} 
+        />
+    )}
+
+    {deleteProjectPopup && (
+        <DeleteRecordComponent 
+            tableName={"projects"} 
+            recordId={projectToDeleteId}
+            onClose={() => { fetchFilesAndProjects(buildingSiteId); isDeleteProjectPopupVisible(false); }}
+            onSuccess={() => { fetchFilesAndProjects(buildingSiteId); isDeleteProjectPopupVisible(false); }}
+        />
+    )}
+</>
     )
 }
 
