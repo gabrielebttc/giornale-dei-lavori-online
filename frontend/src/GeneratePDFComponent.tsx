@@ -101,7 +101,36 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
                     )
                 );
 
-                // 4. html2canvas → jsPDF
+                // 4. Raccogli le posizioni degli elementi block PRIMA di html2canvas
+                //    (il container è già nel DOM, getBoundingClientRect è disponibile)
+                const containerCssWidth = 794; // px — larghezza fissa del container (.gpdf-render-container)
+                const mmPerCssPx = 210 / containerCssWidth; // mm per CSS pixel (A4 = 210mm)
+
+                const containerRect = container.getBoundingClientRect();
+                const blockSelector = 'p, h1, h2, h3, h4, h5, h6, li, blockquote, pre, img, td, tr';
+                const elementBoundsMm = Array.from(container.querySelectorAll(blockSelector))
+                    .map(el => {
+                        const r = el.getBoundingClientRect();
+                        return {
+                            top:    (r.top    - containerRect.top) * mmPerCssPx,
+                            bottom: (r.bottom - containerRect.top) * mmPerCssPx,
+                        };
+                    })
+                    .filter(b => b.bottom > b.top + 0.5); // escludi elementi vuoti
+
+                // Cerca il break sicuro: se idealBreakMm cade dentro un elemento,
+                // sposta il break appena prima di quell'elemento.
+                // Se l'elemento è più alto della pagina disponibile (non evitabile), usa il break ideale.
+                const findSafeBreak = (idealBreakMm: number, minBreakMm: number): number => {
+                    for (const b of elementBoundsMm) {
+                        if (b.top > minBreakMm && b.top < idealBreakMm && b.bottom > idealBreakMm) {
+                            return b.top - 1; // sposta il break 1mm sopra l'inizio dell'elemento
+                        }
+                    }
+                    return idealBreakMm;
+                };
+
+                // 5. html2canvas → immagine
                 const canvas = await html2canvas(container, {
                     scale: 2,
                     useCORS: true,
@@ -111,21 +140,58 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
                 });
 
                 const imgData = canvas.toDataURL('image/jpeg', 0.92);
-                const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+                const pdf  = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
                 const pageW = pdf.internal.pageSize.getWidth();
                 const pageH = pdf.internal.pageSize.getHeight();
-                const imgW = pageW;
-                const imgH = (canvas.height * imgW) / canvas.width;
+                const imgW  = pageW;
+                const imgH  = (canvas.height * imgW) / canvas.width;
 
-                let heightLeft = imgH;
-                let yPos = 0;
-                pdf.addImage(imgData, 'JPEG', 0, yPos, imgW, imgH);
-                heightLeft -= pageH;
-                while (heightLeft > 0) {
-                    yPos -= pageH;
+                const marginTop    = 16; // mm — margine superiore (pagine 2+)
+                const marginBottom = 16; // mm — margine inferiore (tutte le pagine)
+
+                // 6. Calcola i break points in mm (fine del contenuto visibile per ogni pagina)
+                const page1Cap = pageH - marginBottom;
+                const pageNCap = pageH - marginTop - marginBottom;
+
+                const breaks: number[] = [];
+                // Pagina 1
+                breaks.push(findSafeBreak(Math.min(page1Cap, imgH), 0));
+
+                // Pagine successive
+                while (breaks[breaks.length - 1] < imgH) {
+                    const prev      = breaks[breaks.length - 1];
+                    const idealNext = prev + pageNCap;
+                    if (idealNext >= imgH) { breaks.push(imgH); break; }
+                    const safe = findSafeBreak(idealNext, prev);
+                    // Sicurezza: se il break sicuro non avanza, usa quello ideale per evitare loop infinito
+                    breaks.push(safe > prev ? safe : idealNext);
+                }
+
+                // 7. Genera le pagine PDF
+                const white = () => pdf.setFillColor(255, 255, 255);
+
+                // Pagina 1
+                pdf.addImage(imgData, 'JPEG', 0, 0, imgW, imgH);
+                white();
+                // Margine inferiore: copre dalla fine del contenuto alla base della pagina
+                pdf.rect(0, breaks[0], pageW, pageH - breaks[0], 'F');
+
+                // Pagine 2+
+                for (let i = 1; i < breaks.length; i++) {
+                    const startMm      = breaks[i - 1];
+                    const endMm        = breaks[i];
+                    const contentEndMm = marginTop + (endMm - startMm);
+
                     pdf.addPage();
-                    pdf.addImage(imgData, 'JPEG', 0, yPos, imgW, imgH);
-                    heightLeft -= pageH;
+                    // Posiziona l'immagine: startMm appare a y=marginTop
+                    pdf.addImage(imgData, 'JPEG', 0, marginTop - startMm, imgW, imgH);
+                    white();
+                    // Margine superiore (nasconde il duplicato della pagina precedente)
+                    pdf.rect(0, 0, pageW, marginTop, 'F');
+                    // Margine inferiore
+                    if (contentEndMm < pageH) {
+                        pdf.rect(0, contentEndMm, pageW, pageH - contentEndMm, 'F');
+                    }
                 }
 
                 const blob = pdf.output('blob');
@@ -151,11 +217,36 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
         a.click();
     };
 
+    const resolveUniqueFileName = async (token: string, baseName: string): Promise<string> => {
+        const res = await fetch(`${apiUrl}/api/file-manager/files/${buildingSiteId}`, {
+            headers: { 'Authorization': `Bearer ${token}` },
+        });
+        if (!res.ok) return baseName; // in caso di errore usa il nome così com'è
+
+        const files: Array<{ name: string }> = await res.json();
+        const existingNames = new Set(files.map(f => f.name));
+
+        if (!existingNames.has(baseName)) return baseName;
+
+        // Estrai nome e estensione
+        const lastDot = baseName.lastIndexOf('.');
+        const ext  = lastDot !== -1 ? baseName.slice(lastDot) : '';
+        const stem = lastDot !== -1 ? baseName.slice(0, lastDot) : baseName;
+
+        let counter = 2;
+        let candidate = `${stem} (${counter})${ext}`;
+        while (existingNames.has(candidate)) {
+            counter++;
+            candidate = `${stem} (${counter})${ext}`;
+        }
+        return candidate;
+    };
+
     const handleSaveToPlatform = async () => {
         if (!pdfBlob) return;
         setPhase('saving');
         const token = localStorage.getItem('token');
-        const fileName = `${projectName}.pdf`;
+        const fileName = await resolveUniqueFileName(token ?? '', `${projectName}.pdf`);
 
         try {
             // 1. Richiesta link di upload
