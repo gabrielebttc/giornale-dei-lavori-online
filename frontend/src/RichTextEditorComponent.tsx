@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import Image from '@tiptap/extension-image';
+import ImageWithStorageKey from './extensions/ImageWithStorageKey';
 import Link from '@tiptap/extension-link';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -29,7 +29,7 @@ export default function RichTextEditorComponent({
     const editor = useEditor({
     extensions: [
       StarterKit,
-      Image,
+      ImageWithStorageKey,
       Underline,
       Link.configure({
         openOnClick: false,

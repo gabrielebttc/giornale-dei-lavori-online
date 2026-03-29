@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { generateHTML } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
-import Image from '@tiptap/extension-image';
+import ImageWithStorageKey from './extensions/ImageWithStorageKey';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
@@ -82,7 +82,7 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
                     return copy;
                 };
                 const resolvedJson = await resolveImages(json);
-                const html = generateHTML(resolvedJson, [StarterKit, Image]);
+                const html = generateHTML(resolvedJson, [StarterKit, ImageWithStorageKey]);
 
                 // 3. Inietta l'HTML nel contenitore nascosto e aspetta il render
                 const container = renderContainerRef.current;

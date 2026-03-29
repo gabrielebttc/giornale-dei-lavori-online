@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { generateHTML } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
-import Image from '@tiptap/extension-image';
+import ImageWithStorageKey from './extensions/ImageWithStorageKey';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/core/lib/styles/index.css';
@@ -85,7 +85,7 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
                         return copy;
                     };
                     const resolvedJson = await resolveImages(json);
-                    const html = generateHTML(resolvedJson, [StarterKit, Image]);
+                    const html = generateHTML(resolvedJson, [StarterKit, ImageWithStorageKey]);
                     setProjectHtml(html);
                 } catch {
                     setError('Impossibile caricare il documento.');
