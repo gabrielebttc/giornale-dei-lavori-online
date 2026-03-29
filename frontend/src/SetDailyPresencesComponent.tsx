@@ -57,10 +57,15 @@ const SetDailyPresencesComponent: React.FC<Props> = ({ buildingSiteId, date }) =
         if (!presencesResponse.ok) throw new Error('Failed to fetch presences');
         const presencesData: DailyPresence[] = await presencesResponse.json();
 
-        // Inizializza le presenze. Se ci sono già dati, li usa, altrimenti li imposta su 'not_required'
+        // Inizializza le presenze. Se ci sono già dati li usa, altrimenti defaulta a 'not_required'.
+        // Usa sempre || 'not_required' anche quando il record esiste ma status è null/undefined.
         const initialPresences = workersData.map((worker: Worker) => {
           const existingPresence = presencesData.find(p => p.user_id === worker.user_id);
-          return existingPresence || { user_id: worker.user_id, status: 'not_required', notes: '' };
+          return {
+            user_id: worker.user_id,
+            status: (existingPresence?.status as PresenceStatus) || 'not_required',
+            notes: existingPresence?.notes || '',
+          };
         });
         setPresences(initialPresences);
       } catch (err) {
@@ -105,7 +110,7 @@ const SetDailyPresencesComponent: React.FC<Props> = ({ buildingSiteId, date }) =
         body: JSON.stringify({
           buildingSiteId,
           date,
-          presences,
+          presences: presences.filter(p => p.status !== 'not_required'),
         }),
       });
 

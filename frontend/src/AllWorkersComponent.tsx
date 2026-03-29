@@ -202,17 +202,48 @@ const AllWorkersComponent: React.FC<Props> = ({ buildingSiteId }) => {
     );
   }
 
+  const avatar = (w: Worker) => (
+    <div
+      style={{ width: 42, height: 42, borderRadius: '50%', background: '#e7f1ff', color: '#0d6efd', fontWeight: 700, fontSize: '0.9rem', flexShrink: 0 }}
+      className="d-flex align-items-center justify-content-center"
+    >
+      {w.first_name[0]}{w.last_name[0]}
+    </div>
+  );
+
+  const actionButtons = (worker: Worker) => (
+    <div className="d-flex gap-2" onClick={(e) => e.stopPropagation()}>
+      {buildingSiteId && (
+        <button
+          className="aw-btn-icon aw-btn-warning"
+          onClick={(e) => handleUnlinkWorker(worker, e)}
+          title="Scollega dal cantiere"
+        >
+          <i className="bi bi-link-45deg" />
+        </button>
+      )}
+      <button
+        className="aw-btn-icon aw-btn-danger"
+        onClick={(e) => handleDeleteWorker(worker, e)}
+        title="Elimina definitivamente"
+      >
+        <i className="bi bi-trash3" />
+      </button>
+    </div>
+  );
+
   return (
     <div className="container-fluid py-4 bg-light min-vh-100">
       <div className="container">
-        {/* Header Section */}
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
-          <h2 className="fw-bold text-dark mb-3 mb-md-0">
-            <i className="bi bi-people-fill me-2 text-primary"></i>
+
+        {/* Header */}
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+          <h2 className="fw-bold text-dark mb-0" style={{ fontSize: '1.4rem' }}>
+            <i className="bi bi-people-fill me-2 text-primary" />
             Lista Lavoratori
           </h2>
-          <div className="position-relative w-100 style={{ maxWidth: '400px' }}">
-            <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+          <div className="position-relative" style={{ width: '100%', maxWidth: 380 }}>
+            <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" style={{ pointerEvents: 'none' }} />
             <input
               type="text"
               className="form-control ps-5 border-0 shadow-sm rounded-pill"
@@ -223,111 +254,141 @@ const AllWorkersComponent: React.FC<Props> = ({ buildingSiteId }) => {
           </div>
         </div>
 
-        {/* Content Area */}
+        {/* Loading */}
         {loading ? (
-          <div className="d-flex flex-column align-items-center mt-5">
-            <div className="spinner-border text-primary mb-2" role="status"></div>
+          <div className="d-flex flex-column align-items-center mt-5 gap-2">
+            <div className="spinner-border text-primary" role="status" />
             <span className="text-muted fw-semibold">Caricamento lavoratori...</span>
           </div>
-        ) : (
-          <div className="table-responsive shadow-sm rounded-4 bg-white border">
-            <table className="table table-hover align-middle mb-0">
-              <thead className="bg-light">
-                <tr>
-                  <th className="px-4 py-3 border-0 text-secondary small text-uppercase">Lavoratore</th>
-                  <th className="py-3 border-0 text-secondary small text-uppercase">Azienda</th>
-                  <th className="py-3 border-0 text-secondary small text-uppercase">Mansione</th>
-                  {!buildingSiteId && <th className="py-3 border-0 text-secondary small text-uppercase">Cantieri</th>}
-                  <th className="py-3 border-0 text-secondary small text-uppercase text-end px-4">Azioni</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredWorkers.map((worker) => (
-                  <tr key={worker.user_id} onClick={() => handleModifyUser(worker)} style={{ cursor: 'pointer' }}>
-                    <td className="px-4 py-3">
-                      <div className="d-flex align-items-center">
-                        <div className="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center fw-bold me-3" style={{ width: '40px', height: '40px' }}>
-                          {worker.first_name[0]}{worker.last_name[0]}
-                        </div>
-                        <div>
-                          <div className="fw-bold text-dark">{worker.first_name} {worker.last_name}</div>
-                          <small className="text-muted">ID: #{worker.user_id}</small>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-3">
-                      <span className="badge bg-light text-dark border fw-normal px-2 py-1">
-                        {worker.company_names?.join(', ') || 'N/A'}
-                      </span>
-                    </td>
-                    <td className="py-3">
-                      <div className="small text-dark fw-medium">
-                        {worker.user_types?.join(', ') || '-'}
-                      </div>
-                    </td>
-                    {!buildingSiteId && (
-                      <td className="py-3">
-                        <small className="text-muted lh-sm d-block" style={{ maxWidth: '200px' }}>
-                          {worker.building_site_names?.join(', ') || 'Nessuno'}
-                        </small>
-                      </td>
-                    )}
-                    <td className="py-3 px-4 text-end" onClick={(e) => e.stopPropagation()}>
-                      <div className="btn-group shadow-sm rounded-3 overflow-hidden">
-                        {buildingSiteId && (
-                          <button
-                            className="btn btn-white border-end py-2 px-3 hover-warning"
-                            onClick={(e) => handleUnlinkWorker(worker, e)}
-                            title="Scollega dal cantiere"
-                          >
-                            <i className="bi bi-link-45deg text-warning fs-5"></i>
-                          </button>
-                        )}
-                        <button
-                          className="btn btn-white py-2 px-3 hover-danger"
-                          onClick={(e) => handleDeleteWorker(worker, e)}
-                          title="Elimina definitivamente"
-                        >
-                          <i className="bi bi-trash3 text-danger fs-5"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        ) : filteredWorkers.length === 0 ? (
+          <div className="text-center py-5 text-muted">
+            <i className="bi bi-people fs-1 d-block mb-2 opacity-25" />
+            Nessun lavoratore trovato.
           </div>
+        ) : (
+          <>
+            {/* ── DESKTOP: tabella (nascosta su mobile) ── */}
+            <div className="d-none d-md-block shadow-sm rounded-4 bg-white border overflow-hidden">
+              <table className="table table-hover align-middle mb-0">
+                <thead style={{ background: '#f8f9fc' }}>
+                  <tr>
+                    <th className="px-4 py-3 border-0 text-secondary small text-uppercase fw-semibold">Lavoratore</th>
+                    <th className="py-3 border-0 text-secondary small text-uppercase fw-semibold">Azienda</th>
+                    <th className="py-3 border-0 text-secondary small text-uppercase fw-semibold">Mansione</th>
+                    {!buildingSiteId && <th className="py-3 border-0 text-secondary small text-uppercase fw-semibold">Cantieri</th>}
+                    <th className="py-3 pe-4 border-0 text-secondary small text-uppercase fw-semibold text-end">Azioni</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredWorkers.map((worker) => (
+                    <tr key={worker.user_id} onClick={() => handleModifyUser(worker)} style={{ cursor: 'pointer' }}>
+                      <td className="px-4 py-3">
+                        <div className="d-flex align-items-center gap-3">
+                          {avatar(worker)}
+                          <div>
+                            <div className="fw-semibold text-dark lh-sm">{worker.first_name} {worker.last_name}</div>
+                            <small className="text-muted">#{worker.user_id}</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-3">
+                        <span className="badge bg-light text-dark border fw-normal px-2 py-1">
+                          {worker.company_names?.join(', ') || '—'}
+                        </span>
+                      </td>
+                      <td className="py-3">
+                        <span className="small text-dark">{worker.user_types?.join(', ') || '—'}</span>
+                      </td>
+                      {!buildingSiteId && (
+                        <td className="py-3">
+                          <small className="text-muted" style={{ maxWidth: 200, display: 'block' }}>
+                            {worker.building_site_names?.join(', ') || 'Nessuno'}
+                          </small>
+                        </td>
+                      )}
+                      <td className="py-3 pe-4 text-end">
+                        {actionButtons(worker)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* ── MOBILE: card list (nascosta su desktop) ── */}
+            <div className="d-flex d-md-none flex-column gap-3">
+              {filteredWorkers.map((worker) => (
+                <div
+                  key={worker.user_id}
+                  className="bg-white rounded-4 shadow-sm border"
+                  style={{ overflow: 'hidden' }}
+                  onClick={() => handleModifyUser(worker)}
+                >
+                  {/* Riga principale: avatar + nome + azioni */}
+                  <div className="d-flex align-items-center gap-3 px-3 pt-3 pb-2">
+                    {avatar(worker)}
+                    <div className="flex-grow-1 min-width-0">
+                      <div className="fw-semibold text-dark lh-sm">{worker.first_name} {worker.last_name}</div>
+                      <small className="text-muted">#{worker.user_id}</small>
+                    </div>
+                    {actionButtons(worker)}
+                  </div>
+
+                  {/* Dettagli: azienda, mansione, cantieri */}
+                  <div className="d-flex flex-wrap gap-2 px-3 pb-3" style={{ borderTop: '1px solid #f0f0f0', paddingTop: 10, marginTop: 4 }}>
+                    {worker.company_names?.length > 0 && (
+                      <div className="d-flex align-items-center gap-1">
+                        <i className="bi bi-building text-muted" style={{ fontSize: '0.75rem' }} />
+                        <span className="badge bg-light text-dark border fw-normal" style={{ fontSize: '0.75rem' }}>
+                          {worker.company_names.join(', ')}
+                        </span>
+                      </div>
+                    )}
+                    {worker.user_types?.length > 0 && (
+                      <div className="d-flex align-items-center gap-1">
+                        <i className="bi bi-wrench text-muted" style={{ fontSize: '0.75rem' }} />
+                        <span className="badge bg-primary bg-opacity-10 text-primary border-0 fw-normal" style={{ fontSize: '0.75rem' }}>
+                          {worker.user_types.join(', ')}
+                        </span>
+                      </div>
+                    )}
+                    {!buildingSiteId && worker.building_site_names?.length > 0 && (
+                      <div className="d-flex align-items-center gap-1">
+                        <i className="bi bi-geo-alt text-muted" style={{ fontSize: '0.75rem' }} />
+                        <span className="text-muted" style={{ fontSize: '0.75rem' }}>
+                          {worker.building_site_names.join(', ')}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
 
         {/* Floating Action Buttons */}
-        <div 
-          className="position-fixed d-flex flex-column gap-3" 
-          style={{ 
-            bottom: window.innerWidth <= 768 ? '30px' : '40px', 
-            right: '30px', 
-            zIndex: 1050 
-          }}
-        >
+        <div className="position-fixed d-flex flex-column gap-3" style={{ bottom: 32, right: 24, zIndex: 1050 }}>
           <button
-            className="btn btn-white shadow-lg border rounded-circle d-flex align-items-center justify-content-center transition-all"
+            className="btn btn-white shadow border rounded-circle d-flex align-items-center justify-content-center"
             onClick={fetchWorkers}
             disabled={loading}
-            style={{ width: '56px', height: '56px' }}
+            style={{ width: 52, height: 52 }}
+            title="Aggiorna"
           >
-            <i className={`bi bi-arrow-clockwise fs-4 ${loading ? 'spin' : ''}`}></i>
+            <i className={`bi bi-arrow-clockwise fs-5 ${loading ? 'aw-spin' : ''}`} />
           </button>
-          
           <button
-            className="btn btn-primary shadow-lg rounded-circle d-flex align-items-center justify-content-center transition-all"
+            className="btn btn-primary shadow rounded-circle d-flex align-items-center justify-content-center"
             onClick={() => setShowAddWorkerPopup(true)}
-            style={{ width: '64px', height: '64px' }}
+            style={{ width: 60, height: 60 }}
+            title="Aggiungi lavoratore"
           >
-            <i className="bi bi-plus-lg fs-2 text-white"></i>
+            <i className="bi bi-plus-lg fs-3 text-white" />
           </button>
         </div>
       </div>
 
-      {/* Modali (invariati come logica) */}
       {showDeleteModal && workerToDelete && (
         <DeleteRecordComponent
           tableName="users"
@@ -346,17 +407,21 @@ const AllWorkersComponent: React.FC<Props> = ({ buildingSiteId }) => {
         />
       )}
 
-      {/* Style Inline per pulizia */}
       <style>{`
-        .hover-shadow-sm:hover { box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important; }
-        .btn-white { background: white; border: 1px solid #dee2e6; }
+        .btn-white { background: #fff; }
         .btn-white:hover { background: #f8f9fa; }
-        .hover-danger:hover { background-color: #fff5f5!important; }
-        .hover-warning:hover { background-color: #fff9db!important; }
-        .transition-all { transition: all 0.2s ease-in-out; }
-        .transition-all:hover { transform: scale(1.05); }
-        .spin { animation: spin 1s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .aw-btn-icon {
+          width: 34px; height: 34px; border-radius: 8px; border: none;
+          display: inline-flex; align-items: center; justify-content: center;
+          font-size: 1rem; cursor: pointer; flex-shrink: 0;
+          transition: background 0.15s;
+        }
+        .aw-btn-warning { background: #fff9db; color: #d97706; }
+        .aw-btn-warning:hover { background: #fde68a; }
+        .aw-btn-danger  { background: #fff0f0; color: #dc3545; }
+        .aw-btn-danger:hover  { background: #ffd5d5; }
+        .aw-spin { animation: awSpin 1s linear infinite; display: inline-block; }
+        @keyframes awSpin { to { transform: rotate(360deg); } }
       `}</style>
     </div>
   );
