@@ -117,6 +117,16 @@ Vincolo unico: `UNIQUE (building_site_id, date)`.
 | **file_id** | integer | FK -> files.id, NOT NULL, ON DELETE CASCADE |
 | **content_json** | jsonb | - |
 
+### `templates` (Template documenti)
+
+| Attributo | Tipo | Vincoli |
+| --- | --- | --- |
+| **id** | integer | PRIMARY KEY, DEFAULT nextval(...) |
+| **name** | varchar(40) | NOT NULL |
+| **content_json** | jsonb | - |
+| **created_at** | timestamptz | DEFAULT CURRENT_TIMESTAMP |
+| **updated_at** | timestamptz | DEFAULT CURRENT_TIMESTAMP |
+
 ## Tabelle di Relazione e Tipologie
 
 ### `user_type` (Ruoli/Tipi utente)

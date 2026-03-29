@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict CbY4AuoVV9vHvKjFj7pNrebQf5vmnNdSRLetSqx4I8JWLq6LstOLV2bbWFRcVDk
+\restrict NjJqwfFBcQakDGk6lnxTwH4jcAnRCGUh3rYBDRHqwQdHRZlvDMjowB40kkWxXPM
 
 -- Dumped from database version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
 -- Dumped by pg_dump version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
@@ -334,6 +334,43 @@ ALTER SEQUENCE public.teams_id_seq OWNED BY public.teams.id;
 
 
 --
+-- Name: templates; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.templates (
+    id integer NOT NULL,
+    name character varying(40) NOT NULL,
+    content_json jsonb,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.templates OWNER TO postgres;
+
+--
+-- Name: templates_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.templates_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.templates_id_seq OWNER TO postgres;
+
+--
+-- Name: templates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.templates_id_seq OWNED BY public.templates.id;
+
+
+--
 -- Name: user_type; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -606,6 +643,13 @@ ALTER TABLE ONLY public.teams ALTER COLUMN id SET DEFAULT nextval('public.teams_
 
 
 --
+-- Name: templates id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.templates ALTER COLUMN id SET DEFAULT nextval('public.templates_id_seq'::regclass);
+
+
+--
 -- Name: user_type id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -720,6 +764,14 @@ ALTER TABLE ONLY public.teams
 
 
 --
+-- Name: templates templates_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.templates
+    ADD CONSTRAINT templates_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: daily_notes unique_building_site_date; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -816,6 +868,14 @@ ALTER TABLE ONLY public.documents
 
 
 --
+-- Name: projects fk_building_site_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT fk_building_site_id FOREIGN KEY (building_site_id) REFERENCES public.building_sites(id);
+
+
+--
 -- Name: building_sites fk_building_sites_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -845,14 +905,6 @@ ALTER TABLE ONLY public.daily_notes
 
 ALTER TABLE ONLY public.daily_presences
     ADD CONSTRAINT fk_daily_presences_owner FOREIGN KEY (owner_id) REFERENCES public.users(id) ON DELETE CASCADE;
-
-
---
--- Name: projects fk_building_site_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.projects
-    ADD CONSTRAINT fk_building_site_id FOREIGN KEY (building_site_id) REFERENCES public.building_sites(id);
 
 
 --
@@ -971,5 +1023,5 @@ ALTER TABLE ONLY public.users_user_type
 -- PostgreSQL database dump complete
 --
 
-\unrestrict CbY4AuoVV9vHvKjFj7pNrebQf5vmnNdSRLetSqx4I8JWLq6LstOLV2bbWFRcVDk
+\unrestrict NjJqwfFBcQakDGk6lnxTwH4jcAnRCGUh3rYBDRHqwQdHRZlvDMjowB40kkWxXPM
 
