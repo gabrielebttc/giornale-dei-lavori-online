@@ -301,7 +301,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                 </form>
 
                 {/* Sezione Create Collassabile */}
-                <form className="collapse" id="createFileSection">
+                <div className="collapse" id="createFileSection">
                     <div className="d-inline-block p-2 bg-white rounded-3 shadow-sm border w-100">
                         <CalendarComponent 
                             onDateSelect={(date) => setFileDate(date)} 
@@ -325,7 +325,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             deletable={false}
                         />
                     </div>
-                </form>
+                </div>
 
             </div>
             <LoadingScreen isLoading={isLoading} />

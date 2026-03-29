@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AddRecordComponent from "./AddRecordComponent";
 import type { FilesRecord, ProjectsRecord } from "./types/dbTables";
 import DeleteRecordComponent from "./DeleteRecordComponent";
@@ -14,6 +15,7 @@ type FileManagerComponentProps = {
 }
 
 export default function FileManagerComponent({ buildingSiteId, selectedDate, handleEditFile }: FileManagerComponentProps) {
+    const navigate = useNavigate();
 
     const [filesList, setFilesList] = useState<FilesRecord[]>([]);
     const [projectsList, setProjectsList] = useState<ProjectsRecord[]>([]);
@@ -194,7 +196,7 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                                         }}
                                         title={project.name}
                                         biIconName={"bi-pencil-square"}
-                                        handleCardClick={() => {}}
+                                        handleCardClick={() => setSelectedProject(project)}
                                         itemId={project.id}
                                     />
                                 </div>
@@ -275,11 +277,13 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
     )}
 
     {selectedProject && (
-        <FileViewerComponent 
-            storageKey={""} 
-            fileType={"platformProject"} 
-            fileName={selectedProject.name} 
-            onClose={() => setSelectedFile(null)} 
+        <FileViewerComponent
+            storageKey={""}
+            fileType={"platformProject"}
+            fileName={selectedProject.name}
+            projectId={selectedProject.id}
+            onClose={() => setSelectedProject(null)}
+            onEdit={() => navigate(`/edit-document/${buildingSiteId}/${selectedDate}?projectId=${selectedProject.id}`)}
         />
     )}
 
