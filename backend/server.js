@@ -7,6 +7,7 @@ const authRoutes = require('./authRoutes');
 const apiRoutes = require('./apiRoutes');
 const fileManagerRoutes = require('./fileManagerRoutes');
 const projectsManagerRoutes = require('./projectsManagerRoutes');
+const templatesManagerRoutes = require('./templatesManagerRoutes');
 const { initializeSocket } = require('./socket');
 
 const app = express();
@@ -26,6 +27,9 @@ app.use('/api/file-manager', fileManagerRoutes);
 
 // Rotte per la gestione dei progetti
 app.use('/api/projects-manager', projectsManagerRoutes);
+
+// Rotte per la gestione dei template
+app.use('/api/templates-manager', templatesManagerRoutes);
 
 // Altre rotte API
 app.use('/api/', apiRoutes);

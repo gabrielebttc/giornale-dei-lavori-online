@@ -118,6 +118,46 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
         });
     };
 
+    const [templateName, setTemplateName] = useState<string>('');
+    const [isCreatingTemplate, setIsCreatingTemplate] = useState<boolean>(false);
+    const [templateMessage, setTemplateMessage] = useState<{ text: string; type: string } | null>(null);
+
+    const handleCreateTemplate = async () => {
+        if (!templateName.trim()) {
+            setTemplateMessage({ text: 'Inserisci un nome per il template.', type: 'warning' });
+            return;
+        }
+        setIsCreatingTemplate(true);
+        setTemplateMessage(null);
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${apiUrl}/api/templates-manager/templates`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    name: templateName.trim(),
+                    content_json: {
+                        type: 'doc',
+                        content: [{ type: 'paragraph', content: [{ type: 'text', text: '' }] }],
+                    },
+                }),
+            });
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error || 'Errore nella creazione del template');
+            }
+            const created = await response.json();
+            navigate(`/edit-document/${buildingSiteId}/${selectedDate}?templateId=${created.id}`);
+        } catch (error) {
+            console.error('Errore creazione template:', error);
+            setTemplateMessage({ text: 'Errore durante la creazione del template. Riprova.', type: 'danger' });
+            setIsCreatingTemplate(false);
+        }
+    };
+
     const handleCreateUntitledProject = async () => {
         setIsLoading(true);
 
@@ -181,25 +221,37 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
             <div className="card-body p-4">
                 {/* Pulsanti di azione - Layout a card */}
                 <div className="row g-3 mb-4">
-                    <div className="col-md-6">
-                        <button 
+                    <div className="col-md-4">
+                        <button
                             className="btn btn-outline-primary w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2"
-                            type="button" 
-                            data-bs-toggle="collapse" 
-                            data-bs-target="#uploadFileSection" 
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#uploadFileSection"
                             aria-expanded="false"
                         >
                             <i className="bi bi-laptop fs-3 mb-2"></i>
                             <span className="fw-bold">Carica dal PC</span>
                         </button>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                         <a className="btn btn-outline-secondary w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2"
-                            data-bs-toggle="collapse" href="#createFileSection" role="button" 
-                            aria-expanded="false" aria-controls="collapseExample">
+                            data-bs-toggle="collapse" href="#createFileSection" role="button"
+                            aria-expanded="false" aria-controls="createFileSection">
                                 <i className="bi bi-file-earmark-plus fs-3 mb-2"></i>
                                 <span className="fw-bold">Crea Documento</span>
                         </a>
+                    </div>
+                    <div className="col-md-4">
+                        <button
+                            className="btn btn-outline-warning w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#createTemplateSection"
+                            aria-expanded="false"
+                        >
+                            <i className="bi bi-layout-text-window-reverse fs-3 mb-2"></i>
+                            <span className="fw-bold">Crea Template</span>
+                        </button>
                     </div>
                 </div>
 
@@ -314,7 +366,8 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                         </label>
                         <FileCardComponent 
                             handleDeleteClick={ () => {
-                                console.log("Eliminazione Tema");
+                                // non si può eliminare il template perchè è solo un modello vuoto da cui partire
+                                console.log("Non puoi eliminare questo template");
                             }}
                             title={"Documento Vuoto"}
                             biIconName={"bi-file-earmark-plus"}
@@ -324,6 +377,39 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             itemId={0}
                             deletable={false}
                         />
+                    </div>
+                </div>
+
+                {/* Sezione Crea Template Collassabile */}
+                <div className="collapse mt-3" id="createTemplateSection">
+                    <div className="p-4 border border-warning border-opacity-50 rounded-4 bg-light shadow-sm">
+                        <label className="form-label d-block mb-3 small fw-bold text-uppercase text-warning letter-spacing-1">
+                            Nome del template
+                        </label>
+                        <input
+                            type="text"
+                            className="form-control rounded-3 mb-3"
+                            placeholder="Es. Verbale di cantiere, Relazione settimanale..."
+                            value={templateName}
+                            onChange={(e) => setTemplateName(e.target.value)}
+                        />
+                        {templateMessage && (
+                            <div className={`alert alert-${templateMessage.type} border-0 shadow-sm rounded-3 py-2 mb-3`} role="alert">
+                                {templateMessage.text}
+                            </div>
+                        )}
+                        <button
+                            type="button"
+                            className="btn btn-warning w-100 rounded-3 fw-bold py-2"
+                            onClick={handleCreateTemplate}
+                            disabled={isCreatingTemplate}
+                        >
+                            {isCreatingTemplate ? (
+                                <><span className="spinner-border spinner-border-sm me-2" />Creazione...</>
+                            ) : (
+                                <><i className="bi bi-layout-text-window-reverse me-2" />Crea Template</>
+                            )}
+                        </button>
                     </div>
                 </div>
 

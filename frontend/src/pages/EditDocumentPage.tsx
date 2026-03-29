@@ -9,6 +9,9 @@ const EditDocumentPage: React.FC = () => {
   const projectIdParam = searchParams.get('projectId');
   const projectId = projectIdParam && /^\d+$/.test(projectIdParam) ? Number(projectIdParam) : null;
 
+  const templateIdParam = searchParams.get('templateId');
+  const templateId = templateIdParam && /^\d+$/.test(templateIdParam) ? Number(templateIdParam) : null;
+
   if (!siteId || !date) {
     return <h1 className="text-center my-4">ID o Data del cantiere mancante.</h1>;
   }
@@ -17,6 +20,7 @@ const EditDocumentPage: React.FC = () => {
     <div className="container mt-3">
       <EditDocumentComponent
         projectId={projectId}
+        templateId={templateId}
       />
     </div>
   );
