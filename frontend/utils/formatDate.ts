@@ -10,3 +10,16 @@ export const dateToString = (date: Date): string => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 };
+
+/**
+ * Formats a date string (YYYY-MM-DD) or Date object as "martedì 16 febbraio 2026"
+ */
+export const formatDateLong = (value: string | Date): string => {
+    const date = typeof value === 'string' ? stringToDate(value.slice(0, 10)) : value;
+    return date.toLocaleDateString('it-IT', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
+};

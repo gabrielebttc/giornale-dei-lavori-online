@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { formatDateLong } from "../utils/formatDate";
 import { useNavigate } from "react-router-dom";
 import AddRecordComponent from "./AddRecordComponent";
 import type { FilesRecord, ProjectsRecord } from "./types/dbTables";
@@ -125,14 +126,14 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
 
         filteredSortedProjects.forEach((project) => {
             const dateKey = project.date || 'no-date';
-            const dateLabel = project.date ? new Date(project.date).toLocaleDateString() : 'Senza data';
+            const dateLabel = project.date ? formatDateLong(project.date) : 'Senza data';
             ensureGroup(dateKey, dateLabel);
             groups[dateKey].projects.push(project);
         });
 
         filteredSortedFiles.forEach((file) => {
             const dateKey = file.date || 'no-date';
-            const dateLabel = file.date ? new Date(file.date).toLocaleDateString() : 'Senza data';
+            const dateLabel = file.date ? formatDateLong(file.date) : 'Senza data';
             ensureGroup(dateKey, dateLabel);
 
             const linkedProject = file.project_id ? projectsById.get(file.project_id) : null;
@@ -153,7 +154,7 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
     })();
 
     const groupedDateKeys = Object.keys(groupedByDate).sort(
-        (a, b) => new Date(a === 'no-date' ? 0 : a).getTime() - new Date(b === 'no-date' ? 0 : b).getTime()
+        (a, b) => new Date(b === 'no-date' ? 0 : b).getTime() - new Date(a === 'no-date' ? 0 : a).getTime()
     );
 
     useEffect(() => {
