@@ -15,7 +15,8 @@ export const dateToString = (date: Date): string => {
  * Formats a date string (YYYY-MM-DD) or Date object as "martedì 16 febbraio 2026"
  */
 export const formatDateLong = (value: string | Date): string => {
-    const date = typeof value === 'string' ? stringToDate(value.slice(0, 10)) : value;
+    const d = typeof value === 'string' ? new Date(value) : value;
+    const date = stringToDate(dateToString(d));
     return date.toLocaleDateString('it-IT', {
         weekday: 'long',
         day: 'numeric',

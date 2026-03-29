@@ -28,7 +28,13 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
     const [selectedProject, setSelectedProject] = useState<ProjectsRecord | null>(null);
     const [deleteProjectPopup, isDeleteProjectPopupVisible] = useState<boolean>(false);
     const [projectToDeleteId, setProjectToDeleteId] = useState<number>(0);
-    
+
+    useEffect(() => {
+        projectsList.forEach(project => {
+            console.log("DATA PROGETTO", project.id, project.name, ":", JSON.stringify(project.date), typeof project.date);
+        });
+    }, [projectsList]);
+
     const sortedFiles = [...filesList].sort((a, b) => {
         const dateA = new Date(a.date ?? "").getTime();
         const dateB = new Date(b.date ?? "").getTime();
@@ -201,7 +207,7 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                             <i className="bi bi-calendar3" />
                             {groupedByDate[dateKey].label}
                         </div>
-                        <div className="fm-date-line" />
+                        <div className="fm-date-line"></div>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

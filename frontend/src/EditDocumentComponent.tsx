@@ -100,7 +100,7 @@ export default function EditDocumentComponent({ projectId = null, templateId = n
                 body: JSON.stringify({
                     name: dataToSave.name,
                     content_json: transformedContent,
-                    date: dateToString(new Date(dataToSave.date)),
+                    date: new Date(String(dataToSave.date)).toISOString(),
                 }),
             });
             if (!response.ok) throw new Error(`Errore HTTP ${response.status}`);
@@ -454,7 +454,7 @@ export default function EditDocumentComponent({ projectId = null, templateId = n
                     projectId={projectId}
                     projectName={newProjectData?.name || 'documento'}
                     buildingSiteId={siteId}
-                    date={newProjectData?.date ? dateToString(new Date(newProjectData.date)) : dateToString(new Date())}
+                    date={newProjectData?.date ? String(newProjectData.date).slice(0, 10) : dateToString(new Date())}
                     onClose={() => setShowPDFModal(false)}
                 />
             )}

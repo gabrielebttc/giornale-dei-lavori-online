@@ -557,15 +557,17 @@ router.get('/get-daily-note', authenticateToken, async (req, res) => {
     }
 
     const query = `
-      SELECT ${noteType} AS note_value
+      SELECT ${noteType} AS note_value, date
       FROM daily_notes
       WHERE building_site_id = $1 AND date = $2;
     `;
     
     const result = await pool.query(query, [buildingSiteId, date]);
+    console.log("DATA DELLE NOTE DA LEGGERE: ", date);
     
     if (result.rows.length > 0) {
       res.json({ noteValue: result.rows[0].note_value });
+      console.log("DATA DELLE NOTE LETTE: ", result.rows[0]);
     } else {
       res.json({ noteValue: '' });
     }
@@ -578,6 +580,7 @@ router.get('/get-daily-note', authenticateToken, async (req, res) => {
 router.post('/add-daily-note', authenticateToken, async (req, res) => {
   const { buildingSiteId, date, noteType, noteValue } = req.body;
   const ownerId = req.user.id;
+  console.log("DATA DELLE NOTE DA INSERIRE: ", date);
 
   if (!buildingSiteId || !date || !noteType || noteValue === undefined) {
     return res.status(400).json({ message: 'buildingSiteId, date, noteType, and noteValue are required.' });

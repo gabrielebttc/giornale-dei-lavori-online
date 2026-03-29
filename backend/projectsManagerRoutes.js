@@ -18,8 +18,8 @@ router.post('/projects', authenticateToken, async (req, res) => {
     return res.status(400).json({ error: 'Il campo "building_site_id" deve essere un intero positivo.' });
   }
 
-  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(String(date))) {
-    return res.status(400).json({ error: 'Il campo "date" deve avere formato YYYY-MM-DD.' });
+  if (!date || isNaN(new Date(String(date)).getTime())) {
+    return res.status(400).json({ error: 'Il campo "date" non e una data valida.' });
   }
 
   try {
@@ -31,6 +31,8 @@ router.post('/projects', authenticateToken, async (req, res) => {
     if (siteCheck.rowCount === 0) {
       return res.status(404).json({ error: 'Cantiere non trovato o non autorizzato.' });
     }
+
+    console.log("DATAAAA CHE STO CARICANDO SUL DB: ", String(date))
 
     const result = await pool.query(
       `INSERT INTO projects (name, content_json, metadata, owner_id, building_site_id, date)
@@ -46,6 +48,7 @@ router.post('/projects', authenticateToken, async (req, res) => {
       ]
     );
 
+    console.log("DATAAAA CARICATA SUL DB (RETURING *): ", String(result.rows[0].date))
     return res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error('Errore durante la creazione del progetto:', error);
@@ -73,8 +76,8 @@ router.put('/projects/:projectId', authenticateToken, async (req, res) => {
     return res.status(400).json({ error: 'Il campo "building_site_id" deve essere un intero positivo.' });
   }
 
-  if (date !== undefined && (!date || !/^\d{4}-\d{2}-\d{2}$/.test(String(date)))) {
-    return res.status(400).json({ error: 'Il campo "date" deve avere formato YYYY-MM-DD.' });
+  if (date !== undefined && (!date || isNaN(new Date(String(date)).getTime()))) {
+    return res.status(400).json({ error: 'Il campo "date" non e una data valida.' });
   }
 
   const updates = [];
@@ -176,10 +179,11 @@ router.get('/building-sites/:buildingSiteId/projects', authenticateToken, async 
 
   try {
     const resultProjects = await pool.query(
-      'SELECT * FROM projects WHERE building_site_id = $1 AND owner_id = $2 ORDER BY date ASC, created_at ASC',
+      'SELECT id, name, content_json, metadata, created_at, updated_at, owner_id, building_site_id, date FROM projects WHERE building_site_id = $1 AND owner_id = $2 ORDER BY date ASC, created_at ASC',
       [Number(buildingSiteId), req.user.id]
     );
 
+    console.log(`Progetti trovati per cantiere ${buildingSiteId}:`, resultProjects.rows);
     return res.status(200).json(resultProjects.rows);
   } catch (error) {
     console.error('Errore durante il recupero dei progetti per cantiere:', error);

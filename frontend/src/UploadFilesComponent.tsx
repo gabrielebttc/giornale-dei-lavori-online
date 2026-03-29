@@ -1,9 +1,10 @@
-import React, { useState, type ChangeEvent, type FormEvent } from 'react';
+import React, { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CalendarComponent from './CalendarComponent';
 import FileCardComponent from './FileCardComponent';
+import DeleteRecordComponent from './DeleteRecordComponent';
 import LoadingScreen from './LoadingScreen';
-import { dateToString } from '../utils/formatDate';
+import { dateToString, stringToDate } from '../utils/formatDate';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -22,7 +23,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isDragging, setIsDragging] = useState<boolean>(false);
     const [message, setMessage] = useState<{ text: string; type: string } | null>(null);
-    const [fileDate, setFileDate] = useState<Date>(new Date());
+    const [fileDate, setFileDate] = useState<string>(dateToString(new Date()));
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -91,7 +92,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                         originalName: file.name, 
                         buildingSiteId,
                         mimeType: file.type,
-                        date: fileDate
+                        date: new Date(fileDate).toISOString()
                     }),
                     headers: { 
                         'Content-Type': 'application/json',
@@ -116,6 +117,58 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
             text: `Caricati con successo ${successCount} di ${selectedFiles.length} file.`, 
             type: successCount === selectedFiles.length ? "success" : "warning" 
         });
+    };
+
+    const [templates, setTemplates] = useState<{ id: number; name: string }[]>([]);
+    const [templateToDeleteId, setTemplateToDeleteId] = useState<number | null>(null);
+
+    const fetchTemplates = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/api/templates-manager/templates`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+            });
+            if (!response.ok) return;
+            const data = await response.json();
+            setTemplates(data);
+        } catch (err) {
+            console.error('Errore nel caricamento dei template:', err);
+        }
+    };
+
+    useEffect(() => { fetchTemplates(); }, []);
+
+    const handleCreateFromTemplate = async (templateId: number) => {
+        setIsLoading(true);
+        try {
+            const token = localStorage.getItem('token');
+            // Recupera il contenuto del template
+            const templateRes = await fetch(`${apiUrl}/api/templates-manager/templates/${templateId}`, {
+                headers: { 'Authorization': `Bearer ${token}` },
+            });
+            if (!templateRes.ok) throw new Error('Template non trovato');
+            const template = await templateRes.json();
+
+            // Crea un nuovo progetto a partire dal contenuto del template
+            const response = await fetch(`${apiUrl}/api/projects-manager/projects`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({
+                    name: template.name,
+                    content_json: template.content_json,
+                    metadata: { source: 'template', template_id: templateId },
+                    building_site_id: Number(buildingSiteId),
+                    date: new Date(fileDate).toISOString(),
+                }),
+            });
+            if (!response.ok) throw new Error(`Errore creazione progetto: ${response.status}`);
+            const created = await response.json();
+            setIsLoading(false);
+            navigate(`/edit-document/${buildingSiteId}/${selectedDate}?projectId=${created.id}`);
+        } catch (error) {
+            setIsLoading(false);
+            console.error('Errore creazione da template:', error);
+            setMessage({ text: 'Errore durante la creazione del documento. Riprova.', type: 'danger' });
+        }
     };
 
     const [templateName, setTemplateName] = useState<string>('');
@@ -184,7 +237,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                         source: 'upload-files-component',
                     },
                     building_site_id: Number(buildingSiteId),
-                    date: dateToString(fileDate),
+                    date: new Date(fileDate).toISOString(),
                 }),
             });
 
@@ -265,8 +318,8 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             </label>
                             <div className="d-inline-block p-2 bg-white rounded-3 shadow-sm border w-100">
                                 <CalendarComponent 
-                                    onDateSelect={(date) => setFileDate(date)} 
-                                    selectedDate={fileDate}
+                                    onDateSelect={(date) => setFileDate(dateToString(date))}
+                                    selectedDate={stringToDate(fileDate)}
                                 />
                             </div>
                         </div>
@@ -354,29 +407,50 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
 
                 {/* Sezione Create Collassabile */}
                 <div className="collapse" id="createFileSection">
-                    <div className="d-inline-block p-2 bg-white rounded-3 shadow-sm border w-100">
-                        <CalendarComponent 
-                            onDateSelect={(date) => setFileDate(date)} 
-                            selectedDate={fileDate}
-                        />
-                    </div>
-                    <div className="p-4 border border-primary border-opacity-25 rounded-4 bg-light shadow-sm">
-                        <label className="form-label d-block mb-4 small fw-bold text-uppercase text-primary letter-spacing-1">
-                            Seleziona Template
-                        </label>
-                        <FileCardComponent 
-                            handleDeleteClick={ () => {
-                                // non si può eliminare il template perchè è solo un modello vuoto da cui partire
-                                console.log("Non puoi eliminare questo template");
-                            }}
+                    <div className="p-4 border border-secondary border-opacity-25 rounded-4 bg-light shadow-sm">
+
+                        <div className="mb-4 text-center">
+                            <label className="form-label d-block mb-3 small fw-bold text-uppercase text-secondary letter-spacing-1">
+                                1. Seleziona la Data del Documento
+                            </label>
+                            <div className="d-inline-block p-2 bg-white rounded-3 shadow-sm border w-100">
+                                <CalendarComponent
+                                    onDateSelect={(date) => {setFileDate(dateToString(date)); console.log("-> fileDate: ", dateToString(date))}}
+                                    selectedDate={stringToDate(fileDate)}
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="form-label d-block mb-3 small fw-bold text-uppercase text-secondary letter-spacing-1 text-center">
+                                2. Scegli il Template da cui Partire
+                            </label>
+                        <FileCardComponent
+                            handleDeleteClick={() => {}}
                             title={"Documento Vuoto"}
                             biIconName={"bi-file-earmark-plus"}
-                            handleCardClick={() => {
-                                void handleCreateUntitledProject();
-                            }}
+                            handleCardClick={() => { void handleCreateUntitledProject(); }}
                             itemId={0}
                             deletable={false}
                         />
+                        {templates.map((template) => (
+                            <FileCardComponent
+                                key={template.id}
+                                handleDeleteClick={() => setTemplateToDeleteId(template.id)}
+                                title={template.name}
+                                biIconName={"bi-layout-text-window-reverse"}
+                                handleCardClick={() => { void handleCreateFromTemplate(template.id); }}
+                                itemId={template.id}
+                                deletable={true}
+                            />
+                        ))}
+                        {templates.length === 0 && (
+                            <p className="text-muted small mt-3 mb-0">
+                                <i className="bi bi-info-circle me-1"></i>
+                                Nessun template salvato. Creane uno dal tasto "Crea Template".
+                            </p>
+                        )}
+                        </div>
                     </div>
                 </div>
 
@@ -415,6 +489,15 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
 
             </div>
             <LoadingScreen isLoading={isLoading} />
+
+            {templateToDeleteId !== null && (
+                <DeleteRecordComponent
+                    tableName="templates"
+                    recordId={templateToDeleteId}
+                    onClose={() => setTemplateToDeleteId(null)}
+                    onSuccess={() => { fetchTemplates(); setTemplateToDeleteId(null); }}
+                />
+            )}
         </div>
     );
 };

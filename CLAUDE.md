@@ -56,7 +56,7 @@ All user data is isolated by `owner_id`. Every query on sensitive tables must fi
 1. Login → access token (stored in `localStorage`) + refresh token (HttpOnly cookie, DB-backed)
 2. All API requests: `Authorization: Bearer <access_token>`
 3. Token refresh: automatic via cookie on expiry
-4. Middleware: `backend/middleware/authMiddleware.js`
+4. Middleware: `backend/authMiddleware.js`
 
 ### Backend Route Structure
 - `server.js` — entry point, mounts all routers, initializes Socket.io
@@ -64,6 +64,7 @@ All user data is isolated by `owner_id`. Every query on sensitive tables must fi
 - `authRoutes.js` — register, login, logout, token refresh
 - `fileManagerRoutes.js` — Backblaze B2 upload/download/delete
 - `projectsManagerRoutes.js` — TipTap document projects (JSON content stored in DB)
+- `templatesManagerRoutes.js` — reusable document templates (JSON content stored in DB)
 - `socket.js` — WebSocket event handlers
 
 ### Frontend Route Structure (`App.tsx`)
@@ -76,11 +77,19 @@ All user data is isolated by `owner_id`. Every query on sensitive tables must fi
 | `/profile` | ProfilePage | User profile |
 | `/login`, `/register` | Auth pages | Authentication |
 
+`ActionPage` renders different components based on the `:link` URL segment: `daily-notes`, `set-daily-presences`, `all-workers-from-site`, `modify-building-site`, `generate-excel-file`, `file-manager`.
+
+`EditDocumentPage` accepts `?projectId=` or `?templateId=` query param to determine whether to load/save a project or a template.
+
 ### Database Schema
-Key tables: `users`, `building_sites`, `companies`, `daily_notes` (unique on `building_site_id + date`), `daily_presences`, `files`, `projects`, `documents`, `user_type`.
+Key tables: `users`, `building_sites`, `companies`, `daily_notes` (unique on `building_site_id + date`), `daily_presences`, `files`, `projects`, `documents`, `templates`, `user_type`.
 Join tables: `users_building_sites`, `users_companies`, `users_teams`, `users_user_type`.
 
 Full schema: `docs/database/db_schema.sql` | Human-readable: `docs/database/db_schema.md`
+
+### Date Handling
+- **Frontend:** Dates are stored as `YYYY-MM-DD` strings (never as `Date` objects) in component state. Use `dateToString(date)` from `frontend/utils/formatDate.ts` immediately in calendar `onDateSelect` callbacks to avoid UTC timezone shift bugs. `new Date("YYYY-MM-DD")` parses as UTC midnight and shifts the date in Italy (UTC+2).
+- **Backend:** PostgreSQL `date` columns are returned by node-postgres as plain `YYYY-MM-DD` strings — no conversion needed. Send dates from the frontend as plain strings, not ISO UTC timestamps.
 
 ## Known Issues & Active Development
 See `docs/Developer_notes.md` for the full list. Key items:
