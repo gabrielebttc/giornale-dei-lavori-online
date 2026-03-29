@@ -3,6 +3,7 @@ import { Editor as TiptapEditor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import { useNavigate, useParams } from 'react-router-dom';
 import RichTextEditorComponent from './RichTextEditorComponent';
+import GeneratePDFComponent from './GeneratePDFComponent';
 import { dateToString } from '../utils/formatDate';
 import LoadingScreen from './LoadingScreen';
 import type { ProjectsRecord } from './types/dbTables';
@@ -48,6 +49,7 @@ export default function EditDocumentComponent({ projectId = null }: EditDocument
     const [lastSaved, setLastSaved] = useState<Date | null>(null);
     const [autoSaveEnabled, setAutoSaveEnabled] = useState<boolean>(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [showPDFModal, setShowPDFModal] = useState<boolean>(false);
 
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -190,7 +192,7 @@ export default function EditDocumentComponent({ projectId = null }: EditDocument
     }, [projectId]);
 
     const handleExportPDF = () => {
-        // aggiungere logica per export pdf
+        setShowPDFModal(true);
     }
 
     return (
@@ -339,6 +341,16 @@ export default function EditDocumentComponent({ projectId = null }: EditDocument
                 .transition-all { transition: all 0.3s ease; }
                 .min-vh-50 { min-height: 60vh; }
             `}</style>
+
+            {showPDFModal && projectId && siteId && (
+                <GeneratePDFComponent
+                    projectId={projectId}
+                    projectName={newProjectData?.name || 'documento'}
+                    buildingSiteId={siteId}
+                    date={newProjectData?.date ? dateToString(new Date(newProjectData.date)) : dateToString(new Date())}
+                    onClose={() => setShowPDFModal(false)}
+                />
+            )}
 
             <LoadingScreen isLoading={isLoading} />
         </div>
