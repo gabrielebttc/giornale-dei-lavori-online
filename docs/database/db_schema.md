@@ -126,6 +126,7 @@ Vincolo unico: `UNIQUE (building_site_id, date)`.
 | **content_json** | jsonb | - |
 | **created_at** | timestamptz | DEFAULT CURRENT_TIMESTAMP |
 | **updated_at** | timestamptz | DEFAULT CURRENT_TIMESTAMP |
+| **owner_id** | integer | FK -> users.id, ON DELETE CASCADE |
 
 ## Tabelle di Relazione e Tipologie
 

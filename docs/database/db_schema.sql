@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict NjJqwfFBcQakDGk6lnxTwH4jcAnRCGUh3rYBDRHqwQdHRZlvDMjowB40kkWxXPM
+\restrict qThA6uXuHf39zjI4x7OAhlF4H7Eo03fESZBUvKjgsrnF7lkyUGnE8yhJ9xnj729
 
 -- Dumped from database version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
 -- Dumped by pg_dump version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
@@ -342,7 +342,8 @@ CREATE TABLE public.templates (
     name character varying(40) NOT NULL,
     content_json jsonb,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    owner_id integer
 );
 
 
@@ -932,6 +933,14 @@ ALTER TABLE ONLY public.projects
 
 
 --
+-- Name: templates fk_owner_id_users; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.templates
+    ADD CONSTRAINT fk_owner_id_users FOREIGN KEY (owner_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: files fk_project; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1023,5 +1032,5 @@ ALTER TABLE ONLY public.users_user_type
 -- PostgreSQL database dump complete
 --
 
-\unrestrict NjJqwfFBcQakDGk6lnxTwH4jcAnRCGUh3rYBDRHqwQdHRZlvDMjowB40kkWxXPM
+\unrestrict qThA6uXuHf39zjI4x7OAhlF4H7Eo03fESZBUvKjgsrnF7lkyUGnE8yhJ9xnj729
 
