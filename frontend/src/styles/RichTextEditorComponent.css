@@ -1,37 +1,212 @@
+/* ── RichTextEditor container ── */
 .rte-container {
   width: 100%;
+  border: 1.5px solid #e8e8ec !important;
+  border-radius: 14px !important;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Toolbar ── */
+.rte-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 10px;
+  background: #fafafa;
+  border-bottom: 1.5px solid #efefef;
+}
+
+.rte-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #555;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.13s, color 0.13s;
+  flex-shrink: 0;
+}
+.rte-btn:hover {
+  background: #ebebf0;
+  color: #1a1a2e;
+}
+.rte-btn.active {
+  background: #0d6efd;
+  color: #fff;
+}
+.rte-btn.active:hover {
+  background: #0b5ed7;
+}
+.rte-btn.danger:hover {
+  background: #fde8ea;
+  color: #dc3545;
+}
+
+/* Testo nelle label heading (H1, H2, H3) */
+.rte-btn-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+/* Separatore verticale */
+.rte-sep {
+  width: 1px;
+  height: 20px;
+  background: #e0e0e6;
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+/* ── Area di scrittura ── */
+.rte-content {
+  flex: 1;
 }
 
 .rte-content .ProseMirror {
-  min-height: 320px;
-  padding: 1rem;
+  min-height: 360px;
+  padding: 28px 32px;
   outline: none;
-  line-height: 1.55;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #1a1a2e;
 }
 
-.rte-content .ProseMirror:focus {
-  box-shadow: inset 0 0 0 2px rgba(13, 110, 253, 0.2);
-}
-
+/* Placeholder */
 .rte-content .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
-  color: #6c757d;
+  color: #bbb;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-style: italic;
   float: left;
   height: 0;
   pointer-events: none;
 }
 
+/* Headings */
+.rte-content .ProseMirror h1 {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f1623;
+  margin-top: 1.6em;
+  margin-bottom: 0.4em;
+  line-height: 1.25;
+}
 .rte-content .ProseMirror h2 {
-  margin-top: 0.6rem;
-  margin-bottom: 0.5rem;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f1623;
+  margin-top: 1.4em;
+  margin-bottom: 0.4em;
+  line-height: 1.3;
+  border-bottom: 1.5px solid #eef1f8;
+  padding-bottom: 0.25em;
+}
+.rte-content .ProseMirror h3 {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f1623;
+  margin-top: 1.2em;
+  margin-bottom: 0.3em;
+  line-height: 1.35;
 }
 
+/* Paragrafi */
+.rte-content .ProseMirror p {
+  margin-bottom: 0.85em;
+}
+
+/* Liste */
 .rte-content .ProseMirror ul,
 .rte-content .ProseMirror ol {
-  padding-left: 1.3rem;
+  padding-left: 1.6rem;
+  margin-bottom: 0.85em;
+}
+.rte-content .ProseMirror li {
+  margin-bottom: 0.25em;
 }
 
+/* Link */
 .rte-content .ProseMirror a {
   color: #0d6efd;
   text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Bold / Italic */
+.rte-content .ProseMirror strong { font-weight: 700; }
+.rte-content .ProseMirror em     { font-style: italic; }
+.rte-content .ProseMirror u      { text-underline-offset: 2px; }
+.rte-content .ProseMirror s      { opacity: 0.6; }
+
+/* Blockquote */
+.rte-content .ProseMirror blockquote {
+  border-left: 3px solid #0d6efd;
+  margin: 1em 0;
+  padding: 4px 0 4px 1.2em;
+  color: #555;
+  font-style: italic;
+}
+
+/* Codice inline */
+.rte-content .ProseMirror code {
+  background: #f0f4ff;
+  color: #3a6bdf;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.88em;
+}
+
+/* Blocco di codice */
+.rte-content .ProseMirror pre {
+  background: #1e1e2e;
+  color: #cdd6f4;
+  padding: 16px 20px;
+  border-radius: 10px;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.88em;
+  margin: 1em 0;
+}
+.rte-content .ProseMirror pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* Immagini */
+.rte-content .ProseMirror img {
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+  margin: 0.75em 0;
+  display: block;
+}
+
+/* Riga orizzontale */
+.rte-content .ProseMirror hr {
+  border: none;
+  border-top: 2px solid #eef1f8;
+  margin: 1.5em 0;
+}
+
+/* Selezione testo */
+.rte-content .ProseMirror ::selection {
+  background: rgba(13,110,253,0.15);
 }

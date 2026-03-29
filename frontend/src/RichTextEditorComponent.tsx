@@ -9,14 +9,37 @@ import './styles/RichTextEditorComponent.css';
 import InsertImageComponent from './InsertImageComponent';
 
 type RichTextEditorProps = {
-  // content can be a JSON document or a stringified JSON
   value?: any;
-  // onChange receives the tiptap JSON document
   onChange?: (doc: any) => void;
   placeholder?: string;
   editable?: boolean;
   buildingSiteId?: string;
 };
+
+type ToolbarButtonProps = {
+  onClick: () => void;
+  active?: boolean;
+  danger?: boolean;
+  title: string;
+  children: React.ReactNode;
+};
+
+function ToolbarButton({ onClick, active, danger, title, children }: ToolbarButtonProps) {
+  return (
+    <button
+      type="button"
+      title={title}
+      className={`rte-btn${active ? ' active' : ''}${danger ? ' danger' : ''}`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+}
+
+function Sep() {
+  return <div className="rte-sep" />;
+}
 
 export default function RichTextEditorComponent({
   value = '',
@@ -26,7 +49,8 @@ export default function RichTextEditorComponent({
   buildingSiteId,
 }: RichTextEditorProps) {
   const [showImageModal, setShowImageModal] = useState(false);
-    const editor = useEditor({
+
+  const editor = useEditor({
     extensions: [
       StarterKit,
       ImageWithStorageKey,
@@ -36,17 +60,12 @@ export default function RichTextEditorComponent({
         autolink: true,
         defaultProtocol: 'https',
       }),
-      Placeholder.configure({
-        placeholder,
-      }),
+      Placeholder.configure({ placeholder }),
     ],
-    // value can be a JSON object or a string containing JSON
     content: typeof value === 'string' ? (value ? JSON.parse(value) : '') : value,
     editable,
     immediatelyRender: false,
-    onUpdate: ({ editor: currentEditor }) => {
-      onChange?.(currentEditor.getJSON());
-    },
+    onUpdate: ({ editor: e }) => onChange?.(e.getJSON()),
   });
 
   useEffect(() => {
@@ -65,93 +84,148 @@ export default function RichTextEditorComponent({
 
   const setLink = () => {
     if (!editor) return;
-    const previousUrl = editor.getAttributes('link').href as string | undefined;
-    const url = window.prompt('Inserisci URL', previousUrl || 'https://');
-
+    const prev = editor.getAttributes('link').href as string | undefined;
+    const url = window.prompt('Inserisci URL', prev || 'https://');
     if (url === null) return;
     if (url.trim() === '') {
       editor.chain().focus().extendMarkRange('link').unsetLink().run();
       return;
     }
-
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   };
 
   if (!editor) {
     return (
-      <div className="rte-container border rounded-3 p-3 bg-white">
-        <span className="text-muted small">Caricamento editor...</span>
+      <div className="rte-container" style={{ padding: '1.5rem', color: '#bbb', fontSize: '0.9rem' }}>
+        Caricamento editor...
       </div>
     );
   }
 
   return (
-    <div className="rte-container border rounded-3 bg-white shadow-sm overflow-hidden">
-      <div className="rte-toolbar d-flex flex-wrap gap-2 p-2 border-bottom bg-light">
-        <button
-          type="button"
-          className={`btn btn-sm ${editor.isActive('bold') ? 'btn-primary' : 'btn-outline-secondary'}`}
-          onClick={() => editor.chain().focus().toggleBold().run()}
-        >
-          B
-        </button>
-        <button
-          type="button"
-          className={`btn btn-sm ${editor.isActive('italic') ? 'btn-primary' : 'btn-outline-secondary'}`}
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-        >
-          I
-        </button>
-        <button
-          type="button"
-          className={`btn btn-sm ${editor.isActive('underline') ? 'btn-primary' : 'btn-outline-secondary'}`}
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-        >
-          U
-        </button>
-        <button
-          type="button"
-          className={`btn btn-sm ${editor.isActive('heading', { level: 2 }) ? 'btn-primary' : 'btn-outline-secondary'}`}
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        >
-          H2
-        </button>
-        <button
-          type="button"
-          className={`btn btn-sm ${editor.isActive('bulletList') ? 'btn-primary' : 'btn-outline-secondary'}`}
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-        >
-          Lista
-        </button>
-        <button
-          type="button"
-          className={`btn btn-sm ${editor.isActive('orderedList') ? 'btn-primary' : 'btn-outline-secondary'}`}
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        >
-          Lista num
-        </button>
-        <button
-          type="button"
-          className={`btn btn-sm ${editor.isActive('link') ? 'btn-primary' : 'btn-outline-secondary'}`}
-          onClick={setLink}
-        >
-          Link
-        </button>
-        <button
-          type="button"
-          className="btn btn-sm btn-outline-secondary"
-          onClick={() => setShowImageModal(true)}
-        >
-          Immagini
-        </button>
-        <button
-          type="button"
-          className="btn btn-sm btn-outline-danger"
-          onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()}
-        >
-          Pulisci
-        </button>
-      </div>
+    <div className="rte-container">
+      {editable && (
+        <div className="rte-toolbar">
+          {/* Headings */}
+          <ToolbarButton
+            title="Titolo 1"
+            active={editor.isActive('heading', { level: 1 })}
+            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          >
+            <span className="rte-btn-label">H1</span>
+          </ToolbarButton>
+          <ToolbarButton
+            title="Titolo 2"
+            active={editor.isActive('heading', { level: 2 })}
+            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          >
+            <span className="rte-btn-label">H2</span>
+          </ToolbarButton>
+          <ToolbarButton
+            title="Titolo 3"
+            active={editor.isActive('heading', { level: 3 })}
+            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+          >
+            <span className="rte-btn-label">H3</span>
+          </ToolbarButton>
+
+          <Sep />
+
+          {/* Formattazione testo */}
+          <ToolbarButton
+            title="Grassetto"
+            active={editor.isActive('bold')}
+            onClick={() => editor.chain().focus().toggleBold().run()}
+          >
+            <i className="bi bi-type-bold" />
+          </ToolbarButton>
+          <ToolbarButton
+            title="Corsivo"
+            active={editor.isActive('italic')}
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+          >
+            <i className="bi bi-type-italic" />
+          </ToolbarButton>
+          <ToolbarButton
+            title="Sottolineato"
+            active={editor.isActive('underline')}
+            onClick={() => editor.chain().focus().toggleUnderline().run()}
+          >
+            <i className="bi bi-type-underline" />
+          </ToolbarButton>
+          <ToolbarButton
+            title="Barrato"
+            active={editor.isActive('strike')}
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+          >
+            <i className="bi bi-type-strikethrough" />
+          </ToolbarButton>
+
+          <Sep />
+
+          {/* Liste */}
+          <ToolbarButton
+            title="Elenco puntato"
+            active={editor.isActive('bulletList')}
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
+          >
+            <i className="bi bi-list-ul" />
+          </ToolbarButton>
+          <ToolbarButton
+            title="Elenco numerato"
+            active={editor.isActive('orderedList')}
+            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          >
+            <i className="bi bi-list-ol" />
+          </ToolbarButton>
+
+          <Sep />
+
+          {/* Blocchi */}
+          <ToolbarButton
+            title="Citazione"
+            active={editor.isActive('blockquote')}
+            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          >
+            <i className="bi bi-blockquote-left" />
+          </ToolbarButton>
+          <ToolbarButton
+            title="Codice"
+            active={editor.isActive('code')}
+            onClick={() => editor.chain().focus().toggleCode().run()}
+          >
+            <i className="bi bi-code-slash" />
+          </ToolbarButton>
+
+          <Sep />
+
+          {/* Link e immagini */}
+          <ToolbarButton
+            title="Inserisci link"
+            active={editor.isActive('link')}
+            onClick={setLink}
+          >
+            <i className="bi bi-link-45deg" />
+          </ToolbarButton>
+          <ToolbarButton
+            title="Inserisci immagine"
+            onClick={() => setShowImageModal(true)}
+          >
+            <i className="bi bi-image" />
+          </ToolbarButton>
+
+          <Sep />
+
+          {/* Pulisci */}
+          <ToolbarButton
+            title="Rimuovi formattazione"
+            danger
+            onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()}
+          >
+            <i className="bi bi-eraser" />
+          </ToolbarButton>
+        </div>
+      )}
 
       <EditorContent editor={editor} className="rte-content" />
 
@@ -160,19 +234,15 @@ export default function RichTextEditorComponent({
           buildingSiteId={buildingSiteId ?? ''}
           onClose={() => setShowImageModal(false)}
           onComplete={(results) => {
-            // insert each image into the editor as an image node including storageKey in attrs
             results.forEach((r) => {
-              // use insertContent with a raw node object to include custom attrs (storageKey)
-              editor.chain().focus().insertContent({ type: 'image', attrs: { src: r.downloadUrl, storageKey: r.storageKey } } as any).run();
+              editor.chain().focus().insertContent({
+                type: 'image',
+                attrs: { src: r.downloadUrl, storageKey: r.storageKey },
+              } as any).run();
             });
-            // ensure parent receives the updated JSON (force immediate sync)
             try {
-              const doc = editor.getJSON();
-              console.debug('Inserted images, editor JSON now:', doc);
-              onChange?.(doc);
-            } catch (err) {
-              console.warn('Failed to emit editor JSON after insert:', err);
-            }
+              onChange?.(editor.getJSON());
+            } catch { /* ignore */ }
             setShowImageModal(false);
           }}
         />
