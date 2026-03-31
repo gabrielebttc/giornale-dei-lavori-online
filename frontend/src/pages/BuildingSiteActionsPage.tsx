@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CalendarComponent from '../CalendarComponent';
 
@@ -83,6 +83,7 @@ const BuildingSiteActionComponent: React.FC<ActionCardProps> = ({
 // --- COMPONENTE PAGINA PRINCIPALE ---
 const BuildingSiteActionsPage: React.FC = () => {
   const { site_id: siteId } = useParams<{ site_id: string }>();
+  const navigate = useNavigate();
   const [buildingSiteInfo, setBuildingSiteInfo] = useState<SiteInfo | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [loading, setLoading] = useState(true);
@@ -90,15 +91,14 @@ const BuildingSiteActionsPage: React.FC = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const dateFromQuery = queryParams.get('date');
-
-    if (dateFromQuery) {
-      setSelectedDate(new Date(dateFromQuery));
-    } else {
-      setSelectedDate(new Date());
-    }
-
+    setSelectedDate(dateFromQuery ? new Date(dateFromQuery) : new Date());
     fetchBuildingSiteInfo();
-  }, [location.search, siteId]);
+  }, [siteId, location.search]);
+
+  const handleDateSelect = useCallback((date: Date) => {
+    const dateStr = date.toISOString().split('T')[0];
+    navigate(`/building-site-actions/${siteId}?date=${dateStr}`, { replace: true });
+  }, [siteId, navigate]);
 
   const fetchBuildingSiteInfo = async () => {
     try {
@@ -142,7 +142,7 @@ const BuildingSiteActionsPage: React.FC = () => {
           <small className="text-muted text-uppercase fw-semibold">Gestione Cantiere</small>
         </div>
         <div className="col-md-5 mt-3 mt-md-0">
-          <CalendarComponent onDateSelect={setSelectedDate} selectedDate={selectedDate} />
+          <CalendarComponent onDateSelect={handleDateSelect} selectedDate={selectedDate} />
         </div>
       </div>
 
