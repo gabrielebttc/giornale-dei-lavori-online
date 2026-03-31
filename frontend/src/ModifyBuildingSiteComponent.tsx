@@ -133,7 +133,7 @@ const ModifyBuildingSiteComponent: React.FC<Props> = ({ buildingSiteId, onClose,
             setTimeout(() => {
                 onSuccess();
                 onClose();
-            }, 1500);
+            }, 500);
 
         } catch (err) {
             console.error('Error:', err);

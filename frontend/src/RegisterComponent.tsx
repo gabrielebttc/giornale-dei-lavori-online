@@ -15,7 +15,7 @@ const RegisterComponent: React.FC = () => {
     password: '',
     confirmPassword: '',
   });
-  const [alert, setAlert] = useState<{ message: string; type: string } | null>(null);
+  const [alert, setAlert] = useState<{ message: React.ReactNode; type: string } | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -31,6 +31,23 @@ const RegisterComponent: React.FC = () => {
 
     if (formData.password !== formData.confirmPassword) {
       setAlert({ message: 'Le password non coincidono.', type: 'danger' });
+      return;
+    }
+
+    if (formData.password.length < 8 || !/[A-Z]/.test(formData.password) || !/\d/.test(formData.password)) {
+      setAlert({
+        message: (
+          <div>
+            <div>La password deve:</div>
+            <ul className="mb-0">
+              <li>contenere almeno 8 caratteri</li>
+              <li>includere almeno una lettera maiuscola</li>
+              <li>includere almeno un numero</li>
+            </ul>
+          </div>
+        ),
+        type: 'danger',
+      });
       return;
     }
 
@@ -53,10 +70,14 @@ const RegisterComponent: React.FC = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+        }
         setAlert({ message: 'Registrazione completata con successo!', type: 'success' });
         setTimeout(() => {
-          navigate('/login'); // Reindirizza al login dopo un breve ritardo
-        }, 2000);
+          navigate('/building-sites');
+        }, 500);
       } else {
         const errorData = await response.json();
         setAlert({ message: errorData.message || 'Errore durante la registrazione.', type: 'danger' });
@@ -79,7 +100,7 @@ const RegisterComponent: React.FC = () => {
           {alert && (
             <div className={`alert alert-${alert.type} alert-dismissible fade show rounded-3`} role="alert">
               {alert.message}
-              <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              <button type="button" className="btn-close" onClick={() => setAlert(null)} aria-label="Close"></button>
             </div>
           )}
 

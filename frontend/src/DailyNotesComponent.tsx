@@ -86,7 +86,7 @@ const DailyNoteComponent: React.FC<Props> = ({ buildingSiteId, date, noteType, o
       setSuccess('Nota salvata con successo!');
       setTimeout(() => {
         onClose();
-      }, 1500);
+      }, 500);
     } catch (err) {
       console.error("Error saving daily note:", err);
       setError(err instanceof Error ? err.message : String(err));

@@ -71,7 +71,7 @@ const AddExistingWorkerComponent: React.FC<Props> = ({ onClose, onWorkerAdded, b
       setTimeout(() => {
         onWorkerAdded();
         onClose();
-      }, 1500);
+      }, 500);
     } catch (err) {
       console.error("Error adding worker to building site:", err);
       setError(err instanceof Error ? err.message : String(err));

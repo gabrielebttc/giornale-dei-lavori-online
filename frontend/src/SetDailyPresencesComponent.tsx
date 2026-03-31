@@ -120,7 +120,7 @@ const SetDailyPresencesComponent: React.FC<Props> = ({ buildingSiteId, date }) =
       }
 
       setSuccessMessage('Presenze salvate con successo!');
-      setTimeout(() => setSuccessMessage(null), 3000);
+      setTimeout(() => setSuccessMessage(null), 500);
     } catch (err) {
       console.error('Error saving presences:', err);
       setError("Errore durante il salvataggio delle presenze.");

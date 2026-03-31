@@ -159,7 +159,7 @@ const AddWorkerComponent: React.FC<Props> = ({ onClose, onWorkerAdded, buildingS
       setTimeout(() => {
         onWorkerAdded();
         onClose();
-      }, 1500);
+      }, 500);
     } catch (err) {
       console.error('Error adding worker:', err);
       setError("Errore durante l'aggiunta del lavoratore. Controlla i dati e riprova.");

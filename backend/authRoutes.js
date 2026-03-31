@@ -155,8 +155,10 @@ for (let i = 0; i < 20; i++) {
 
 // --- FINE DATI DI ESEMPIO ---
 
+        const token = jwt.sign({ id: newUserId }, process.env.JWT_SECRET, { expiresIn: '2h' });
+
         await client.query('COMMIT'); // Commit della transazione
-        res.status(201).json({ message: 'Registrazione avvenuta con successo. L\'utente è stato registrato.' });
+        res.status(201).json({ message: 'Registrazione avvenuta con successo. L\'utente è stato registrato.', token });
 
     } catch (error) {
         await client.query('ROLLBACK'); // Rollback in caso di errore
