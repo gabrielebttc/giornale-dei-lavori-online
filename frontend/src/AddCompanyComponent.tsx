@@ -52,7 +52,6 @@ const AddCompanyComponent: React.FC<Props> = ({ onClose, onCompanyAdded }) => {
         throw new Error(errorData.error || "Impossibile aggiungere l'azienda.");
       }
 
-      console.log('Azienda aggiunta con successo!');
       onCompanyAdded(); // Notifica il componente genitore per aggiornare la sua lista
       onClose();        // Chiude il popup
     } catch (err) {

@@ -415,7 +415,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             </label>
                             <div className="d-inline-block p-2 bg-white rounded-3 shadow-sm border w-100">
                                 <CalendarComponent
-                                    onDateSelect={(date) => {setFileDate(dateToString(date)); console.log("-> fileDate: ", dateToString(date))}}
+                                    onDateSelect={(date) => setFileDate(dateToString(date))}
                                     selectedDate={stringToDate(fileDate)}
                                 />
                             </div>

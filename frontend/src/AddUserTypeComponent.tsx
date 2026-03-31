@@ -54,7 +54,6 @@ const AddUserTypeComponent: React.FC<Props> = ({ onClose, onUserTypeAdded }) => 
         throw new Error(errorData.error || "Impossibile aggiungere la mansione. Errore sconosciuto.");
       }
 
-      console.log('Mansione aggiunta con successo!');
       onUserTypeAdded();
       onClose();
     } catch (err) {

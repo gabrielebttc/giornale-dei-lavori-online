@@ -29,12 +29,6 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
     const [deleteProjectPopup, isDeleteProjectPopupVisible] = useState<boolean>(false);
     const [projectToDeleteId, setProjectToDeleteId] = useState<number>(0);
 
-    useEffect(() => {
-        projectsList.forEach(project => {
-            console.log("DATA PROGETTO", project.id, project.name, ":", JSON.stringify(project.date), typeof project.date);
-        });
-    }, [projectsList]);
-
     const sortedFiles = [...filesList].sort((a, b) => {
         const dateA = new Date(a.date ?? "").getTime();
         const dateB = new Date(b.date ?? "").getTime();

@@ -27,7 +27,6 @@ const LoginComponent: React.FC = () => {
     };
 
     try {
-      console.log(apiUrl);
       const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: 'POST',
         headers: {

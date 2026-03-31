@@ -20,12 +20,9 @@ const NavbarComponent = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(`data.id: ${data.id}`);
-          console.log(`data: ${JSON.stringify(data)}`);
           setIsLoggedIn(true);
         } else {
           setIsLoggedIn(false);
-          console.log("NON SEI LOGGATO");
         }
       } catch (error) {
         console.error('Errore durante la verifica dello stato di login:', error);

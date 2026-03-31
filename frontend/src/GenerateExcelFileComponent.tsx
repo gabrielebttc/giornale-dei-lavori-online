@@ -49,8 +49,6 @@ const GenerateExcelFileComponent: React.FC<Props> = ({ buildingSiteId, onClose, 
       if(response.data){
         const buildingSite: BuildingSite = response.data;
         if(!buildingSite.end_date){
-          console.log("è abilitato");
-          console.log(buildingSite.end_date)
           setIsModifyEndDatePopupOpen(true);
         }
       }

@@ -32,8 +32,6 @@ router.post('/projects', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'Cantiere non trovato o non autorizzato.' });
     }
 
-    console.log("DATAAAA CHE STO CARICANDO SUL DB: ", String(date))
-
     const result = await pool.query(
       `INSERT INTO projects (name, content_json, metadata, owner_id, building_site_id, date)
        VALUES ($1, $2::jsonb, $3::jsonb, $4, $5, $6)
@@ -48,7 +46,6 @@ router.post('/projects', authenticateToken, async (req, res) => {
       ]
     );
 
-    console.log("DATAAAA CARICATA SUL DB (RETURING *): ", String(result.rows[0].date))
     return res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error('Errore durante la creazione del progetto:', error);
@@ -183,7 +180,6 @@ router.get('/building-sites/:buildingSiteId/projects', authenticateToken, async 
       [Number(buildingSiteId), req.user.id]
     );
 
-    console.log(`Progetti trovati per cantiere ${buildingSiteId}:`, resultProjects.rows);
     return res.status(200).json(resultProjects.rows);
   } catch (error) {
     console.error('Errore durante il recupero dei progetti per cantiere:', error);

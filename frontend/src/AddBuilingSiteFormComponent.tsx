@@ -22,7 +22,6 @@ const AddBuildingSiteFormComponent: React.FC<Props> = ({ onClose }) => {
     const [endDate, setEndDate] = useState('');   // Nuovo stato per la data di fine
 
     useEffect(() => {
-        console.log(city);//perchè mi da errore mai usato
     }, [city]);
 
     useEffect(() => {

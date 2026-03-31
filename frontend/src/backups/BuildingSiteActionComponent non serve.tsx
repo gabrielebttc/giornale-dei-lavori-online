@@ -25,7 +25,6 @@ const BuildingSiteActionComponent: React.FC<Props> = ({
   useEffect(() => {
     const formatted = formatDate(selectedDate);
     setDateWithDashes(formatted);
-    console.log("Data aggiornata nel componente:", formatted); // Ora vedrai il log
   }, [selectedDate]);
 
   // 2. Mappatura Icone
@@ -43,12 +42,10 @@ const BuildingSiteActionComponent: React.FC<Props> = ({
   };
 
   const handleNavigation = () => {
-    console.log("sono nella funzione")
     const cleanLink = link.startsWith('/') ? link.substring(1) : link;
     
     const targetLink = `/${cleanLink}/${siteId}/${dateWithDashes}`;
     
-    console.log("Navigazione in corso verso:", targetLink);
     navigate(targetLink);
   };
 

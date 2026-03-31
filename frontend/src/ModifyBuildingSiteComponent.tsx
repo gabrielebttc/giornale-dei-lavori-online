@@ -68,7 +68,6 @@ const ModifyBuildingSiteComponent: React.FC<Props> = ({ buildingSiteId, onClose,
                 
                 setStartDate(siteData.start_date || '');
                 setEndDate(siteData.end_date || null);
-                console.log("DATA INIZIO: ", siteData.start_date, " - DATA FINE: ", siteData.end_date);
 
                 // Modifica qui: usa il percorso relativo alla radice del server
                 const geoResponse = await fetch(`/italy_geo.json`);

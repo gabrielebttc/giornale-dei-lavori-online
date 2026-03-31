@@ -563,11 +563,9 @@ router.get('/get-daily-note', authenticateToken, async (req, res) => {
     `;
     
     const result = await pool.query(query, [buildingSiteId, date]);
-    console.log("DATA DELLE NOTE DA LEGGERE: ", date);
     
     if (result.rows.length > 0) {
       res.json({ noteValue: result.rows[0].note_value });
-      console.log("DATA DELLE NOTE LETTE: ", result.rows[0]);
     } else {
       res.json({ noteValue: '' });
     }
@@ -580,7 +578,6 @@ router.get('/get-daily-note', authenticateToken, async (req, res) => {
 router.post('/add-daily-note', authenticateToken, async (req, res) => {
   const { buildingSiteId, date, noteType, noteValue } = req.body;
   const ownerId = req.user.id;
-  console.log("DATA DELLE NOTE DA INSERIRE: ", date);
 
   if (!buildingSiteId || !date || !noteType || noteValue === undefined) {
     return res.status(400).json({ message: 'buildingSiteId, date, noteType, and noteValue are required.' });
@@ -614,8 +611,6 @@ router.post('/add-daily-note', authenticateToken, async (req, res) => {
 router.delete('/unlink-worker-from-site/:buildingSiteId/:workerId', authenticateToken, async (req, res) => {
   const { buildingSiteId, workerId } = req.params;
   const ownerId = req.user.id;
-
-  console.log(`Richiesta di disassociazione: cantiere ${buildingSiteId}, lavoratore ${workerId}`);
 
   try {
     // Verifica che l'utente sia l'owner del cantiere
@@ -748,15 +743,12 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
   }
 
   const client = await pool.connect();
-  console.log('Connessione al database stabilita.');
 
   try {
     const workbook = new ExcelJS.Workbook();
-    console.log('Workbook creato.');
 
     // --- POPOLAMENTO FOGLIO 1 ---
     const worksheet1 = workbook.addWorksheet('Foglio 1');
-    console.log('Foglio 1 creato.');
     
     // 1. SETTAGGI INIZIALI DEL FOGLIO 1
     worksheet1.properties.defaultRowHeight = 50;
@@ -782,15 +774,12 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
     worksheet1.getCell('E1').value = "ANNOTAZIONI SPECIALI E GENERALI sull'andamento e modo di esecuzione dei lavori, sugli avvenimenti straordinari e sul tempo utilmente impiegato.";
     worksheet1.mergeCells('F1:F4');
     worksheet1.getCell('F1').value = "OSSERVAZIONI E ISTRUZIONI della direzione lavori, del responsabile del procedimento, del coordinatore per l’esecuzione, del collaudatore.";
-    console.log('Celle e intestazioni Foglio 1 create.');
 
     // 3. GESTIONE DEI DATI FOGLIO 1
     const siteResult = await client.query(
       'SELECT start_date, end_date FROM building_sites WHERE id = $1 AND owner_id = $2',
       [buildingSiteId, ownerId]
     );
-
-    console.log('Risultato query building_sites:', siteResult.rows[0] || 'Nessun cantiere trovato.');
 
     if (siteResult.rows.length === 0) {
       console.error('Errore: Cantiere non trovato o non autorizzato.');
@@ -811,7 +800,6 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
       });
       currentDate.add(1, 'days');
     }
-    console.log(`Date generate per il report: ${dateRows.length}.`);
 
     const dailyNotesResult = await client.query(
       'SELECT date, notes, other_notes FROM daily_notes WHERE building_site_id = $1 AND owner_id = $2',
@@ -825,8 +813,6 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
       });
     });
 
-    console.log(`Note recuperate: ${dailyNotesMap.size}.`);
-
     const userTypesResult = await client.query(`
       SELECT DISTINCT ut.name, ut.id
       FROM users_building_sites ubs
@@ -837,8 +823,6 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
     
     const userTypes = userTypesResult.rows.map(row => row.name);
     const userTypeIds = userTypesResult.rows.map(row => row.id);
-
-    console.log(`Tipi di utente trovati: ${userTypes.length}.`);
 
     const dailyPresencesResult = await client.query(`
       SELECT dp.date, uut.user_type_id, COUNT(dp.user_id) as count
@@ -877,7 +861,6 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
       worksheet1.addRow(rowData);
       recordNumber++;
     });
-    console.log('Righe del Foglio 1 popolate.');
 
     // Popola gli user type nella riga 4 del Foglio 1
     let userTypeCol = 7;
@@ -892,7 +875,6 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
       cell.alignment = { textRotation: 90, vertical: 'middle', horizontal: 'center' };
       userTypeCol++;
     });
-    console.log('Intestazioni dei tipi di utente Foglio 1 aggiunte.');
 
     // 5. STILI E WRAP TEXT FOGLIO 1
     worksheet1.eachRow((row) => {
@@ -903,11 +885,9 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
         };
       });
     });
-    console.log('Stili applicati a tutte le celle del Foglio 1.');
 
     // --- NUOVA SEZIONE: POPOLAMENTO FOGLIO 2 ---
     const worksheet2 = workbook.addWorksheet('Foglio 2');
-    console.log('Foglio 2 creato.');
 
     // 1. IMPOSTA INTESTAZIONI E STILI FOGLIO 2
     worksheet2.columns = [
@@ -926,7 +906,6 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
         top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' },
       };
     });
-    console.log('Intestazioni Foglio 2 create.');
     
     // 2. GESTIONE DEI DATI FOGLIO 2
     const usersResult = await client.query(`
@@ -955,7 +934,6 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
         company: user.company_name || 'N/A',
       });
     });
-    console.log(`Righe del Foglio 2 popolate con ${usersResult.rows.length} utenti.`);
 
     // 4. STILI AGGIUNTIVI FOGLIO 2
     worksheet2.eachRow((row, rowNum) => {
@@ -966,7 +944,6 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
             };
         });
     });
-    console.log('Stili applicati a tutte le celle del Foglio 2.');
     
     // --- 6. INVIO DEL FILE AL CLIENT ---
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -974,14 +951,12 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
     
     await workbook.xlsx.write(res);
     res.end();
-    console.log(`File Excel generato e inviato per il cantiere ${buildingSiteId}.`);
 
   } catch (error) {
     console.error('Errore durante la generazione del file Excel:', error);
     res.status(500).json({ message: 'Errore del server durante la generazione del file.' });
   } finally {
     client.release();
-    console.log('Connessione al database chiusa.');
   }
 });
 
