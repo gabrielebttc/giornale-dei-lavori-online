@@ -129,8 +129,6 @@ const MapComponent = ({ reloadBuildingSitesList, onReloadCompleted }: MapCompone
       }
     } catch (error) {
       console.error('Errore durante il recupero dei building sites:', error);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
