@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict calXyczGWdT8Pcs6q2tHhm50yzbSqzxjIo5sFDAAnCn7qlFwsmql9R5bCTwH4XC
+\restrict ZUa6Rk533l9SAaq8DxuJh7iIOPtGBjctwOgRVZsb5jzrCKV9mb3hOcoWBenpk9N
 
 -- Dumped from database version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
 -- Dumped by pg_dump version 17.7 (Ubuntu 17.7-0ubuntu0.25.04.1)
@@ -24,7 +24,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: building_sites; Type: TABLE; Schema: public; Owner: postgres
+-- Name: building_sites; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.building_sites (
@@ -41,10 +41,8 @@ CREATE TABLE public.building_sites (
 );
 
 
-ALTER TABLE public.building_sites OWNER TO postgres;
-
 --
--- Name: building_sites_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: building_sites_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.building_sites_id_seq
@@ -56,17 +54,15 @@ CREATE SEQUENCE public.building_sites_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.building_sites_id_seq OWNER TO postgres;
-
 --
--- Name: building_sites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: building_sites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.building_sites_id_seq OWNED BY public.building_sites.id;
 
 
 --
--- Name: companies; Type: TABLE; Schema: public; Owner: postgres
+-- Name: companies; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.companies (
@@ -77,10 +73,8 @@ CREATE TABLE public.companies (
 );
 
 
-ALTER TABLE public.companies OWNER TO postgres;
-
 --
--- Name: companies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: companies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.companies_id_seq
@@ -92,17 +86,15 @@ CREATE SEQUENCE public.companies_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.companies_id_seq OWNER TO postgres;
-
 --
--- Name: companies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: companies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.companies_id_seq OWNED BY public.companies.id;
 
 
 --
--- Name: daily_notes; Type: TABLE; Schema: public; Owner: postgres
+-- Name: daily_notes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.daily_notes (
@@ -116,10 +108,8 @@ CREATE TABLE public.daily_notes (
 );
 
 
-ALTER TABLE public.daily_notes OWNER TO postgres;
-
 --
--- Name: daily_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: daily_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.daily_notes_id_seq
@@ -131,17 +121,15 @@ CREATE SEQUENCE public.daily_notes_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.daily_notes_id_seq OWNER TO postgres;
-
 --
--- Name: daily_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: daily_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.daily_notes_id_seq OWNED BY public.daily_notes.id;
 
 
 --
--- Name: daily_presences; Type: TABLE; Schema: public; Owner: postgres
+-- Name: daily_presences; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.daily_presences (
@@ -156,10 +144,8 @@ CREATE TABLE public.daily_presences (
 );
 
 
-ALTER TABLE public.daily_presences OWNER TO postgres;
-
 --
--- Name: daily_presences_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: daily_presences_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.daily_presences_id_seq
@@ -171,17 +157,15 @@ CREATE SEQUENCE public.daily_presences_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.daily_presences_id_seq OWNER TO postgres;
-
 --
--- Name: daily_presences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: daily_presences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.daily_presences_id_seq OWNED BY public.daily_presences.id;
 
 
 --
--- Name: documents; Type: TABLE; Schema: public; Owner: postgres
+-- Name: documents; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.documents (
@@ -191,10 +175,8 @@ CREATE TABLE public.documents (
 );
 
 
-ALTER TABLE public.documents OWNER TO postgres;
-
 --
--- Name: documents_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: documents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.documents_id_seq
@@ -206,17 +188,15 @@ CREATE SEQUENCE public.documents_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.documents_id_seq OWNER TO postgres;
-
 --
--- Name: documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.documents_id_seq OWNED BY public.documents.id;
 
 
 --
--- Name: files; Type: TABLE; Schema: public; Owner: postgres
+-- Name: files; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.files (
@@ -234,10 +214,8 @@ CREATE TABLE public.files (
 );
 
 
-ALTER TABLE public.files OWNER TO postgres;
-
 --
--- Name: files_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.files_id_seq
@@ -249,17 +227,15 @@ CREATE SEQUENCE public.files_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.files_id_seq OWNER TO postgres;
-
 --
--- Name: files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.files_id_seq OWNED BY public.files.id;
 
 
 --
--- Name: projects; Type: TABLE; Schema: public; Owner: postgres
+-- Name: projects; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.projects (
@@ -275,10 +251,8 @@ CREATE TABLE public.projects (
 );
 
 
-ALTER TABLE public.projects OWNER TO postgres;
-
 --
--- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.projects_id_seq
@@ -290,17 +264,15 @@ CREATE SEQUENCE public.projects_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.projects_id_seq OWNER TO postgres;
-
 --
--- Name: projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.projects_id_seq OWNED BY public.projects.id;
 
 
 --
--- Name: teams; Type: TABLE; Schema: public; Owner: postgres
+-- Name: teams; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.teams (
@@ -309,10 +281,8 @@ CREATE TABLE public.teams (
 );
 
 
-ALTER TABLE public.teams OWNER TO postgres;
-
 --
--- Name: teams_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: teams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.teams_id_seq
@@ -324,17 +294,15 @@ CREATE SEQUENCE public.teams_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.teams_id_seq OWNER TO postgres;
-
 --
--- Name: teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.teams_id_seq OWNED BY public.teams.id;
 
 
 --
--- Name: templates; Type: TABLE; Schema: public; Owner: postgres
+-- Name: templates; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.templates (
@@ -347,10 +315,8 @@ CREATE TABLE public.templates (
 );
 
 
-ALTER TABLE public.templates OWNER TO postgres;
-
 --
--- Name: templates_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: templates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.templates_id_seq
@@ -362,17 +328,15 @@ CREATE SEQUENCE public.templates_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.templates_id_seq OWNER TO postgres;
-
 --
--- Name: templates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: templates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.templates_id_seq OWNED BY public.templates.id;
 
 
 --
--- Name: user_type; Type: TABLE; Schema: public; Owner: postgres
+-- Name: user_type; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.user_type (
@@ -382,10 +346,8 @@ CREATE TABLE public.user_type (
 );
 
 
-ALTER TABLE public.user_type OWNER TO postgres;
-
 --
--- Name: user_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: user_type_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.user_type_id_seq
@@ -397,17 +359,15 @@ CREATE SEQUENCE public.user_type_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.user_type_id_seq OWNER TO postgres;
-
 --
--- Name: user_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: user_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.user_type_id_seq OWNED BY public.user_type.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: postgres
+-- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.users (
@@ -419,14 +379,13 @@ CREATE TABLE public.users (
     password character varying(255),
     phone character varying(15),
     notes text,
-    owner_id integer NOT NULL
+    owner_id integer NOT NULL,
+    refresh_token text
 );
 
 
-ALTER TABLE public.users OWNER TO postgres;
-
 --
--- Name: users_building_sites; Type: TABLE; Schema: public; Owner: postgres
+-- Name: users_building_sites; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.users_building_sites (
@@ -436,10 +395,8 @@ CREATE TABLE public.users_building_sites (
 );
 
 
-ALTER TABLE public.users_building_sites OWNER TO postgres;
-
 --
--- Name: users_bulding_sites_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: users_bulding_sites_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.users_bulding_sites_id_seq
@@ -451,17 +408,15 @@ CREATE SEQUENCE public.users_bulding_sites_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.users_bulding_sites_id_seq OWNER TO postgres;
-
 --
--- Name: users_bulding_sites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: users_bulding_sites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.users_bulding_sites_id_seq OWNED BY public.users_building_sites.id;
 
 
 --
--- Name: users_companies; Type: TABLE; Schema: public; Owner: postgres
+-- Name: users_companies; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.users_companies (
@@ -471,10 +426,8 @@ CREATE TABLE public.users_companies (
 );
 
 
-ALTER TABLE public.users_companies OWNER TO postgres;
-
 --
--- Name: users_companies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: users_companies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.users_companies_id_seq
@@ -486,17 +439,15 @@ CREATE SEQUENCE public.users_companies_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.users_companies_id_seq OWNER TO postgres;
-
 --
--- Name: users_companies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: users_companies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.users_companies_id_seq OWNED BY public.users_companies.id;
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.users_id_seq
@@ -508,17 +459,15 @@ CREATE SEQUENCE public.users_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
-
 --
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: users_teams; Type: TABLE; Schema: public; Owner: postgres
+-- Name: users_teams; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.users_teams (
@@ -528,10 +477,8 @@ CREATE TABLE public.users_teams (
 );
 
 
-ALTER TABLE public.users_teams OWNER TO postgres;
-
 --
--- Name: users_teams_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: users_teams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.users_teams_id_seq
@@ -543,17 +490,15 @@ CREATE SEQUENCE public.users_teams_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.users_teams_id_seq OWNER TO postgres;
-
 --
--- Name: users_teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: users_teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.users_teams_id_seq OWNED BY public.users_teams.id;
 
 
 --
--- Name: users_user_type; Type: TABLE; Schema: public; Owner: postgres
+-- Name: users_user_type; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.users_user_type (
@@ -563,10 +508,8 @@ CREATE TABLE public.users_user_type (
 );
 
 
-ALTER TABLE public.users_user_type OWNER TO postgres;
-
 --
--- Name: users_user_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: users_user_type_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.users_user_type_id_seq
@@ -578,122 +521,120 @@ CREATE SEQUENCE public.users_user_type_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.users_user_type_id_seq OWNER TO postgres;
-
 --
--- Name: users_user_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: users_user_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.users_user_type_id_seq OWNED BY public.users_user_type.id;
 
 
 --
--- Name: building_sites id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: building_sites id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.building_sites ALTER COLUMN id SET DEFAULT nextval('public.building_sites_id_seq'::regclass);
 
 
 --
--- Name: companies id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: companies id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.companies ALTER COLUMN id SET DEFAULT nextval('public.companies_id_seq'::regclass);
 
 
 --
--- Name: daily_notes id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: daily_notes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.daily_notes ALTER COLUMN id SET DEFAULT nextval('public.daily_notes_id_seq'::regclass);
 
 
 --
--- Name: daily_presences id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: daily_presences id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.daily_presences ALTER COLUMN id SET DEFAULT nextval('public.daily_presences_id_seq'::regclass);
 
 
 --
--- Name: documents id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: documents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.documents ALTER COLUMN id SET DEFAULT nextval('public.documents_id_seq'::regclass);
 
 
 --
--- Name: files id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: files id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.files ALTER COLUMN id SET DEFAULT nextval('public.files_id_seq'::regclass);
 
 
 --
--- Name: projects id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: projects id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.projects ALTER COLUMN id SET DEFAULT nextval('public.projects_id_seq'::regclass);
 
 
 --
--- Name: teams id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: teams id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.teams ALTER COLUMN id SET DEFAULT nextval('public.teams_id_seq'::regclass);
 
 
 --
--- Name: templates id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: templates id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.templates ALTER COLUMN id SET DEFAULT nextval('public.templates_id_seq'::regclass);
 
 
 --
--- Name: user_type id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: user_type id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_type ALTER COLUMN id SET DEFAULT nextval('public.user_type_id_seq'::regclass);
 
 
 --
--- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
--- Name: users_building_sites id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: users_building_sites id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_building_sites ALTER COLUMN id SET DEFAULT nextval('public.users_bulding_sites_id_seq'::regclass);
 
 
 --
--- Name: users_companies id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: users_companies id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_companies ALTER COLUMN id SET DEFAULT nextval('public.users_companies_id_seq'::regclass);
 
 
 --
--- Name: users_teams id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: users_teams id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_teams ALTER COLUMN id SET DEFAULT nextval('public.users_teams_id_seq'::regclass);
 
 
 --
--- Name: users_user_type id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: users_user_type id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_user_type ALTER COLUMN id SET DEFAULT nextval('public.users_user_type_id_seq'::regclass);
 
 
 --
--- Data for Name: building_sites; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: building_sites; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.building_sites (id, name, notes, city, address, latitude, longitude, owner_id, start_date, end_date) FROM stdin;
@@ -711,13 +652,23 @@ COPY public.building_sites (id, name, notes, city, address, latitude, longitude,
 12	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	67	2026-03-12	2026-04-01
 13	Villa rossiccia	asdfas	Agliè	boh	45.363433	7.768600	67	2026-03-20	\N
 20	asdfas	fasdfas	Cavour	fsdafsdafa	44.784031	7.375232	67	2026-03-01	\N
-21	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	74	2026-03-25	2026-04-14
 22	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	81	2026-03-29	2026-04-30
+23	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	88	2026-03-31	2026-04-20
+24	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	95	2026-03-31	2026-04-20
+25	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	102	2026-03-31	2026-04-20
+27	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	116	2026-03-31	2026-04-20
+28	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	123	2026-03-31	2026-04-20
+29	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	130	2026-03-31	2026-04-20
+30	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	137	2026-03-31	2026-04-20
+31	Locanda del polacco b and b	quello nella frazione di ravenna Ducenta	Ravenna	Ducenta	44.417225	12.199139	137	2026-03-02	2026-07-02
+21	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	74	2026-03-01	2026-06-30
+33	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	144	2026-04-01	2026-04-21
+34	Cantiere di Prova - Conad ASG SRL	Note di prova per il cantiere.	Milano	Via Roma 10	45.466794	9.190347	145	2026-04-01	2026-04-21
 \.
 
 
 --
--- Data for Name: companies; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: companies; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.companies (id, name, notes, owner_id) FROM stdin;
@@ -769,11 +720,48 @@ COPY public.companies (id, name, notes, owner_id) FROM stdin;
 49	BRUNO E FRETTO SRL	\N	81
 50	Edilizia Generale S.p.A.	\N	81
 51	Studio Tecnico Associato	\N	81
+52	Fratelli Russo Idraulica Srl	\N	88
+53	BRUNO E FRETTO SRL	\N	88
+54	Edilizia Generale S.p.A.	\N	88
+55	Studio Tecnico Associato	\N	88
+56	Fratelli Russo Idraulica Srl	\N	95
+57	BRUNO E FRETTO SRL	\N	95
+58	Edilizia Generale S.p.A.	\N	95
+59	Studio Tecnico Associato	\N	95
+60	Fratelli Russo Idraulica Srl	\N	102
+61	BRUNO E FRETTO SRL	\N	102
+62	Edilizia Generale S.p.A.	\N	102
+63	Studio Tecnico Associato	\N	102
+68	Fratelli Russo Idraulica Srl	\N	116
+69	BRUNO E FRETTO SRL	\N	116
+70	Edilizia Generale S.p.A.	\N	116
+71	Studio Tecnico Associato	\N	116
+72	Fratelli Russo Idraulica Srl	\N	123
+73	BRUNO E FRETTO SRL	\N	123
+74	Edilizia Generale S.p.A.	\N	123
+75	Studio Tecnico Associato	\N	123
+76	Fratelli Russo Idraulica Srl	\N	130
+77	BRUNO E FRETTO SRL	\N	130
+78	Edilizia Generale S.p.A.	\N	130
+79	Studio Tecnico Associato	\N	130
+80	Fratelli Russo Idraulica Srl	\N	137
+81	BRUNO E FRETTO SRL	\N	137
+82	Edilizia Generale S.p.A.	\N	137
+83	Studio Tecnico Associato	\N	137
+84	Libero Professionista	è mio cugino	137
+85	Fratelli Russo Idraulica Srl	\N	144
+86	BRUNO E FRETTO SRL	\N	144
+87	Edilizia Generale S.p.A.	\N	144
+88	Studio Tecnico Associato	\N	144
+89	Fratelli Russo Idraulica Srl	\N	145
+90	BRUNO E FRETTO SRL	\N	145
+91	Edilizia Generale S.p.A.	\N	145
+92	Studio Tecnico Associato	\N	145
 \.
 
 
 --
--- Data for Name: daily_notes; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: daily_notes; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.daily_notes (id, date, building_site_id, notes, other_notes, personal_notes, owner_id) FROM stdin;
@@ -988,11 +976,195 @@ COPY public.daily_notes (id, date, building_site_id, notes, other_notes, persona
 212	2026-04-15	22	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	81
 213	2026-04-16	22	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	81
 214	2026-04-17	22	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	81
+215	2026-05-31	21	\N	\N	dell'uno giugno	74
+216	2026-06-09	21	\N	\N	123456789	74
+217	2026-06-10	21	\N	\N	123456879	74
+218	2026-06-22	21	\N	\N	22 giugno	74
+219	2026-03-31	23	Allestimento cantiere e scarico materiali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 1: verificare qualità dei materiali forniti oggi.	88
+220	2026-04-01	23	Tracciamento impianti e scavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 2: verificare qualità dei materiali forniti oggi.	88
+221	2026-04-02	23	Posa tubazioni scarico primarie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 3: verificare qualità dei materiali forniti oggi.	88
+222	2026-04-03	23	Getto di pulizia e armatura	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 4: verificare qualità dei materiali forniti oggi.	88
+223	2026-04-04	23	Chiusura tracce e verifica livelli	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 5: verificare qualità dei materiali forniti oggi.	88
+224	2026-04-05	23	Inizio murature perimetrali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 6: verificare qualità dei materiali forniti oggi.	88
+225	2026-04-06	23	Posa controtelai e soglie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 7: verificare qualità dei materiali forniti oggi.	88
+226	2026-04-07	23	Intonacatura grezza piano terra	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 8: verificare qualità dei materiali forniti oggi.	88
+227	2026-04-08	23	Impianto elettrico: posa corrugati	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 9: verificare qualità dei materiali forniti oggi.	88
+228	2026-04-09	23	Verifica sicurezza e sopralluogo tecnico	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 10: verificare qualità dei materiali forniti oggi.	88
+229	2026-04-10	23	Montaggio cartongessi e orditure	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 11: verificare qualità dei materiali forniti oggi.	88
+230	2026-04-11	23	Rasatura pareti zona A	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 12: verificare qualità dei materiali forniti oggi.	88
+231	2026-04-12	23	Posa massetto autolivellante	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 13: verificare qualità dei materiali forniti oggi.	88
+232	2026-04-13	23	Installazione centralina idraulica	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 14: verificare qualità dei materiali forniti oggi.	88
+233	2026-04-14	23	Posa pavimenti e rivestimenti	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 15: verificare qualità dei materiali forniti oggi.	88
+234	2026-04-15	23	Montaggio infissi esterni	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 16: verificare qualità dei materiali forniti oggi.	88
+235	2026-04-16	23	Pittura prima mano e finiture	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 17: verificare qualità dei materiali forniti oggi.	88
+236	2026-04-17	23	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	88
+237	2026-04-18	23	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	88
+238	2026-04-19	23	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	88
+239	2026-03-31	24	Allestimento cantiere e scarico materiali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 1: verificare qualità dei materiali forniti oggi.	95
+240	2026-04-01	24	Tracciamento impianti e scavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 2: verificare qualità dei materiali forniti oggi.	95
+241	2026-04-02	24	Posa tubazioni scarico primarie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 3: verificare qualità dei materiali forniti oggi.	95
+242	2026-04-03	24	Getto di pulizia e armatura	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 4: verificare qualità dei materiali forniti oggi.	95
+243	2026-04-04	24	Chiusura tracce e verifica livelli	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 5: verificare qualità dei materiali forniti oggi.	95
+244	2026-04-05	24	Inizio murature perimetrali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 6: verificare qualità dei materiali forniti oggi.	95
+245	2026-04-06	24	Posa controtelai e soglie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 7: verificare qualità dei materiali forniti oggi.	95
+246	2026-04-07	24	Intonacatura grezza piano terra	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 8: verificare qualità dei materiali forniti oggi.	95
+247	2026-04-08	24	Impianto elettrico: posa corrugati	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 9: verificare qualità dei materiali forniti oggi.	95
+248	2026-04-09	24	Verifica sicurezza e sopralluogo tecnico	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 10: verificare qualità dei materiali forniti oggi.	95
+249	2026-04-10	24	Montaggio cartongessi e orditure	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 11: verificare qualità dei materiali forniti oggi.	95
+250	2026-04-11	24	Rasatura pareti zona A	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 12: verificare qualità dei materiali forniti oggi.	95
+251	2026-04-12	24	Posa massetto autolivellante	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 13: verificare qualità dei materiali forniti oggi.	95
+252	2026-04-13	24	Installazione centralina idraulica	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 14: verificare qualità dei materiali forniti oggi.	95
+253	2026-04-14	24	Posa pavimenti e rivestimenti	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 15: verificare qualità dei materiali forniti oggi.	95
+254	2026-04-15	24	Montaggio infissi esterni	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 16: verificare qualità dei materiali forniti oggi.	95
+255	2026-04-16	24	Pittura prima mano e finiture	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 17: verificare qualità dei materiali forniti oggi.	95
+256	2026-04-17	24	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	95
+257	2026-04-18	24	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	95
+258	2026-04-19	24	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	95
+259	2026-03-31	25	Allestimento cantiere e scarico materiali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 1: verificare qualità dei materiali forniti oggi.	102
+260	2026-04-01	25	Tracciamento impianti e scavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 2: verificare qualità dei materiali forniti oggi.	102
+261	2026-04-02	25	Posa tubazioni scarico primarie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 3: verificare qualità dei materiali forniti oggi.	102
+262	2026-04-03	25	Getto di pulizia e armatura	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 4: verificare qualità dei materiali forniti oggi.	102
+263	2026-04-04	25	Chiusura tracce e verifica livelli	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 5: verificare qualità dei materiali forniti oggi.	102
+264	2026-04-05	25	Inizio murature perimetrali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 6: verificare qualità dei materiali forniti oggi.	102
+265	2026-04-06	25	Posa controtelai e soglie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 7: verificare qualità dei materiali forniti oggi.	102
+266	2026-04-07	25	Intonacatura grezza piano terra	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 8: verificare qualità dei materiali forniti oggi.	102
+267	2026-04-08	25	Impianto elettrico: posa corrugati	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 9: verificare qualità dei materiali forniti oggi.	102
+268	2026-04-09	25	Verifica sicurezza e sopralluogo tecnico	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 10: verificare qualità dei materiali forniti oggi.	102
+269	2026-04-10	25	Montaggio cartongessi e orditure	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 11: verificare qualità dei materiali forniti oggi.	102
+270	2026-04-11	25	Rasatura pareti zona A	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 12: verificare qualità dei materiali forniti oggi.	102
+271	2026-04-12	25	Posa massetto autolivellante	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 13: verificare qualità dei materiali forniti oggi.	102
+272	2026-04-13	25	Installazione centralina idraulica	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 14: verificare qualità dei materiali forniti oggi.	102
+273	2026-04-14	25	Posa pavimenti e rivestimenti	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 15: verificare qualità dei materiali forniti oggi.	102
+274	2026-04-15	25	Montaggio infissi esterni	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 16: verificare qualità dei materiali forniti oggi.	102
+275	2026-04-16	25	Pittura prima mano e finiture	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 17: verificare qualità dei materiali forniti oggi.	102
+276	2026-04-17	25	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	102
+277	2026-04-18	25	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	102
+278	2026-04-19	25	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	102
+299	2026-03-31	27	Allestimento cantiere e scarico materiali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 1: verificare qualità dei materiali forniti oggi.	116
+300	2026-04-01	27	Tracciamento impianti e scavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 2: verificare qualità dei materiali forniti oggi.	116
+301	2026-04-02	27	Posa tubazioni scarico primarie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 3: verificare qualità dei materiali forniti oggi.	116
+302	2026-04-03	27	Getto di pulizia e armatura	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 4: verificare qualità dei materiali forniti oggi.	116
+303	2026-04-04	27	Chiusura tracce e verifica livelli	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 5: verificare qualità dei materiali forniti oggi.	116
+304	2026-04-05	27	Inizio murature perimetrali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 6: verificare qualità dei materiali forniti oggi.	116
+305	2026-04-06	27	Posa controtelai e soglie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 7: verificare qualità dei materiali forniti oggi.	116
+306	2026-04-07	27	Intonacatura grezza piano terra	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 8: verificare qualità dei materiali forniti oggi.	116
+307	2026-04-08	27	Impianto elettrico: posa corrugati	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 9: verificare qualità dei materiali forniti oggi.	116
+308	2026-04-09	27	Verifica sicurezza e sopralluogo tecnico	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 10: verificare qualità dei materiali forniti oggi.	116
+309	2026-04-10	27	Montaggio cartongessi e orditure	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 11: verificare qualità dei materiali forniti oggi.	116
+310	2026-04-11	27	Rasatura pareti zona A	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 12: verificare qualità dei materiali forniti oggi.	116
+311	2026-04-12	27	Posa massetto autolivellante	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 13: verificare qualità dei materiali forniti oggi.	116
+312	2026-04-13	27	Installazione centralina idraulica	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 14: verificare qualità dei materiali forniti oggi.	116
+313	2026-04-14	27	Posa pavimenti e rivestimenti	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 15: verificare qualità dei materiali forniti oggi.	116
+314	2026-04-15	27	Montaggio infissi esterni	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 16: verificare qualità dei materiali forniti oggi.	116
+315	2026-04-16	27	Pittura prima mano e finiture	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 17: verificare qualità dei materiali forniti oggi.	116
+316	2026-04-17	27	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	116
+317	2026-04-18	27	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	116
+318	2026-04-19	27	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	116
+319	2026-03-31	28	Allestimento cantiere e scarico materiali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 1: verificare qualità dei materiali forniti oggi.	123
+320	2026-04-01	28	Tracciamento impianti e scavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 2: verificare qualità dei materiali forniti oggi.	123
+321	2026-04-02	28	Posa tubazioni scarico primarie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 3: verificare qualità dei materiali forniti oggi.	123
+322	2026-04-03	28	Getto di pulizia e armatura	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 4: verificare qualità dei materiali forniti oggi.	123
+323	2026-04-04	28	Chiusura tracce e verifica livelli	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 5: verificare qualità dei materiali forniti oggi.	123
+324	2026-04-05	28	Inizio murature perimetrali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 6: verificare qualità dei materiali forniti oggi.	123
+325	2026-04-06	28	Posa controtelai e soglie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 7: verificare qualità dei materiali forniti oggi.	123
+326	2026-04-07	28	Intonacatura grezza piano terra	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 8: verificare qualità dei materiali forniti oggi.	123
+327	2026-04-08	28	Impianto elettrico: posa corrugati	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 9: verificare qualità dei materiali forniti oggi.	123
+328	2026-04-09	28	Verifica sicurezza e sopralluogo tecnico	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 10: verificare qualità dei materiali forniti oggi.	123
+329	2026-04-10	28	Montaggio cartongessi e orditure	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 11: verificare qualità dei materiali forniti oggi.	123
+330	2026-04-11	28	Rasatura pareti zona A	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 12: verificare qualità dei materiali forniti oggi.	123
+331	2026-04-12	28	Posa massetto autolivellante	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 13: verificare qualità dei materiali forniti oggi.	123
+332	2026-04-13	28	Installazione centralina idraulica	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 14: verificare qualità dei materiali forniti oggi.	123
+333	2026-04-14	28	Posa pavimenti e rivestimenti	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 15: verificare qualità dei materiali forniti oggi.	123
+334	2026-04-15	28	Montaggio infissi esterni	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 16: verificare qualità dei materiali forniti oggi.	123
+335	2026-04-16	28	Pittura prima mano e finiture	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 17: verificare qualità dei materiali forniti oggi.	123
+336	2026-04-17	28	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	123
+337	2026-04-18	28	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	123
+338	2026-04-19	28	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	123
+339	2026-03-31	29	Allestimento cantiere e scarico materiali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 1: verificare qualità dei materiali forniti oggi.	130
+340	2026-04-01	29	Tracciamento impianti e scavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 2: verificare qualità dei materiali forniti oggi.	130
+341	2026-04-02	29	Posa tubazioni scarico primarie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 3: verificare qualità dei materiali forniti oggi.	130
+342	2026-04-03	29	Getto di pulizia e armatura	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 4: verificare qualità dei materiali forniti oggi.	130
+343	2026-04-04	29	Chiusura tracce e verifica livelli	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 5: verificare qualità dei materiali forniti oggi.	130
+344	2026-04-05	29	Inizio murature perimetrali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 6: verificare qualità dei materiali forniti oggi.	130
+345	2026-04-06	29	Posa controtelai e soglie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 7: verificare qualità dei materiali forniti oggi.	130
+346	2026-04-07	29	Intonacatura grezza piano terra	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 8: verificare qualità dei materiali forniti oggi.	130
+347	2026-04-08	29	Impianto elettrico: posa corrugati	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 9: verificare qualità dei materiali forniti oggi.	130
+348	2026-04-09	29	Verifica sicurezza e sopralluogo tecnico	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 10: verificare qualità dei materiali forniti oggi.	130
+349	2026-04-10	29	Montaggio cartongessi e orditure	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 11: verificare qualità dei materiali forniti oggi.	130
+350	2026-04-11	29	Rasatura pareti zona A	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 12: verificare qualità dei materiali forniti oggi.	130
+351	2026-04-12	29	Posa massetto autolivellante	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 13: verificare qualità dei materiali forniti oggi.	130
+352	2026-04-13	29	Installazione centralina idraulica	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 14: verificare qualità dei materiali forniti oggi.	130
+353	2026-04-14	29	Posa pavimenti e rivestimenti	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 15: verificare qualità dei materiali forniti oggi.	130
+354	2026-04-15	29	Montaggio infissi esterni	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 16: verificare qualità dei materiali forniti oggi.	130
+355	2026-04-16	29	Pittura prima mano e finiture	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 17: verificare qualità dei materiali forniti oggi.	130
+356	2026-04-17	29	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	130
+357	2026-04-18	29	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	130
+358	2026-04-19	29	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	130
+359	2026-03-31	30	Allestimento cantiere e scarico materiali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 1: verificare qualità dei materiali forniti oggi.	137
+360	2026-04-01	30	Tracciamento impianti e scavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 2: verificare qualità dei materiali forniti oggi.	137
+361	2026-04-02	30	Posa tubazioni scarico primarie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 3: verificare qualità dei materiali forniti oggi.	137
+362	2026-04-03	30	Getto di pulizia e armatura	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 4: verificare qualità dei materiali forniti oggi.	137
+363	2026-04-04	30	Chiusura tracce e verifica livelli	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 5: verificare qualità dei materiali forniti oggi.	137
+364	2026-04-05	30	Inizio murature perimetrali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 6: verificare qualità dei materiali forniti oggi.	137
+365	2026-04-06	30	Posa controtelai e soglie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 7: verificare qualità dei materiali forniti oggi.	137
+366	2026-04-07	30	Intonacatura grezza piano terra	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 8: verificare qualità dei materiali forniti oggi.	137
+367	2026-04-08	30	Impianto elettrico: posa corrugati	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 9: verificare qualità dei materiali forniti oggi.	137
+368	2026-04-09	30	Verifica sicurezza e sopralluogo tecnico	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 10: verificare qualità dei materiali forniti oggi.	137
+369	2026-04-10	30	Montaggio cartongessi e orditure	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 11: verificare qualità dei materiali forniti oggi.	137
+370	2026-04-11	30	Rasatura pareti zona A	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 12: verificare qualità dei materiali forniti oggi.	137
+371	2026-04-12	30	Posa massetto autolivellante	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 13: verificare qualità dei materiali forniti oggi.	137
+372	2026-04-13	30	Installazione centralina idraulica	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 14: verificare qualità dei materiali forniti oggi.	137
+373	2026-04-14	30	Posa pavimenti e rivestimenti	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 15: verificare qualità dei materiali forniti oggi.	137
+374	2026-04-15	30	Montaggio infissi esterni	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 16: verificare qualità dei materiali forniti oggi.	137
+375	2026-04-16	30	Pittura prima mano e finiture	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 17: verificare qualità dei materiali forniti oggi.	137
+376	2026-04-17	30	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	137
+377	2026-04-18	30	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	137
+378	2026-04-19	30	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	137
+379	2026-04-01	34	Allestimento cantiere e scarico materiali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 1: verificare qualità dei materiali forniti oggi.	145
+380	2026-04-01	33	Allestimento cantiere e scarico materiali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 1: verificare qualità dei materiali forniti oggi.	144
+381	2026-04-02	34	Tracciamento impianti e scavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 2: verificare qualità dei materiali forniti oggi.	145
+382	2026-04-02	33	Tracciamento impianti e scavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 2: verificare qualità dei materiali forniti oggi.	144
+383	2026-04-03	34	Posa tubazioni scarico primarie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 3: verificare qualità dei materiali forniti oggi.	145
+384	2026-04-03	33	Posa tubazioni scarico primarie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 3: verificare qualità dei materiali forniti oggi.	144
+385	2026-04-04	34	Getto di pulizia e armatura	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 4: verificare qualità dei materiali forniti oggi.	145
+386	2026-04-04	33	Getto di pulizia e armatura	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 4: verificare qualità dei materiali forniti oggi.	144
+387	2026-04-05	34	Chiusura tracce e verifica livelli	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 5: verificare qualità dei materiali forniti oggi.	145
+388	2026-04-05	33	Chiusura tracce e verifica livelli	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 5: verificare qualità dei materiali forniti oggi.	144
+389	2026-04-06	34	Inizio murature perimetrali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 6: verificare qualità dei materiali forniti oggi.	145
+390	2026-04-06	33	Inizio murature perimetrali	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 6: verificare qualità dei materiali forniti oggi.	144
+391	2026-04-07	34	Posa controtelai e soglie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 7: verificare qualità dei materiali forniti oggi.	145
+392	2026-04-07	33	Posa controtelai e soglie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 7: verificare qualità dei materiali forniti oggi.	144
+394	2026-04-08	33	Intonacatura grezza piano terra	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 8: verificare qualità dei materiali forniti oggi.	144
+396	2026-04-09	33	Impianto elettrico: posa corrugati	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 9: verificare qualità dei materiali forniti oggi.	144
+398	2026-04-10	33	Verifica sicurezza e sopralluogo tecnico	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 10: verificare qualità dei materiali forniti oggi.	144
+401	2026-04-11	33	Montaggio cartongessi e orditure	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 11: verificare qualità dei materiali forniti oggi.	144
+403	2026-04-12	33	Rasatura pareti zona A	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 12: verificare qualità dei materiali forniti oggi.	144
+405	2026-04-13	33	Posa massetto autolivellante	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 13: verificare qualità dei materiali forniti oggi.	144
+407	2026-04-14	33	Installazione centralina idraulica	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 14: verificare qualità dei materiali forniti oggi.	144
+409	2026-04-15	33	Posa pavimenti e rivestimenti	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 15: verificare qualità dei materiali forniti oggi.	144
+411	2026-04-16	33	Montaggio infissi esterni	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 16: verificare qualità dei materiali forniti oggi.	144
+413	2026-04-17	33	Pittura prima mano e finiture	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 17: verificare qualità dei materiali forniti oggi.	144
+415	2026-04-18	33	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	144
+417	2026-04-19	33	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	144
+418	2026-04-20	33	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	144
+393	2026-04-08	34	Intonacatura grezza piano terra	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 8: verificare qualità dei materiali forniti oggi.	145
+395	2026-04-09	34	Impianto elettrico: posa corrugati	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 9: verificare qualità dei materiali forniti oggi.	145
+397	2026-04-10	34	Verifica sicurezza e sopralluogo tecnico	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 10: verificare qualità dei materiali forniti oggi.	145
+399	2026-04-11	34	Montaggio cartongessi e orditure	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 11: verificare qualità dei materiali forniti oggi.	145
+400	2026-04-12	34	Rasatura pareti zona A	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 12: verificare qualità dei materiali forniti oggi.	145
+402	2026-04-13	34	Posa massetto autolivellante	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 13: verificare qualità dei materiali forniti oggi.	145
+404	2026-04-14	34	Installazione centralina idraulica	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 14: verificare qualità dei materiali forniti oggi.	145
+406	2026-04-15	34	Posa pavimenti e rivestimenti	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 15: verificare qualità dei materiali forniti oggi.	145
+408	2026-04-16	34	Montaggio infissi esterni	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 16: verificare qualità dei materiali forniti oggi.	145
+410	2026-04-17	34	Pittura prima mano e finiture	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 17: verificare qualità dei materiali forniti oggi.	145
+412	2026-04-18	34	Installazione sanitari e rubinetterie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 18: verificare qualità dei materiali forniti oggi.	145
+414	2026-04-19	34	Pulizia fine cantiere e smaltimento macerie	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 19: verificare qualità dei materiali forniti oggi.	145
+416	2026-04-20	34	Collaudo finale e consegna chiavi	Meteo sereno, forniture arrivate in orario.	Nota privata giorno 20: verificare qualità dei materiali forniti oggi.	145
 \.
 
 
 --
--- Data for Name: daily_presences; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: daily_presences; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.daily_presences (id, building_site_id, user_id, date, is_present, notes, owner_id) FROM stdin;
@@ -2257,11 +2429,1091 @@ COPY public.daily_presences (id, building_site_id, user_id, date, is_present, no
 1265	22	86	2026-04-03	present	\N	81
 1266	22	87	2026-04-03	present	\N	81
 1267	22	82	2026-04-28	present	\N	81
+1268	23	89	2026-03-31	present	\N	88
+1269	23	90	2026-03-31	present	\N	88
+1270	23	91	2026-03-31	present	\N	88
+1271	23	92	2026-03-31	present	\N	88
+1272	23	93	2026-03-31	present	\N	88
+1273	23	94	2026-03-31	present	\N	88
+1274	23	89	2026-04-01	present	\N	88
+1275	23	90	2026-04-01	present	\N	88
+1276	23	91	2026-04-01	present	\N	88
+1277	23	92	2026-04-01	present	\N	88
+1278	23	93	2026-04-01	present	\N	88
+1279	23	94	2026-04-01	present	\N	88
+1280	23	89	2026-04-02	present	\N	88
+1281	23	90	2026-04-02	present	\N	88
+1282	23	91	2026-04-02	present	\N	88
+1283	23	92	2026-04-02	present	\N	88
+1284	23	93	2026-04-02	present	\N	88
+1285	23	94	2026-04-02	present	\N	88
+1286	23	89	2026-04-03	present	\N	88
+1287	23	90	2026-04-03	present	\N	88
+1288	23	91	2026-04-03	present	\N	88
+1289	23	92	2026-04-03	present	\N	88
+1290	23	93	2026-04-03	present	\N	88
+1291	23	94	2026-04-03	present	\N	88
+1292	23	89	2026-04-04	present	\N	88
+1293	23	90	2026-04-04	present	\N	88
+1294	23	91	2026-04-04	present	\N	88
+1295	23	92	2026-04-04	present	\N	88
+1296	23	93	2026-04-04	present	\N	88
+1297	23	94	2026-04-04	present	\N	88
+1298	23	89	2026-04-05	present	\N	88
+1299	23	90	2026-04-05	present	\N	88
+1300	23	91	2026-04-05	present	\N	88
+1301	23	92	2026-04-05	present	\N	88
+1302	23	93	2026-04-05	present	\N	88
+1303	23	94	2026-04-05	present	\N	88
+1304	23	89	2026-04-06	present	\N	88
+1305	23	90	2026-04-06	present	\N	88
+1306	23	91	2026-04-06	present	\N	88
+1307	23	92	2026-04-06	present	\N	88
+1308	23	93	2026-04-06	present	\N	88
+1309	23	94	2026-04-06	present	\N	88
+1310	23	89	2026-04-07	present	\N	88
+1311	23	90	2026-04-07	present	\N	88
+1312	23	91	2026-04-07	present	\N	88
+1313	23	92	2026-04-07	present	\N	88
+1314	23	93	2026-04-07	present	\N	88
+1315	23	94	2026-04-07	present	\N	88
+1316	23	89	2026-04-08	present	\N	88
+1317	23	90	2026-04-08	present	\N	88
+1318	23	91	2026-04-08	present	\N	88
+1319	23	92	2026-04-08	present	\N	88
+1320	23	93	2026-04-08	present	\N	88
+1321	23	94	2026-04-08	present	\N	88
+1322	23	89	2026-04-09	present	\N	88
+1323	23	90	2026-04-09	present	\N	88
+1324	23	91	2026-04-09	present	\N	88
+1325	23	92	2026-04-09	present	\N	88
+1326	23	93	2026-04-09	present	\N	88
+1327	23	94	2026-04-09	present	\N	88
+1328	23	89	2026-04-10	present	\N	88
+1329	23	90	2026-04-10	present	\N	88
+1330	23	91	2026-04-10	present	\N	88
+1331	23	92	2026-04-10	present	\N	88
+1332	23	93	2026-04-10	present	\N	88
+1333	23	94	2026-04-10	present	\N	88
+1334	23	89	2026-04-11	present	\N	88
+1335	23	90	2026-04-11	present	\N	88
+1336	23	91	2026-04-11	present	\N	88
+1337	23	92	2026-04-11	present	\N	88
+1338	23	93	2026-04-11	present	\N	88
+1339	23	94	2026-04-11	present	\N	88
+1340	23	89	2026-04-12	present	\N	88
+1341	23	90	2026-04-12	present	\N	88
+1342	23	91	2026-04-12	present	\N	88
+1343	23	92	2026-04-12	present	\N	88
+1344	23	93	2026-04-12	present	\N	88
+1345	23	94	2026-04-12	present	\N	88
+1346	23	89	2026-04-13	present	\N	88
+1347	23	90	2026-04-13	present	\N	88
+1348	23	91	2026-04-13	present	\N	88
+1349	23	92	2026-04-13	present	\N	88
+1350	23	93	2026-04-13	present	\N	88
+1351	23	94	2026-04-13	present	\N	88
+1352	23	89	2026-04-14	present	\N	88
+1353	23	90	2026-04-14	present	\N	88
+1354	23	91	2026-04-14	present	\N	88
+1355	23	92	2026-04-14	present	\N	88
+1356	23	93	2026-04-14	present	\N	88
+1357	23	94	2026-04-14	present	\N	88
+1358	23	89	2026-04-15	present	\N	88
+1359	23	90	2026-04-15	present	\N	88
+1360	23	91	2026-04-15	present	\N	88
+1361	23	92	2026-04-15	present	\N	88
+1362	23	93	2026-04-15	present	\N	88
+1363	23	94	2026-04-15	present	\N	88
+1364	23	89	2026-04-16	present	\N	88
+1365	23	90	2026-04-16	present	\N	88
+1366	23	91	2026-04-16	present	\N	88
+1367	23	92	2026-04-16	present	\N	88
+1368	23	93	2026-04-16	present	\N	88
+1369	23	94	2026-04-16	present	\N	88
+1370	23	89	2026-04-17	present	\N	88
+1371	23	90	2026-04-17	present	\N	88
+1372	23	91	2026-04-17	present	\N	88
+1373	23	92	2026-04-17	present	\N	88
+1374	23	93	2026-04-17	present	\N	88
+1375	23	94	2026-04-17	present	\N	88
+1376	23	89	2026-04-18	present	\N	88
+1377	23	90	2026-04-18	present	\N	88
+1378	23	91	2026-04-18	present	\N	88
+1379	23	92	2026-04-18	present	\N	88
+1380	23	93	2026-04-18	present	\N	88
+1381	23	94	2026-04-18	present	\N	88
+1382	23	89	2026-04-19	present	\N	88
+1383	23	90	2026-04-19	present	\N	88
+1384	23	91	2026-04-19	present	\N	88
+1385	23	92	2026-04-19	present	\N	88
+1386	23	93	2026-04-19	present	\N	88
+1387	23	94	2026-04-19	present	\N	88
+1388	24	96	2026-03-31	present	\N	95
+1389	24	97	2026-03-31	present	\N	95
+1390	24	98	2026-03-31	present	\N	95
+1391	24	99	2026-03-31	present	\N	95
+1392	24	100	2026-03-31	present	\N	95
+1393	24	101	2026-03-31	present	\N	95
+1394	24	96	2026-04-01	present	\N	95
+1395	24	97	2026-04-01	present	\N	95
+1396	24	98	2026-04-01	present	\N	95
+1397	24	99	2026-04-01	present	\N	95
+1398	24	100	2026-04-01	present	\N	95
+1399	24	101	2026-04-01	present	\N	95
+1400	24	96	2026-04-02	present	\N	95
+1401	24	97	2026-04-02	present	\N	95
+1402	24	98	2026-04-02	present	\N	95
+1403	24	99	2026-04-02	present	\N	95
+1404	24	100	2026-04-02	present	\N	95
+1405	24	101	2026-04-02	present	\N	95
+1406	24	96	2026-04-03	present	\N	95
+1407	24	97	2026-04-03	present	\N	95
+1408	24	98	2026-04-03	present	\N	95
+1409	24	99	2026-04-03	present	\N	95
+1410	24	100	2026-04-03	present	\N	95
+1411	24	101	2026-04-03	present	\N	95
+1412	24	96	2026-04-04	present	\N	95
+1413	24	97	2026-04-04	present	\N	95
+1414	24	98	2026-04-04	present	\N	95
+1415	24	99	2026-04-04	present	\N	95
+1416	24	100	2026-04-04	present	\N	95
+1417	24	101	2026-04-04	present	\N	95
+1418	24	96	2026-04-05	present	\N	95
+1419	24	97	2026-04-05	present	\N	95
+1420	24	98	2026-04-05	present	\N	95
+1421	24	99	2026-04-05	present	\N	95
+1422	24	100	2026-04-05	present	\N	95
+1423	24	101	2026-04-05	present	\N	95
+1424	24	96	2026-04-06	present	\N	95
+1425	24	97	2026-04-06	present	\N	95
+1426	24	98	2026-04-06	present	\N	95
+1427	24	99	2026-04-06	present	\N	95
+1428	24	100	2026-04-06	present	\N	95
+1429	24	101	2026-04-06	present	\N	95
+1430	24	96	2026-04-07	present	\N	95
+1431	24	97	2026-04-07	present	\N	95
+1432	24	98	2026-04-07	present	\N	95
+1433	24	99	2026-04-07	present	\N	95
+1434	24	100	2026-04-07	present	\N	95
+1435	24	101	2026-04-07	present	\N	95
+1436	24	96	2026-04-08	present	\N	95
+1437	24	97	2026-04-08	present	\N	95
+1438	24	98	2026-04-08	present	\N	95
+1439	24	99	2026-04-08	present	\N	95
+1440	24	100	2026-04-08	present	\N	95
+1441	24	101	2026-04-08	present	\N	95
+1442	24	96	2026-04-09	present	\N	95
+1443	24	97	2026-04-09	present	\N	95
+1444	24	98	2026-04-09	present	\N	95
+1445	24	99	2026-04-09	present	\N	95
+1446	24	100	2026-04-09	present	\N	95
+1447	24	101	2026-04-09	present	\N	95
+1448	24	96	2026-04-10	present	\N	95
+1449	24	97	2026-04-10	present	\N	95
+1450	24	98	2026-04-10	present	\N	95
+1451	24	99	2026-04-10	present	\N	95
+1452	24	100	2026-04-10	present	\N	95
+1453	24	101	2026-04-10	present	\N	95
+1454	24	96	2026-04-11	present	\N	95
+1455	24	97	2026-04-11	present	\N	95
+1456	24	98	2026-04-11	present	\N	95
+1457	24	99	2026-04-11	present	\N	95
+1458	24	100	2026-04-11	present	\N	95
+1459	24	101	2026-04-11	present	\N	95
+1460	24	96	2026-04-12	present	\N	95
+1461	24	97	2026-04-12	present	\N	95
+1462	24	98	2026-04-12	present	\N	95
+1463	24	99	2026-04-12	present	\N	95
+1464	24	100	2026-04-12	present	\N	95
+1465	24	101	2026-04-12	present	\N	95
+1466	24	96	2026-04-13	present	\N	95
+1467	24	97	2026-04-13	present	\N	95
+1468	24	98	2026-04-13	present	\N	95
+1469	24	99	2026-04-13	present	\N	95
+1470	24	100	2026-04-13	present	\N	95
+1471	24	101	2026-04-13	present	\N	95
+1472	24	96	2026-04-14	present	\N	95
+1473	24	97	2026-04-14	present	\N	95
+1474	24	98	2026-04-14	present	\N	95
+1475	24	99	2026-04-14	present	\N	95
+1476	24	100	2026-04-14	present	\N	95
+1477	24	101	2026-04-14	present	\N	95
+1478	24	96	2026-04-15	present	\N	95
+1479	24	97	2026-04-15	present	\N	95
+1480	24	98	2026-04-15	present	\N	95
+1481	24	99	2026-04-15	present	\N	95
+1482	24	100	2026-04-15	present	\N	95
+1483	24	101	2026-04-15	present	\N	95
+1484	24	96	2026-04-16	present	\N	95
+1485	24	97	2026-04-16	present	\N	95
+1486	24	98	2026-04-16	present	\N	95
+1487	24	99	2026-04-16	present	\N	95
+1488	24	100	2026-04-16	present	\N	95
+1489	24	101	2026-04-16	present	\N	95
+1490	24	96	2026-04-17	present	\N	95
+1491	24	97	2026-04-17	present	\N	95
+1492	24	98	2026-04-17	present	\N	95
+1493	24	99	2026-04-17	present	\N	95
+1494	24	100	2026-04-17	present	\N	95
+1495	24	101	2026-04-17	present	\N	95
+1496	24	96	2026-04-18	present	\N	95
+1497	24	97	2026-04-18	present	\N	95
+1498	24	98	2026-04-18	present	\N	95
+1499	24	99	2026-04-18	present	\N	95
+1500	24	100	2026-04-18	present	\N	95
+1501	24	101	2026-04-18	present	\N	95
+1502	24	96	2026-04-19	present	\N	95
+1503	24	97	2026-04-19	present	\N	95
+1504	24	98	2026-04-19	present	\N	95
+1505	24	99	2026-04-19	present	\N	95
+1506	24	100	2026-04-19	present	\N	95
+1507	24	101	2026-04-19	present	\N	95
+1508	25	103	2026-03-31	present	\N	102
+1509	25	104	2026-03-31	present	\N	102
+1510	25	105	2026-03-31	present	\N	102
+1511	25	106	2026-03-31	present	\N	102
+1512	25	107	2026-03-31	present	\N	102
+1513	25	108	2026-03-31	present	\N	102
+1514	25	103	2026-04-01	present	\N	102
+1515	25	104	2026-04-01	present	\N	102
+1516	25	105	2026-04-01	present	\N	102
+1517	25	106	2026-04-01	present	\N	102
+1518	25	107	2026-04-01	present	\N	102
+1519	25	108	2026-04-01	present	\N	102
+1520	25	103	2026-04-02	present	\N	102
+1521	25	104	2026-04-02	present	\N	102
+1522	25	105	2026-04-02	present	\N	102
+1523	25	106	2026-04-02	present	\N	102
+1524	25	107	2026-04-02	present	\N	102
+1525	25	108	2026-04-02	present	\N	102
+1526	25	103	2026-04-03	present	\N	102
+1527	25	104	2026-04-03	present	\N	102
+1528	25	105	2026-04-03	present	\N	102
+1529	25	106	2026-04-03	present	\N	102
+1530	25	107	2026-04-03	present	\N	102
+1531	25	108	2026-04-03	present	\N	102
+1532	25	103	2026-04-04	present	\N	102
+1533	25	104	2026-04-04	present	\N	102
+1534	25	105	2026-04-04	present	\N	102
+1535	25	106	2026-04-04	present	\N	102
+1536	25	107	2026-04-04	present	\N	102
+1537	25	108	2026-04-04	present	\N	102
+1538	25	103	2026-04-05	present	\N	102
+1539	25	104	2026-04-05	present	\N	102
+1540	25	105	2026-04-05	present	\N	102
+1541	25	106	2026-04-05	present	\N	102
+1542	25	107	2026-04-05	present	\N	102
+1543	25	108	2026-04-05	present	\N	102
+1544	25	103	2026-04-06	present	\N	102
+1545	25	104	2026-04-06	present	\N	102
+1546	25	105	2026-04-06	present	\N	102
+1547	25	106	2026-04-06	present	\N	102
+1548	25	107	2026-04-06	present	\N	102
+1549	25	108	2026-04-06	present	\N	102
+1550	25	103	2026-04-07	present	\N	102
+1551	25	104	2026-04-07	present	\N	102
+1552	25	105	2026-04-07	present	\N	102
+1553	25	106	2026-04-07	present	\N	102
+1554	25	107	2026-04-07	present	\N	102
+1555	25	108	2026-04-07	present	\N	102
+1556	25	103	2026-04-08	present	\N	102
+1557	25	104	2026-04-08	present	\N	102
+1558	25	105	2026-04-08	present	\N	102
+1559	25	106	2026-04-08	present	\N	102
+1560	25	107	2026-04-08	present	\N	102
+1561	25	108	2026-04-08	present	\N	102
+1562	25	103	2026-04-09	present	\N	102
+1563	25	104	2026-04-09	present	\N	102
+1564	25	105	2026-04-09	present	\N	102
+1565	25	106	2026-04-09	present	\N	102
+1566	25	107	2026-04-09	present	\N	102
+1567	25	108	2026-04-09	present	\N	102
+1568	25	103	2026-04-10	present	\N	102
+1569	25	104	2026-04-10	present	\N	102
+1570	25	105	2026-04-10	present	\N	102
+1571	25	106	2026-04-10	present	\N	102
+1572	25	107	2026-04-10	present	\N	102
+1573	25	108	2026-04-10	present	\N	102
+1574	25	103	2026-04-11	present	\N	102
+1575	25	104	2026-04-11	present	\N	102
+1576	25	105	2026-04-11	present	\N	102
+1577	25	106	2026-04-11	present	\N	102
+1578	25	107	2026-04-11	present	\N	102
+1579	25	108	2026-04-11	present	\N	102
+1580	25	103	2026-04-12	present	\N	102
+1581	25	104	2026-04-12	present	\N	102
+1582	25	105	2026-04-12	present	\N	102
+1583	25	106	2026-04-12	present	\N	102
+1584	25	107	2026-04-12	present	\N	102
+1585	25	108	2026-04-12	present	\N	102
+1586	25	103	2026-04-13	present	\N	102
+1587	25	104	2026-04-13	present	\N	102
+1588	25	105	2026-04-13	present	\N	102
+1589	25	106	2026-04-13	present	\N	102
+1590	25	107	2026-04-13	present	\N	102
+1591	25	108	2026-04-13	present	\N	102
+1592	25	103	2026-04-14	present	\N	102
+1593	25	104	2026-04-14	present	\N	102
+1594	25	105	2026-04-14	present	\N	102
+1595	25	106	2026-04-14	present	\N	102
+1596	25	107	2026-04-14	present	\N	102
+1597	25	108	2026-04-14	present	\N	102
+1598	25	103	2026-04-15	present	\N	102
+1599	25	104	2026-04-15	present	\N	102
+1600	25	105	2026-04-15	present	\N	102
+1601	25	106	2026-04-15	present	\N	102
+1602	25	107	2026-04-15	present	\N	102
+1603	25	108	2026-04-15	present	\N	102
+1604	25	103	2026-04-16	present	\N	102
+1605	25	104	2026-04-16	present	\N	102
+1606	25	105	2026-04-16	present	\N	102
+1607	25	106	2026-04-16	present	\N	102
+1608	25	107	2026-04-16	present	\N	102
+1609	25	108	2026-04-16	present	\N	102
+1610	25	103	2026-04-17	present	\N	102
+1611	25	104	2026-04-17	present	\N	102
+1612	25	105	2026-04-17	present	\N	102
+1613	25	106	2026-04-17	present	\N	102
+1614	25	107	2026-04-17	present	\N	102
+1615	25	108	2026-04-17	present	\N	102
+1616	25	103	2026-04-18	present	\N	102
+1617	25	104	2026-04-18	present	\N	102
+1618	25	105	2026-04-18	present	\N	102
+1619	25	106	2026-04-18	present	\N	102
+1620	25	107	2026-04-18	present	\N	102
+1621	25	108	2026-04-18	present	\N	102
+1622	25	103	2026-04-19	present	\N	102
+1623	25	104	2026-04-19	present	\N	102
+1624	25	105	2026-04-19	present	\N	102
+1625	25	106	2026-04-19	present	\N	102
+1626	25	107	2026-04-19	present	\N	102
+1627	25	108	2026-04-19	present	\N	102
+1748	27	117	2026-03-31	present	\N	116
+1749	27	118	2026-03-31	present	\N	116
+1750	27	119	2026-03-31	present	\N	116
+1751	27	120	2026-03-31	present	\N	116
+1752	27	121	2026-03-31	present	\N	116
+1753	27	122	2026-03-31	present	\N	116
+1754	27	117	2026-04-01	present	\N	116
+1755	27	118	2026-04-01	present	\N	116
+1756	27	119	2026-04-01	present	\N	116
+1757	27	120	2026-04-01	present	\N	116
+1758	27	121	2026-04-01	present	\N	116
+1759	27	122	2026-04-01	present	\N	116
+1760	27	117	2026-04-02	present	\N	116
+1761	27	118	2026-04-02	present	\N	116
+1762	27	119	2026-04-02	present	\N	116
+1763	27	120	2026-04-02	present	\N	116
+1764	27	121	2026-04-02	present	\N	116
+1765	27	122	2026-04-02	present	\N	116
+1766	27	117	2026-04-03	present	\N	116
+1767	27	118	2026-04-03	present	\N	116
+1768	27	119	2026-04-03	present	\N	116
+1769	27	120	2026-04-03	present	\N	116
+1770	27	121	2026-04-03	present	\N	116
+1771	27	122	2026-04-03	present	\N	116
+1772	27	117	2026-04-04	present	\N	116
+1773	27	118	2026-04-04	present	\N	116
+1774	27	119	2026-04-04	present	\N	116
+1775	27	120	2026-04-04	present	\N	116
+1776	27	121	2026-04-04	present	\N	116
+1777	27	122	2026-04-04	present	\N	116
+1778	27	117	2026-04-05	present	\N	116
+1779	27	118	2026-04-05	present	\N	116
+1780	27	119	2026-04-05	present	\N	116
+1781	27	120	2026-04-05	present	\N	116
+1782	27	121	2026-04-05	present	\N	116
+1783	27	122	2026-04-05	present	\N	116
+1784	27	117	2026-04-06	present	\N	116
+1785	27	118	2026-04-06	present	\N	116
+1786	27	119	2026-04-06	present	\N	116
+1787	27	120	2026-04-06	present	\N	116
+1788	27	121	2026-04-06	present	\N	116
+1789	27	122	2026-04-06	present	\N	116
+1790	27	117	2026-04-07	present	\N	116
+1791	27	118	2026-04-07	present	\N	116
+1792	27	119	2026-04-07	present	\N	116
+1793	27	120	2026-04-07	present	\N	116
+1794	27	121	2026-04-07	present	\N	116
+1795	27	122	2026-04-07	present	\N	116
+1796	27	117	2026-04-08	present	\N	116
+1797	27	118	2026-04-08	present	\N	116
+1798	27	119	2026-04-08	present	\N	116
+1799	27	120	2026-04-08	present	\N	116
+1800	27	121	2026-04-08	present	\N	116
+1801	27	122	2026-04-08	present	\N	116
+1802	27	117	2026-04-09	present	\N	116
+1803	27	118	2026-04-09	present	\N	116
+1804	27	119	2026-04-09	present	\N	116
+1805	27	120	2026-04-09	present	\N	116
+1806	27	121	2026-04-09	present	\N	116
+1807	27	122	2026-04-09	present	\N	116
+1808	27	117	2026-04-10	present	\N	116
+1809	27	118	2026-04-10	present	\N	116
+1810	27	119	2026-04-10	present	\N	116
+1811	27	120	2026-04-10	present	\N	116
+1812	27	121	2026-04-10	present	\N	116
+1813	27	122	2026-04-10	present	\N	116
+1814	27	117	2026-04-11	present	\N	116
+1815	27	118	2026-04-11	present	\N	116
+1816	27	119	2026-04-11	present	\N	116
+1817	27	120	2026-04-11	present	\N	116
+1818	27	121	2026-04-11	present	\N	116
+1819	27	122	2026-04-11	present	\N	116
+1820	27	117	2026-04-12	present	\N	116
+1821	27	118	2026-04-12	present	\N	116
+1822	27	119	2026-04-12	present	\N	116
+1823	27	120	2026-04-12	present	\N	116
+1824	27	121	2026-04-12	present	\N	116
+1825	27	122	2026-04-12	present	\N	116
+1826	27	117	2026-04-13	present	\N	116
+1827	27	118	2026-04-13	present	\N	116
+1828	27	119	2026-04-13	present	\N	116
+1829	27	120	2026-04-13	present	\N	116
+1830	27	121	2026-04-13	present	\N	116
+1831	27	122	2026-04-13	present	\N	116
+1832	27	117	2026-04-14	present	\N	116
+1833	27	118	2026-04-14	present	\N	116
+1834	27	119	2026-04-14	present	\N	116
+1835	27	120	2026-04-14	present	\N	116
+1836	27	121	2026-04-14	present	\N	116
+1837	27	122	2026-04-14	present	\N	116
+1838	27	117	2026-04-15	present	\N	116
+1839	27	118	2026-04-15	present	\N	116
+1840	27	119	2026-04-15	present	\N	116
+1841	27	120	2026-04-15	present	\N	116
+1842	27	121	2026-04-15	present	\N	116
+1843	27	122	2026-04-15	present	\N	116
+1844	27	117	2026-04-16	present	\N	116
+1845	27	118	2026-04-16	present	\N	116
+1846	27	119	2026-04-16	present	\N	116
+1847	27	120	2026-04-16	present	\N	116
+1848	27	121	2026-04-16	present	\N	116
+1849	27	122	2026-04-16	present	\N	116
+1850	27	117	2026-04-17	present	\N	116
+1851	27	118	2026-04-17	present	\N	116
+1852	27	119	2026-04-17	present	\N	116
+1853	27	120	2026-04-17	present	\N	116
+1854	27	121	2026-04-17	present	\N	116
+1855	27	122	2026-04-17	present	\N	116
+1856	27	117	2026-04-18	present	\N	116
+1857	27	118	2026-04-18	present	\N	116
+1858	27	119	2026-04-18	present	\N	116
+1859	27	120	2026-04-18	present	\N	116
+1860	27	121	2026-04-18	present	\N	116
+1861	27	122	2026-04-18	present	\N	116
+1862	27	117	2026-04-19	present	\N	116
+1863	27	118	2026-04-19	present	\N	116
+1864	27	119	2026-04-19	present	\N	116
+1865	27	120	2026-04-19	present	\N	116
+1866	27	121	2026-04-19	present	\N	116
+1867	27	122	2026-04-19	present	\N	116
+1868	28	124	2026-03-31	present	\N	123
+1869	28	125	2026-03-31	present	\N	123
+1870	28	126	2026-03-31	present	\N	123
+1871	28	127	2026-03-31	present	\N	123
+1872	28	128	2026-03-31	present	\N	123
+1873	28	129	2026-03-31	present	\N	123
+1874	28	124	2026-04-01	present	\N	123
+1875	28	125	2026-04-01	present	\N	123
+1876	28	126	2026-04-01	present	\N	123
+1877	28	127	2026-04-01	present	\N	123
+1878	28	128	2026-04-01	present	\N	123
+1879	28	129	2026-04-01	present	\N	123
+1880	28	124	2026-04-02	present	\N	123
+1881	28	125	2026-04-02	present	\N	123
+1882	28	126	2026-04-02	present	\N	123
+1883	28	127	2026-04-02	present	\N	123
+1884	28	128	2026-04-02	present	\N	123
+1885	28	129	2026-04-02	present	\N	123
+1886	28	124	2026-04-03	present	\N	123
+1887	28	125	2026-04-03	present	\N	123
+1888	28	126	2026-04-03	present	\N	123
+1889	28	127	2026-04-03	present	\N	123
+1890	28	128	2026-04-03	present	\N	123
+1891	28	129	2026-04-03	present	\N	123
+1892	28	124	2026-04-04	present	\N	123
+1893	28	125	2026-04-04	present	\N	123
+1894	28	126	2026-04-04	present	\N	123
+1895	28	127	2026-04-04	present	\N	123
+1896	28	128	2026-04-04	present	\N	123
+1897	28	129	2026-04-04	present	\N	123
+1898	28	124	2026-04-05	present	\N	123
+1899	28	125	2026-04-05	present	\N	123
+1900	28	126	2026-04-05	present	\N	123
+1901	28	127	2026-04-05	present	\N	123
+1902	28	128	2026-04-05	present	\N	123
+1903	28	129	2026-04-05	present	\N	123
+1904	28	124	2026-04-06	present	\N	123
+1905	28	125	2026-04-06	present	\N	123
+1906	28	126	2026-04-06	present	\N	123
+1907	28	127	2026-04-06	present	\N	123
+1908	28	128	2026-04-06	present	\N	123
+1909	28	129	2026-04-06	present	\N	123
+1910	28	124	2026-04-07	present	\N	123
+1911	28	125	2026-04-07	present	\N	123
+1912	28	126	2026-04-07	present	\N	123
+1913	28	127	2026-04-07	present	\N	123
+1914	28	128	2026-04-07	present	\N	123
+1915	28	129	2026-04-07	present	\N	123
+1916	28	124	2026-04-08	present	\N	123
+1917	28	125	2026-04-08	present	\N	123
+1918	28	126	2026-04-08	present	\N	123
+1919	28	127	2026-04-08	present	\N	123
+1920	28	128	2026-04-08	present	\N	123
+1921	28	129	2026-04-08	present	\N	123
+1922	28	124	2026-04-09	present	\N	123
+1923	28	125	2026-04-09	present	\N	123
+1924	28	126	2026-04-09	present	\N	123
+1925	28	127	2026-04-09	present	\N	123
+1926	28	128	2026-04-09	present	\N	123
+1927	28	129	2026-04-09	present	\N	123
+1928	28	124	2026-04-10	present	\N	123
+1929	28	125	2026-04-10	present	\N	123
+1930	28	126	2026-04-10	present	\N	123
+1931	28	127	2026-04-10	present	\N	123
+1932	28	128	2026-04-10	present	\N	123
+1933	28	129	2026-04-10	present	\N	123
+1934	28	124	2026-04-11	present	\N	123
+1935	28	125	2026-04-11	present	\N	123
+1936	28	126	2026-04-11	present	\N	123
+1937	28	127	2026-04-11	present	\N	123
+1938	28	128	2026-04-11	present	\N	123
+1939	28	129	2026-04-11	present	\N	123
+1940	28	124	2026-04-12	present	\N	123
+1941	28	125	2026-04-12	present	\N	123
+1942	28	126	2026-04-12	present	\N	123
+1943	28	127	2026-04-12	present	\N	123
+1944	28	128	2026-04-12	present	\N	123
+1945	28	129	2026-04-12	present	\N	123
+1946	28	124	2026-04-13	present	\N	123
+1947	28	125	2026-04-13	present	\N	123
+1948	28	126	2026-04-13	present	\N	123
+1949	28	127	2026-04-13	present	\N	123
+1950	28	128	2026-04-13	present	\N	123
+1951	28	129	2026-04-13	present	\N	123
+1952	28	124	2026-04-14	present	\N	123
+1953	28	125	2026-04-14	present	\N	123
+1954	28	126	2026-04-14	present	\N	123
+1955	28	127	2026-04-14	present	\N	123
+1956	28	128	2026-04-14	present	\N	123
+1957	28	129	2026-04-14	present	\N	123
+1958	28	124	2026-04-15	present	\N	123
+1959	28	125	2026-04-15	present	\N	123
+1960	28	126	2026-04-15	present	\N	123
+1961	28	127	2026-04-15	present	\N	123
+1962	28	128	2026-04-15	present	\N	123
+1963	28	129	2026-04-15	present	\N	123
+1964	28	124	2026-04-16	present	\N	123
+1965	28	125	2026-04-16	present	\N	123
+1966	28	126	2026-04-16	present	\N	123
+1967	28	127	2026-04-16	present	\N	123
+1968	28	128	2026-04-16	present	\N	123
+1969	28	129	2026-04-16	present	\N	123
+1970	28	124	2026-04-17	present	\N	123
+1971	28	125	2026-04-17	present	\N	123
+1972	28	126	2026-04-17	present	\N	123
+1973	28	127	2026-04-17	present	\N	123
+1974	28	128	2026-04-17	present	\N	123
+1975	28	129	2026-04-17	present	\N	123
+1976	28	124	2026-04-18	present	\N	123
+1977	28	125	2026-04-18	present	\N	123
+1978	28	126	2026-04-18	present	\N	123
+1979	28	127	2026-04-18	present	\N	123
+1980	28	128	2026-04-18	present	\N	123
+1981	28	129	2026-04-18	present	\N	123
+1982	28	124	2026-04-19	present	\N	123
+1983	28	125	2026-04-19	present	\N	123
+1984	28	126	2026-04-19	present	\N	123
+1985	28	127	2026-04-19	present	\N	123
+1986	28	128	2026-04-19	present	\N	123
+1987	28	129	2026-04-19	present	\N	123
+1988	29	131	2026-03-31	present	\N	130
+1989	29	132	2026-03-31	present	\N	130
+1990	29	133	2026-03-31	present	\N	130
+1991	29	134	2026-03-31	present	\N	130
+1992	29	135	2026-03-31	present	\N	130
+1993	29	136	2026-03-31	present	\N	130
+1994	29	131	2026-04-01	present	\N	130
+1995	29	132	2026-04-01	present	\N	130
+1996	29	133	2026-04-01	present	\N	130
+1997	29	134	2026-04-01	present	\N	130
+1998	29	135	2026-04-01	present	\N	130
+1999	29	136	2026-04-01	present	\N	130
+2000	29	131	2026-04-02	present	\N	130
+2001	29	132	2026-04-02	present	\N	130
+2002	29	133	2026-04-02	present	\N	130
+2003	29	134	2026-04-02	present	\N	130
+2004	29	135	2026-04-02	present	\N	130
+2005	29	136	2026-04-02	present	\N	130
+2006	29	131	2026-04-03	present	\N	130
+2007	29	132	2026-04-03	present	\N	130
+2008	29	133	2026-04-03	present	\N	130
+2009	29	134	2026-04-03	present	\N	130
+2010	29	135	2026-04-03	present	\N	130
+2011	29	136	2026-04-03	present	\N	130
+2012	29	131	2026-04-04	present	\N	130
+2013	29	132	2026-04-04	present	\N	130
+2014	29	133	2026-04-04	present	\N	130
+2015	29	134	2026-04-04	present	\N	130
+2016	29	135	2026-04-04	present	\N	130
+2017	29	136	2026-04-04	present	\N	130
+2018	29	131	2026-04-05	present	\N	130
+2019	29	132	2026-04-05	present	\N	130
+2020	29	133	2026-04-05	present	\N	130
+2021	29	134	2026-04-05	present	\N	130
+2022	29	135	2026-04-05	present	\N	130
+2023	29	136	2026-04-05	present	\N	130
+2024	29	131	2026-04-06	present	\N	130
+2025	29	132	2026-04-06	present	\N	130
+2026	29	133	2026-04-06	present	\N	130
+2027	29	134	2026-04-06	present	\N	130
+2028	29	135	2026-04-06	present	\N	130
+2029	29	136	2026-04-06	present	\N	130
+2030	29	131	2026-04-07	present	\N	130
+2031	29	132	2026-04-07	present	\N	130
+2032	29	133	2026-04-07	present	\N	130
+2033	29	134	2026-04-07	present	\N	130
+2034	29	135	2026-04-07	present	\N	130
+2035	29	136	2026-04-07	present	\N	130
+2036	29	131	2026-04-08	present	\N	130
+2037	29	132	2026-04-08	present	\N	130
+2038	29	133	2026-04-08	present	\N	130
+2039	29	134	2026-04-08	present	\N	130
+2040	29	135	2026-04-08	present	\N	130
+2041	29	136	2026-04-08	present	\N	130
+2042	29	131	2026-04-09	present	\N	130
+2043	29	132	2026-04-09	present	\N	130
+2044	29	133	2026-04-09	present	\N	130
+2045	29	134	2026-04-09	present	\N	130
+2046	29	135	2026-04-09	present	\N	130
+2047	29	136	2026-04-09	present	\N	130
+2048	29	131	2026-04-10	present	\N	130
+2049	29	132	2026-04-10	present	\N	130
+2050	29	133	2026-04-10	present	\N	130
+2051	29	134	2026-04-10	present	\N	130
+2052	29	135	2026-04-10	present	\N	130
+2053	29	136	2026-04-10	present	\N	130
+2054	29	131	2026-04-11	present	\N	130
+2055	29	132	2026-04-11	present	\N	130
+2056	29	133	2026-04-11	present	\N	130
+2057	29	134	2026-04-11	present	\N	130
+2058	29	135	2026-04-11	present	\N	130
+2059	29	136	2026-04-11	present	\N	130
+2060	29	131	2026-04-12	present	\N	130
+2061	29	132	2026-04-12	present	\N	130
+2062	29	133	2026-04-12	present	\N	130
+2063	29	134	2026-04-12	present	\N	130
+2064	29	135	2026-04-12	present	\N	130
+2065	29	136	2026-04-12	present	\N	130
+2066	29	131	2026-04-13	present	\N	130
+2067	29	132	2026-04-13	present	\N	130
+2068	29	133	2026-04-13	present	\N	130
+2069	29	134	2026-04-13	present	\N	130
+2070	29	135	2026-04-13	present	\N	130
+2071	29	136	2026-04-13	present	\N	130
+2072	29	131	2026-04-14	present	\N	130
+2073	29	132	2026-04-14	present	\N	130
+2074	29	133	2026-04-14	present	\N	130
+2075	29	134	2026-04-14	present	\N	130
+2076	29	135	2026-04-14	present	\N	130
+2077	29	136	2026-04-14	present	\N	130
+2078	29	131	2026-04-15	present	\N	130
+2079	29	132	2026-04-15	present	\N	130
+2080	29	133	2026-04-15	present	\N	130
+2081	29	134	2026-04-15	present	\N	130
+2082	29	135	2026-04-15	present	\N	130
+2083	29	136	2026-04-15	present	\N	130
+2084	29	131	2026-04-16	present	\N	130
+2085	29	132	2026-04-16	present	\N	130
+2086	29	133	2026-04-16	present	\N	130
+2087	29	134	2026-04-16	present	\N	130
+2088	29	135	2026-04-16	present	\N	130
+2089	29	136	2026-04-16	present	\N	130
+2090	29	131	2026-04-17	present	\N	130
+2091	29	132	2026-04-17	present	\N	130
+2092	29	133	2026-04-17	present	\N	130
+2093	29	134	2026-04-17	present	\N	130
+2094	29	135	2026-04-17	present	\N	130
+2095	29	136	2026-04-17	present	\N	130
+2096	29	131	2026-04-18	present	\N	130
+2097	29	132	2026-04-18	present	\N	130
+2098	29	133	2026-04-18	present	\N	130
+2099	29	134	2026-04-18	present	\N	130
+2100	29	135	2026-04-18	present	\N	130
+2101	29	136	2026-04-18	present	\N	130
+2102	29	131	2026-04-19	present	\N	130
+2103	29	132	2026-04-19	present	\N	130
+2104	29	133	2026-04-19	present	\N	130
+2105	29	134	2026-04-19	present	\N	130
+2106	29	135	2026-04-19	present	\N	130
+2107	29	136	2026-04-19	present	\N	130
+2114	30	138	2026-04-01	present	\N	137
+2115	30	139	2026-04-01	present	\N	137
+2116	30	140	2026-04-01	present	\N	137
+2117	30	141	2026-04-01	present	\N	137
+2118	30	142	2026-04-01	present	\N	137
+2119	30	143	2026-04-01	present	\N	137
+2120	30	138	2026-04-02	present	\N	137
+2121	30	139	2026-04-02	present	\N	137
+2122	30	140	2026-04-02	present	\N	137
+2123	30	141	2026-04-02	present	\N	137
+2124	30	142	2026-04-02	present	\N	137
+2125	30	143	2026-04-02	present	\N	137
+2126	30	138	2026-04-03	present	\N	137
+2127	30	139	2026-04-03	present	\N	137
+2128	30	140	2026-04-03	present	\N	137
+2129	30	141	2026-04-03	present	\N	137
+2130	30	142	2026-04-03	present	\N	137
+2131	30	143	2026-04-03	present	\N	137
+2132	30	138	2026-04-04	present	\N	137
+2133	30	139	2026-04-04	present	\N	137
+2134	30	140	2026-04-04	present	\N	137
+2135	30	141	2026-04-04	present	\N	137
+2136	30	142	2026-04-04	present	\N	137
+2137	30	143	2026-04-04	present	\N	137
+2138	30	138	2026-04-05	present	\N	137
+2139	30	139	2026-04-05	present	\N	137
+2140	30	140	2026-04-05	present	\N	137
+2141	30	141	2026-04-05	present	\N	137
+2142	30	142	2026-04-05	present	\N	137
+2143	30	143	2026-04-05	present	\N	137
+2144	30	138	2026-04-06	present	\N	137
+2145	30	139	2026-04-06	present	\N	137
+2146	30	140	2026-04-06	present	\N	137
+2147	30	141	2026-04-06	present	\N	137
+2148	30	142	2026-04-06	present	\N	137
+2149	30	143	2026-04-06	present	\N	137
+2150	30	138	2026-04-07	present	\N	137
+2151	30	139	2026-04-07	present	\N	137
+2152	30	140	2026-04-07	present	\N	137
+2153	30	141	2026-04-07	present	\N	137
+2154	30	142	2026-04-07	present	\N	137
+2155	30	143	2026-04-07	present	\N	137
+2156	30	138	2026-04-08	present	\N	137
+2157	30	139	2026-04-08	present	\N	137
+2158	30	140	2026-04-08	present	\N	137
+2159	30	141	2026-04-08	present	\N	137
+2160	30	142	2026-04-08	present	\N	137
+2161	30	143	2026-04-08	present	\N	137
+2162	30	138	2026-04-09	present	\N	137
+2163	30	139	2026-04-09	present	\N	137
+2164	30	140	2026-04-09	present	\N	137
+2165	30	141	2026-04-09	present	\N	137
+2166	30	142	2026-04-09	present	\N	137
+2167	30	143	2026-04-09	present	\N	137
+2168	30	138	2026-04-10	present	\N	137
+2169	30	139	2026-04-10	present	\N	137
+2170	30	140	2026-04-10	present	\N	137
+2171	30	141	2026-04-10	present	\N	137
+2172	30	142	2026-04-10	present	\N	137
+2173	30	143	2026-04-10	present	\N	137
+2174	30	138	2026-04-11	present	\N	137
+2175	30	139	2026-04-11	present	\N	137
+2176	30	140	2026-04-11	present	\N	137
+2177	30	141	2026-04-11	present	\N	137
+2178	30	142	2026-04-11	present	\N	137
+2179	30	143	2026-04-11	present	\N	137
+2180	30	138	2026-04-12	present	\N	137
+2181	30	139	2026-04-12	present	\N	137
+2182	30	140	2026-04-12	present	\N	137
+2183	30	141	2026-04-12	present	\N	137
+2184	30	142	2026-04-12	present	\N	137
+2185	30	143	2026-04-12	present	\N	137
+2186	30	138	2026-04-13	present	\N	137
+2187	30	139	2026-04-13	present	\N	137
+2188	30	140	2026-04-13	present	\N	137
+2189	30	141	2026-04-13	present	\N	137
+2190	30	142	2026-04-13	present	\N	137
+2191	30	143	2026-04-13	present	\N	137
+2192	30	138	2026-04-14	present	\N	137
+2193	30	139	2026-04-14	present	\N	137
+2194	30	140	2026-04-14	present	\N	137
+2195	30	141	2026-04-14	present	\N	137
+2196	30	142	2026-04-14	present	\N	137
+2197	30	143	2026-04-14	present	\N	137
+2198	30	138	2026-04-15	present	\N	137
+2199	30	139	2026-04-15	present	\N	137
+2200	30	140	2026-04-15	present	\N	137
+2201	30	141	2026-04-15	present	\N	137
+2202	30	142	2026-04-15	present	\N	137
+2203	30	143	2026-04-15	present	\N	137
+2204	30	138	2026-04-16	present	\N	137
+2205	30	139	2026-04-16	present	\N	137
+2206	30	140	2026-04-16	present	\N	137
+2207	30	141	2026-04-16	present	\N	137
+2208	30	142	2026-04-16	present	\N	137
+2209	30	143	2026-04-16	present	\N	137
+2210	30	138	2026-04-17	present	\N	137
+2211	30	139	2026-04-17	present	\N	137
+2212	30	140	2026-04-17	present	\N	137
+2213	30	141	2026-04-17	present	\N	137
+2214	30	142	2026-04-17	present	\N	137
+2215	30	143	2026-04-17	present	\N	137
+2216	30	138	2026-04-18	present	\N	137
+2217	30	139	2026-04-18	present	\N	137
+2218	30	140	2026-04-18	present	\N	137
+2219	30	141	2026-04-18	present	\N	137
+2220	30	142	2026-04-18	present	\N	137
+2221	30	143	2026-04-18	present	\N	137
+2222	30	138	2026-04-19	present	\N	137
+2223	30	139	2026-04-19	present	\N	137
+2224	30	140	2026-04-19	present	\N	137
+2225	30	141	2026-04-19	present	\N	137
+2226	30	142	2026-04-19	present	\N	137
+2227	30	143	2026-04-19	present	\N	137
+2228	30	138	2026-03-31	present	\N	137
+2229	30	139	2026-03-31	present	\N	137
+2230	30	140	2026-03-31	present	\N	137
+2231	30	141	2026-03-31	present	\N	137
+2232	30	142	2026-03-31	present	\N	137
+2233	30	143	2026-03-31	present	\N	137
+2234	33	146	2026-04-01	present	\N	144
+2235	34	147	2026-04-01	present	\N	145
+2236	33	149	2026-04-01	present	\N	144
+2237	34	148	2026-04-01	present	\N	145
+2238	34	150	2026-04-01	present	\N	145
+2239	33	151	2026-04-01	present	\N	144
+2240	34	152	2026-04-01	present	\N	145
+2241	33	153	2026-04-01	present	\N	144
+2242	34	154	2026-04-01	present	\N	145
+2243	33	155	2026-04-01	present	\N	144
+2244	34	156	2026-04-01	present	\N	145
+2245	33	157	2026-04-01	present	\N	144
+2246	34	147	2026-04-02	present	\N	145
+2247	33	146	2026-04-02	present	\N	144
+2248	34	148	2026-04-02	present	\N	145
+2249	33	149	2026-04-02	present	\N	144
+2250	34	150	2026-04-02	present	\N	145
+2251	33	151	2026-04-02	present	\N	144
+2252	34	152	2026-04-02	present	\N	145
+2253	33	153	2026-04-02	present	\N	144
+2254	34	154	2026-04-02	present	\N	145
+2255	33	155	2026-04-02	present	\N	144
+2256	34	156	2026-04-02	present	\N	145
+2257	33	157	2026-04-02	present	\N	144
+2258	34	147	2026-04-03	present	\N	145
+2259	34	148	2026-04-03	present	\N	145
+2260	33	146	2026-04-03	present	\N	144
+2261	34	150	2026-04-03	present	\N	145
+2262	33	149	2026-04-03	present	\N	144
+2263	34	152	2026-04-03	present	\N	145
+2264	33	151	2026-04-03	present	\N	144
+2265	34	154	2026-04-03	present	\N	145
+2266	33	153	2026-04-03	present	\N	144
+2267	34	156	2026-04-03	present	\N	145
+2268	33	155	2026-04-03	present	\N	144
+2269	33	157	2026-04-03	present	\N	144
+2270	34	147	2026-04-04	present	\N	145
+2271	34	148	2026-04-04	present	\N	145
+2272	33	146	2026-04-04	present	\N	144
+2273	34	150	2026-04-04	present	\N	145
+2274	33	149	2026-04-04	present	\N	144
+2275	34	152	2026-04-04	present	\N	145
+2276	33	151	2026-04-04	present	\N	144
+2277	34	154	2026-04-04	present	\N	145
+2278	33	153	2026-04-04	present	\N	144
+2279	34	156	2026-04-04	present	\N	145
+2280	33	155	2026-04-04	present	\N	144
+2281	33	157	2026-04-04	present	\N	144
+2282	34	147	2026-04-05	present	\N	145
+2283	34	148	2026-04-05	present	\N	145
+2284	33	146	2026-04-05	present	\N	144
+2285	34	150	2026-04-05	present	\N	145
+2286	33	149	2026-04-05	present	\N	144
+2287	34	152	2026-04-05	present	\N	145
+2288	33	151	2026-04-05	present	\N	144
+2289	34	154	2026-04-05	present	\N	145
+2290	33	153	2026-04-05	present	\N	144
+2291	34	156	2026-04-05	present	\N	145
+2292	33	155	2026-04-05	present	\N	144
+2293	33	157	2026-04-05	present	\N	144
+2294	34	147	2026-04-06	present	\N	145
+2295	34	148	2026-04-06	present	\N	145
+2296	33	146	2026-04-06	present	\N	144
+2297	34	150	2026-04-06	present	\N	145
+2298	33	149	2026-04-06	present	\N	144
+2299	34	152	2026-04-06	present	\N	145
+2300	33	151	2026-04-06	present	\N	144
+2301	34	154	2026-04-06	present	\N	145
+2302	33	153	2026-04-06	present	\N	144
+2303	34	156	2026-04-06	present	\N	145
+2304	33	155	2026-04-06	present	\N	144
+2305	34	147	2026-04-07	present	\N	145
+2306	33	157	2026-04-06	present	\N	144
+2307	34	148	2026-04-07	present	\N	145
+2308	34	150	2026-04-07	present	\N	145
+2309	34	152	2026-04-07	present	\N	145
+2310	34	154	2026-04-07	present	\N	145
+2311	34	156	2026-04-07	present	\N	145
+2312	33	146	2026-04-07	present	\N	144
+2313	34	147	2026-04-08	present	\N	145
+2315	34	148	2026-04-08	present	\N	145
+2317	34	150	2026-04-08	present	\N	145
+2319	34	152	2026-04-08	present	\N	145
+2321	34	154	2026-04-08	present	\N	145
+2323	34	156	2026-04-08	present	\N	145
+2325	34	147	2026-04-09	present	\N	145
+2327	34	148	2026-04-09	present	\N	145
+2329	34	150	2026-04-09	present	\N	145
+2331	34	152	2026-04-09	present	\N	145
+2333	34	154	2026-04-09	present	\N	145
+2335	34	156	2026-04-09	present	\N	145
+2337	34	147	2026-04-10	present	\N	145
+2339	34	148	2026-04-10	present	\N	145
+2341	34	150	2026-04-10	present	\N	145
+2343	34	152	2026-04-10	present	\N	145
+2345	34	154	2026-04-10	present	\N	145
+2347	34	156	2026-04-10	present	\N	145
+2349	34	147	2026-04-11	present	\N	145
+2351	34	148	2026-04-11	present	\N	145
+2353	34	150	2026-04-11	present	\N	145
+2354	34	152	2026-04-11	present	\N	145
+2356	34	154	2026-04-11	present	\N	145
+2358	34	156	2026-04-11	present	\N	145
+2360	34	147	2026-04-12	present	\N	145
+2362	34	148	2026-04-12	present	\N	145
+2364	34	150	2026-04-12	present	\N	145
+2366	34	152	2026-04-12	present	\N	145
+2368	34	154	2026-04-12	present	\N	145
+2370	34	156	2026-04-12	present	\N	145
+2372	34	147	2026-04-13	present	\N	145
+2373	34	148	2026-04-13	present	\N	145
+2375	34	150	2026-04-13	present	\N	145
+2377	34	152	2026-04-13	present	\N	145
+2379	34	154	2026-04-13	present	\N	145
+2381	34	156	2026-04-13	present	\N	145
+2384	34	147	2026-04-14	present	\N	145
+2385	34	148	2026-04-14	present	\N	145
+2387	34	150	2026-04-14	present	\N	145
+2389	34	152	2026-04-14	present	\N	145
+2391	34	154	2026-04-14	present	\N	145
+2393	34	156	2026-04-14	present	\N	145
+2396	34	147	2026-04-15	present	\N	145
+2397	34	148	2026-04-15	present	\N	145
+2399	34	150	2026-04-15	present	\N	145
+2401	34	152	2026-04-15	present	\N	145
+2403	34	154	2026-04-15	present	\N	145
+2405	34	156	2026-04-15	present	\N	145
+2408	34	147	2026-04-16	present	\N	145
+2409	34	148	2026-04-16	present	\N	145
+2411	34	150	2026-04-16	present	\N	145
+2413	34	152	2026-04-16	present	\N	145
+2415	34	154	2026-04-16	present	\N	145
+2417	34	156	2026-04-16	present	\N	145
+2420	34	147	2026-04-17	present	\N	145
+2421	34	148	2026-04-17	present	\N	145
+2422	34	150	2026-04-17	present	\N	145
+2423	34	152	2026-04-17	present	\N	145
+2424	34	154	2026-04-17	present	\N	145
+2425	34	156	2026-04-17	present	\N	145
+2427	34	147	2026-04-18	present	\N	145
+2429	34	148	2026-04-18	present	\N	145
+2431	34	150	2026-04-18	present	\N	145
+2433	34	152	2026-04-18	present	\N	145
+2435	34	154	2026-04-18	present	\N	145
+2437	34	156	2026-04-18	present	\N	145
+2439	34	147	2026-04-19	present	\N	145
+2441	34	148	2026-04-19	present	\N	145
+2443	34	150	2026-04-19	present	\N	145
+2445	34	152	2026-04-19	present	\N	145
+2447	34	154	2026-04-19	present	\N	145
+2449	34	156	2026-04-19	present	\N	145
+2451	34	147	2026-04-20	present	\N	145
+2453	34	148	2026-04-20	present	\N	145
+2455	34	150	2026-04-20	present	\N	145
+2457	34	152	2026-04-20	present	\N	145
+2459	34	154	2026-04-20	present	\N	145
+2461	34	156	2026-04-20	present	\N	145
+2314	33	149	2026-04-07	present	\N	144
+2316	33	151	2026-04-07	present	\N	144
+2318	33	153	2026-04-07	present	\N	144
+2320	33	155	2026-04-07	present	\N	144
+2322	33	157	2026-04-07	present	\N	144
+2324	33	146	2026-04-08	present	\N	144
+2326	33	149	2026-04-08	present	\N	144
+2328	33	151	2026-04-08	present	\N	144
+2330	33	153	2026-04-08	present	\N	144
+2332	33	155	2026-04-08	present	\N	144
+2334	33	157	2026-04-08	present	\N	144
+2336	33	146	2026-04-09	present	\N	144
+2338	33	149	2026-04-09	present	\N	144
+2340	33	151	2026-04-09	present	\N	144
+2342	33	153	2026-04-09	present	\N	144
+2344	33	155	2026-04-09	present	\N	144
+2346	33	157	2026-04-09	present	\N	144
+2348	33	146	2026-04-10	present	\N	144
+2350	33	149	2026-04-10	present	\N	144
+2352	33	151	2026-04-10	present	\N	144
+2355	33	153	2026-04-10	present	\N	144
+2357	33	155	2026-04-10	present	\N	144
+2359	33	157	2026-04-10	present	\N	144
+2361	33	146	2026-04-11	present	\N	144
+2363	33	149	2026-04-11	present	\N	144
+2365	33	151	2026-04-11	present	\N	144
+2367	33	153	2026-04-11	present	\N	144
+2369	33	155	2026-04-11	present	\N	144
+2371	33	157	2026-04-11	present	\N	144
+2374	33	146	2026-04-12	present	\N	144
+2376	33	149	2026-04-12	present	\N	144
+2378	33	151	2026-04-12	present	\N	144
+2380	33	153	2026-04-12	present	\N	144
+2382	33	155	2026-04-12	present	\N	144
+2383	33	157	2026-04-12	present	\N	144
+2386	33	146	2026-04-13	present	\N	144
+2388	33	149	2026-04-13	present	\N	144
+2390	33	151	2026-04-13	present	\N	144
+2392	33	153	2026-04-13	present	\N	144
+2394	33	155	2026-04-13	present	\N	144
+2395	33	157	2026-04-13	present	\N	144
+2398	33	146	2026-04-14	present	\N	144
+2400	33	149	2026-04-14	present	\N	144
+2402	33	151	2026-04-14	present	\N	144
+2404	33	153	2026-04-14	present	\N	144
+2406	33	155	2026-04-14	present	\N	144
+2407	33	157	2026-04-14	present	\N	144
+2410	33	146	2026-04-15	present	\N	144
+2412	33	149	2026-04-15	present	\N	144
+2414	33	151	2026-04-15	present	\N	144
+2416	33	153	2026-04-15	present	\N	144
+2418	33	155	2026-04-15	present	\N	144
+2419	33	157	2026-04-15	present	\N	144
+2426	33	146	2026-04-16	present	\N	144
+2428	33	149	2026-04-16	present	\N	144
+2430	33	151	2026-04-16	present	\N	144
+2432	33	153	2026-04-16	present	\N	144
+2434	33	155	2026-04-16	present	\N	144
+2436	33	157	2026-04-16	present	\N	144
+2438	33	146	2026-04-17	present	\N	144
+2440	33	149	2026-04-17	present	\N	144
+2442	33	151	2026-04-17	present	\N	144
+2444	33	153	2026-04-17	present	\N	144
+2446	33	155	2026-04-17	present	\N	144
+2448	33	157	2026-04-17	present	\N	144
+2450	33	146	2026-04-18	present	\N	144
+2452	33	149	2026-04-18	present	\N	144
+2454	33	151	2026-04-18	present	\N	144
+2456	33	153	2026-04-18	present	\N	144
+2458	33	155	2026-04-18	present	\N	144
+2460	33	157	2026-04-18	present	\N	144
+2462	33	146	2026-04-19	present	\N	144
+2463	33	149	2026-04-19	present	\N	144
+2464	33	151	2026-04-19	present	\N	144
+2465	33	153	2026-04-19	present	\N	144
+2466	33	155	2026-04-19	present	\N	144
+2467	33	157	2026-04-19	present	\N	144
+2468	33	146	2026-04-20	present	\N	144
+2469	33	149	2026-04-20	present	\N	144
+2470	33	151	2026-04-20	present	\N	144
+2471	33	153	2026-04-20	present	\N	144
+2472	33	155	2026-04-20	present	\N	144
+2473	33	157	2026-04-20	present	\N	144
 \.
 
 
 --
--- Data for Name: documents; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: documents; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.documents (id, file_id, content_json) FROM stdin;
@@ -2269,7 +3521,7 @@ COPY public.documents (id, file_id, content_json) FROM stdin;
 
 
 --
--- Data for Name: files; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: files; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.files (id, name, tag, file_type, date, building_site_id, owner_id, uploaded_at, storage_key, is_generated, project_id) FROM stdin;
@@ -2299,19 +3551,54 @@ COPY public.files (id, name, tag, file_type, date, building_site_id, owner_id, u
 
 
 --
--- Data for Name: projects; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: projects; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.projects (id, name, content_json, metadata, created_at, updated_at, owner_id, building_site_id, date) FROM stdin;
-48	immagine scaduta	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "Immagine che dovrebbe scadere a breve:", "type": "text"}, {"type": "hardBreak"}]}, {"type": "image", "attrs": {"alt": null, "src": "https://s3.eu-central-003.backblazeb2.com/giornaledeilavori-bucket/uploads/413554d4-ac45-4520-9fc7-30f8cc8cd789-site21.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=0037fdd9d2de5e90000000002%2F20260329%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-Date=20260329T002425Z&X-Amz-Expires=3600&X-Amz-Signature=7d8ad7f69a463cc1064bc80f96a34d5d2a74c4f0c07c82afc5535f8250159fc6&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject", "title": null, "width": null, "height": null}}, {"type": "paragraph"}]}	{"source": "upload-files-component"}	2026-03-29 01:21:32.542836+01	2026-03-29 01:24:31.572437+01	74	21	2026-03-29
-46	Verbale di soprallugo	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E DISPOSIZIONI DI SERVIZIO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Codice Commessa] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] – ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Sopralluogo n.:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [00]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. SOGGETTI PRESENTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore dei Lavori:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Arch./Ing. [Nome Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] – Rappresentata da: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "CSE (se presente):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome Cognome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI E ATTIVITÀ IN CORSO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Alla data odierna risultano in corso le seguenti lavorazioni:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Montaggio ponteggio sul prospetto Nord]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Scavo di fondazione zona B]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. OSSERVAZIONI SULLA SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "In relazione alle lavorazioni osservate, si rileva quanto segue:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Apprestamenti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Le recinzioni di cantiere risultano integre e correttamente posizionate].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "DPI:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Tutto il personale presente risulta munito di casco, calzature antinfortunistiche e gilet ad alta visibilità].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalie Riscontrate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " * ", "type": "text"}, {"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Si osserva la mancanza di protezione terminale (parapetto) su una porzione della piattaforma di carico al piano primo.", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Presenza di materiale di risulta che ostruisce le vie di esodo interne.", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. DISPOSIZIONI DEL DIRETTORE DEI LAVORI", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Ai sensi delle responsabilità di alta vigilanza, il sottoscritto DL dispone che l'Impresa provveda immediatamente a:", "type": "text"}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Ripristinare i parapetti", "type": "text", "marks": [{"type": "bold"}]}, {"text": " mancanti entro e non oltre le ore del giorno [Data].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sgombrare le aree di transito", "type": "text", "marks": [{"type": "bold"}]}, {"text": " dai detriti per garantire il passaggio sicuro dei lavoratori.", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sospendere temporaneamente", "type": "text", "marks": [{"type": "bold"}]}, {"text": " la specifica lavorazione in quota fino al ripristino delle condizioni di sicurezza (se necessario).", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. COMUNICAZIONI AL CSE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "(Opzionale, se sono state riscontrate gravi inadempienze)", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Il presente verbale viene trasmesso al Coordinatore per l’Esecuzione (CSE) per le valutazioni di competenza ai sensi del D.Lgs. 81/08.", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Note aggiuntive:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Spazio per eventuali note dell'impresa]", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Firme per presa visione e accettazione:", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Direttore dei Lavori", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Responsabile di Cantiere (Impresa)", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E DISPOSIZIONI DI SERVIZIO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Codice Commessa] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] – ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Sopralluogo n.:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [00]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. SOGGETTI PRESENTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore dei Lavori:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Arch./Ing. [Nome Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] – Rappresentata da: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "CSE (se presente):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome Cognome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI E ATTIVITÀ IN CORSO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Alla data odierna risultano in corso le seguenti lavorazioni:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Montaggio ponteggio sul prospetto Nord]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Scavo di fondazione zona B]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. OSSERVAZIONI SULLA SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "In relazione alle lavorazioni osservate, si rileva quanto segue:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Apprestamenti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Le recinzioni di cantiere risultano integre e correttamente posizionate].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "DPI:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Tutto il personale presente risulta munito di casco, calzature antinfortunistiche e gilet ad alta visibilità].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalie Riscontrate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " * ", "type": "text"}, {"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Si osserva la mancanza di protezione terminale (parapetto) su una porzione della piattaforma di carico al piano primo.", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Presenza di materiale di risulta che ostruisce le vie di esodo interne.", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. DISPOSIZIONI DEL DIRETTORE DEI LAVORI", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Ai sensi delle responsabilità di alta vigilanza, il sottoscritto DL dispone che l'Impresa provveda immediatamente a:", "type": "text"}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Ripristinare i parapetti", "type": "text", "marks": [{"type": "bold"}]}, {"text": " mancanti entro e non oltre le ore del giorno [Data].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sgombrare le aree di transito", "type": "text", "marks": [{"type": "bold"}]}, {"text": " dai detriti per garantire il passaggio sicuro dei lavoratori.", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sospendere temporaneamente", "type": "text", "marks": [{"type": "bold"}]}, {"text": " la specifica lavorazione in quota fino al ripristino delle condizioni di sicurezza (se necessario).", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. COMUNICAZIONI AL CSE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "(Opzionale, se sono state riscontrate gravi inadempienze)", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Il presente verbale viene trasmesso al Coordinatore per l’Esecuzione (CSE) per le valutazioni di competenza ai sensi del D.Lgs. 81/08.", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Note aggiuntive:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Spazio per eventuali note dell'impresa]", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Firme per presa visione e accettazione:", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Direttore dei Lavori", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Responsabile di Cantiere (Impresa)", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E DISPOSIZIONI DI SERVIZIO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Codice Commessa] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] – ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Sopralluogo n.:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [00]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. SOGGETTI PRESENTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore dei Lavori:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Arch./Ing. [Nome Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] – Rappresentata da: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "CSE (se presente):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome Cognome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI E ATTIVITÀ IN CORSO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Alla data odierna risultano in corso le seguenti lavorazioni:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Montaggio ponteggio sul prospetto Nord]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Scavo di fondazione zona B]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. OSSERVAZIONI SULLA SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "In relazione alle lavorazioni osservate, si rileva quanto segue:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Apprestamenti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Le recinzioni di cantiere risultano integre e correttamente posizionate].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "DPI:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Tutto il personale presente risulta munito di casco, calzature antinfortunistiche e gilet ad alta visibilità].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalie Riscontrate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " * ", "type": "text"}, {"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Si osserva la mancanza di protezione terminale (parapetto) su una porzione della piattaforma di carico al piano primo.", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Presenza di materiale di risulta che ostruisce le vie di esodo interne.", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. DISPOSIZIONI DEL DIRETTORE DEI LAVORI", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Ai sensi delle responsabilità di alta vigilanza, il sottoscritto DL dispone che l'Impresa provveda immediatamente a:", "type": "text"}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Ripristinare i parapetti", "type": "text", "marks": [{"type": "bold"}]}, {"text": " mancanti entro e non oltre le ore del giorno [Data].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sgombrare le aree di transito", "type": "text", "marks": [{"type": "bold"}]}, {"text": " dai detriti per garantire il passaggio sicuro dei lavoratori.", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sospendere temporaneamente", "type": "text", "marks": [{"type": "bold"}]}, {"text": " la specifica lavorazione in quota fino al ripristino delle condizioni di sicurezza (se necessario).", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. COMUNICAZIONI AL CSE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "(Opzionale, se sono state riscontrate gravi inadempienze)", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Il presente verbale viene trasmesso al Coordinatore per l’Esecuzione (CSE) per le valutazioni di competenza ai sensi del D.Lgs. 81/08.", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Note aggiuntive:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Spazio per eventuali note dell'impresa]", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Firme per presa visione e accettazione:", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Direttore dei Lavori", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Responsabile di Cantiere (Impresa)", "type": "text", "marks": [{"type": "bold"}]}]}]}	{"source": "upload-files-component"}	2026-03-29 00:55:58.95529+01	2026-03-29 01:50:54.511404+01	74	21	2026-03-29
-49	DIamogli un titolo	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "bra wtff!=!=!=!=!=!=!?!?!?!?!?", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 03:02:29.832195+02	2026-03-29 03:03:17.212087+02	74	21	2026-02-25
-47	BOD	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "ELLAAA!!!", "type": "text"}]}, {"type": "paragraph"}]}	{"source": "upload-files-component"}	2026-03-29 01:00:16.347865+01	2026-03-29 01:04:06.643896+01	74	21	2026-04-09
+51	Verbale sulla sicurezza	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E COORDINAMENTO SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Indirizzo] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] | ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Verbale n°:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Numero progressivo]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. PARTECIPANTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore Lavori (DL):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Coord. Sicurezza (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Imprese Esecutrici/Subappalti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Fase lavorativa in corso:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Scavi, montaggio ponteggi, getto solai]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Aree visionate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Specificare i piani o le zone del cantiere]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. VERIFICHE EFFETTUATE (Checklist rapida)", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Recinzioni e accessi:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Conformi / Non conformi", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "DPI (Caschi, scarpe, imbracature):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Corretto utilizzo / Richiamo effettuato", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Apprestamenti (Ponteggi, parapetti):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Integri / Da revisionare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Documentazione (POS, tesserini):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Aggiornata / Da integrare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Impianto elettrico di cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Certificato / Integro", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. OSSERVAZIONI E PRESCRIZIONI DEL CSE", "type": "text"}]}, {"type": "blockquote", "content": [{"type": "paragraph", "content": [{"text": "In questa sezione il Coordinatore riporta eventuali anomalie riscontrate e le azioni correttive richieste.", "type": "text"}]}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Descrizione del rischio riscontrato]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Cosa fare per risolvere]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Entro le ore/data]", "type": "text"}]}]}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Mancanza segnaletica nell'area X]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ripristinare cartellonistica]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Immediata]", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. DICHIARAZIONI DELLE IMPRESE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "L'impresa [Nome] prende atto delle osservazioni e si impegna a risolverle entro i termini stabiliti. Note aggiuntive: [Eventuali giustificazioni o richieste].", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "6. FIRME PER ACCETTAZIONE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Il Coordinatore (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________", "type": "text"}]}]}	{"source": "template", "template_id": 1}	2026-03-29 14:16:10.127125+00	2026-03-29 14:16:12.305082+00	74	21	2026-03-29
+48	immagine scaduta	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "Immagine che dovrebbe scadere a breve:", "type": "text"}, {"type": "hardBreak"}]}, {"type": "image", "attrs": {"alt": null, "src": "https://s3.eu-central-003.backblazeb2.com/giornaledeilavori-bucket/uploads/413554d4-ac45-4520-9fc7-30f8cc8cd789-site21.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=0037fdd9d2de5e90000000002%2F20260329%2Feu-central-003%2Fs3%2Faws4_request&X-Amz-Date=20260329T002425Z&X-Amz-Expires=3600&X-Amz-Signature=7d8ad7f69a463cc1064bc80f96a34d5d2a74c4f0c07c82afc5535f8250159fc6&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject", "title": null, "width": null, "height": null}}, {"type": "paragraph"}]}	{"source": "upload-files-component"}	2026-03-29 00:21:32.542836+00	2026-03-29 00:24:31.572437+00	74	21	2026-03-29
+52	Verbale sulla sicurezza	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E COORDINAMENTO SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Indirizzo] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] | ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Verbale n°:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Numero progressivo]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. PARTECIPANTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore Lavori (DL):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Coord. Sicurezza (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Imprese Esecutrici/Subappalti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Fase lavorativa in corso:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Scavi, montaggio ponteggi, getto solai]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Aree visionate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Specificare i piani o le zone del cantiere]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. VERIFICHE EFFETTUATE (Checklist rapida)", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Recinzioni e accessi:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Conformi / Non conformi", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "DPI (Caschi, scarpe, imbracature):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Corretto utilizzo / Richiamo effettuato", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Apprestamenti (Ponteggi, parapetti):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Integri / Da revisionare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Documentazione (POS, tesserini):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Aggiornata / Da integrare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Impianto elettrico di cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Certificato / Integro", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. OSSERVAZIONI E PRESCRIZIONI DEL CSE", "type": "text"}]}, {"type": "blockquote", "content": [{"type": "paragraph", "content": [{"text": "In questa sezione il Coordinatore riporta eventuali anomalie riscontrate e le azioni correttive richieste.", "type": "text"}]}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Descrizione del rischio riscontrato]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Cosa fare per risolvere]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Entro le ore/data]", "type": "text"}]}]}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Mancanza segnaletica nell'area X]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ripristinare cartellonistica]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Immediata]", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. DICHIARAZIONI DELLE IMPRESE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "L'impresa [Nome] prende atto delle osservazioni e si impegna a risolverle entro i termini stabiliti. Note aggiuntive: [Eventuali giustificazioni o richieste].", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "6. FIRME PER ACCETTAZIONE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Il Coordinatore (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________", "type": "text"}]}]}	{"source": "template", "template_id": 1}	2026-03-29 14:17:05.781353+00	2026-03-29 14:17:07.997356+00	74	21	2026-03-29
+53	Progetto senza titolo	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 14:17:31.583491+00	2026-03-29 14:17:31.583491+00	74	21	2026-03-29
+46	Verbale di soprallugo	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E DISPOSIZIONI DI SERVIZIO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Codice Commessa] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] – ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Sopralluogo n.:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [00]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. SOGGETTI PRESENTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore dei Lavori:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Arch./Ing. [Nome Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] – Rappresentata da: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "CSE (se presente):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome Cognome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI E ATTIVITÀ IN CORSO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Alla data odierna risultano in corso le seguenti lavorazioni:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Montaggio ponteggio sul prospetto Nord]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Scavo di fondazione zona B]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. OSSERVAZIONI SULLA SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "In relazione alle lavorazioni osservate, si rileva quanto segue:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Apprestamenti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Le recinzioni di cantiere risultano integre e correttamente posizionate].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "DPI:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Tutto il personale presente risulta munito di casco, calzature antinfortunistiche e gilet ad alta visibilità].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalie Riscontrate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " * ", "type": "text"}, {"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Si osserva la mancanza di protezione terminale (parapetto) su una porzione della piattaforma di carico al piano primo.", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Presenza di materiale di risulta che ostruisce le vie di esodo interne.", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. DISPOSIZIONI DEL DIRETTORE DEI LAVORI", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Ai sensi delle responsabilità di alta vigilanza, il sottoscritto DL dispone che l'Impresa provveda immediatamente a:", "type": "text"}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Ripristinare i parapetti", "type": "text", "marks": [{"type": "bold"}]}, {"text": " mancanti entro e non oltre le ore del giorno [Data].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sgombrare le aree di transito", "type": "text", "marks": [{"type": "bold"}]}, {"text": " dai detriti per garantire il passaggio sicuro dei lavoratori.", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sospendere temporaneamente", "type": "text", "marks": [{"type": "bold"}]}, {"text": " la specifica lavorazione in quota fino al ripristino delle condizioni di sicurezza (se necessario).", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. COMUNICAZIONI AL CSE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "(Opzionale, se sono state riscontrate gravi inadempienze)", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Il presente verbale viene trasmesso al Coordinatore per l’Esecuzione (CSE) per le valutazioni di competenza ai sensi del D.Lgs. 81/08.", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Note aggiuntive:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Spazio per eventuali note dell'impresa]", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Firme per presa visione e accettazione:", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Direttore dei Lavori", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Responsabile di Cantiere (Impresa)", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E DISPOSIZIONI DI SERVIZIO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Codice Commessa] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] – ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Sopralluogo n.:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [00]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. SOGGETTI PRESENTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore dei Lavori:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Arch./Ing. [Nome Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] – Rappresentata da: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "CSE (se presente):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome Cognome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI E ATTIVITÀ IN CORSO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Alla data odierna risultano in corso le seguenti lavorazioni:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Montaggio ponteggio sul prospetto Nord]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Scavo di fondazione zona B]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. OSSERVAZIONI SULLA SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "In relazione alle lavorazioni osservate, si rileva quanto segue:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Apprestamenti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Le recinzioni di cantiere risultano integre e correttamente posizionate].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "DPI:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Tutto il personale presente risulta munito di casco, calzature antinfortunistiche e gilet ad alta visibilità].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalie Riscontrate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " * ", "type": "text"}, {"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Si osserva la mancanza di protezione terminale (parapetto) su una porzione della piattaforma di carico al piano primo.", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Presenza di materiale di risulta che ostruisce le vie di esodo interne.", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. DISPOSIZIONI DEL DIRETTORE DEI LAVORI", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Ai sensi delle responsabilità di alta vigilanza, il sottoscritto DL dispone che l'Impresa provveda immediatamente a:", "type": "text"}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Ripristinare i parapetti", "type": "text", "marks": [{"type": "bold"}]}, {"text": " mancanti entro e non oltre le ore del giorno [Data].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sgombrare le aree di transito", "type": "text", "marks": [{"type": "bold"}]}, {"text": " dai detriti per garantire il passaggio sicuro dei lavoratori.", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sospendere temporaneamente", "type": "text", "marks": [{"type": "bold"}]}, {"text": " la specifica lavorazione in quota fino al ripristino delle condizioni di sicurezza (se necessario).", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. COMUNICAZIONI AL CSE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "(Opzionale, se sono state riscontrate gravi inadempienze)", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Il presente verbale viene trasmesso al Coordinatore per l’Esecuzione (CSE) per le valutazioni di competenza ai sensi del D.Lgs. 81/08.", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Note aggiuntive:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Spazio per eventuali note dell'impresa]", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Firme per presa visione e accettazione:", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Direttore dei Lavori", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Responsabile di Cantiere (Impresa)", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E DISPOSIZIONI DI SERVIZIO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Codice Commessa] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] – ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Sopralluogo n.:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [00]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. SOGGETTI PRESENTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore dei Lavori:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Arch./Ing. [Nome Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] – Rappresentata da: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "CSE (se presente):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome Cognome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI E ATTIVITÀ IN CORSO", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Alla data odierna risultano in corso le seguenti lavorazioni:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Montaggio ponteggio sul prospetto Nord]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[Esempio: Scavo di fondazione zona B]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. OSSERVAZIONI SULLA SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "In relazione alle lavorazioni osservate, si rileva quanto segue:", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Apprestamenti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Le recinzioni di cantiere risultano integre e correttamente posizionate].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "DPI:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Esempio: Tutto il personale presente risulta munito di casco, calzature antinfortunistiche e gilet ad alta visibilità].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalie Riscontrate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " * ", "type": "text"}, {"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Si osserva la mancanza di protezione terminale (parapetto) su una porzione della piattaforma di carico al piano primo.", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Esempio:", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Presenza di materiale di risulta che ostruisce le vie di esodo interne.", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. DISPOSIZIONI DEL DIRETTORE DEI LAVORI", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Ai sensi delle responsabilità di alta vigilanza, il sottoscritto DL dispone che l'Impresa provveda immediatamente a:", "type": "text"}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Ripristinare i parapetti", "type": "text", "marks": [{"type": "bold"}]}, {"text": " mancanti entro e non oltre le ore del giorno [Data].", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sgombrare le aree di transito", "type": "text", "marks": [{"type": "bold"}]}, {"text": " dai detriti per garantire il passaggio sicuro dei lavoratori.", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Sospendere temporaneamente", "type": "text", "marks": [{"type": "bold"}]}, {"text": " la specifica lavorazione in quota fino al ripristino delle condizioni di sicurezza (se necessario).", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. COMUNICAZIONI AL CSE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "(Opzionale, se sono state riscontrate gravi inadempienze)", "type": "text", "marks": [{"type": "italic"}]}, {"text": " Il presente verbale viene trasmesso al Coordinatore per l’Esecuzione (CSE) per le valutazioni di competenza ai sensi del D.Lgs. 81/08.", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Note aggiuntive:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Spazio per eventuali note dell'impresa]", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Firme per presa visione e accettazione:", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Direttore dei Lavori", "type": "text", "marks": [{"type": "bold"}]}]}, {"type": "horizontalRule"}, {"type": "paragraph", "content": [{"text": "Il Responsabile di Cantiere (Impresa)", "type": "text", "marks": [{"type": "bold"}]}]}]}	{"source": "upload-files-component"}	2026-03-28 23:55:58.95529+00	2026-03-29 00:50:54.511404+00	74	21	2026-03-29
+59	Verbale sulla sicurezza 2 giugno	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 1}, "content": [{"text": "2 GIUGNO", "type": "text", "marks": [{"type": "bold"}, {"type": "italic"}, {"type": "underline"}]}]}, {"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E COORDINAMENTO SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Indirizzo] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] | ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Verbale n°:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Numero progressivo]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. PARTECIPANTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore Lavori (DL):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Coord. Sicurezza (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Imprese Esecutrici/Subappalti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Fase lavorativa in corso:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Scavi, montaggio ponteggi, getto solai]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Aree visionate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Specificare i piani o le zone del cantiere]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. VERIFICHE EFFETTUATE (Checklist rapida)", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Recinzioni e accessi:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Conformi / Non conformi", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "DPI (Caschi, scarpe, imbracature):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Corretto utilizzo / Richiamo effettuato", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Apprestamenti (Ponteggi, parapetti):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Integri / Da revisionare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Documentazione (POS, tesserini):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Aggiornata / Da integrare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Impianto elettrico di cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Certificato / Integro", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. OSSERVAZIONI E PRESCRIZIONI DEL CSE", "type": "text"}]}, {"type": "blockquote", "content": [{"type": "paragraph", "content": [{"text": "In questa sezione il Coordinatore riporta eventuali anomalie riscontrate e le azioni correttive richieste.", "type": "text"}]}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Descrizione del rischio riscontrato]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Cosa fare per risolvere]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Entro le ore/data]", "type": "text"}]}]}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Mancanza segnaletica nell'area X]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ripristinare cartellonistica]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Immediata]", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. DICHIARAZIONI DELLE IMPRESE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "L'impresa [Nome] prende atto delle osservazioni e si impegna a risolverle entro i termini stabiliti. Note aggiuntive: [Eventuali giustificazioni o richieste].", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "6. FIRME PER ACCETTAZIONE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Il Coordinatore (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________", "type": "text"}]}]}	{"source": "template", "template_id": 2}	2026-03-29 14:31:35.266626+00	2026-03-29 14:31:59.920099+00	74	21	2026-06-01
+60	Verbale sulla sicurezza	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E COORDINAMENTO SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Indirizzo] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] | ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Verbale n°:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Numero progressivo]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. PARTECIPANTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore Lavori (DL):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Coord. Sicurezza (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Imprese Esecutrici/Subappalti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Fase lavorativa in corso:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Scavi, montaggio ponteggi, getto solai]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Aree visionate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Specificare i piani o le zone del cantiere]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. VERIFICHE EFFETTUATE (Checklist rapida)", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Recinzioni e accessi:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Conformi / Non conformi", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "DPI (Caschi, scarpe, imbracature):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Corretto utilizzo / Richiamo effettuato", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Apprestamenti (Ponteggi, parapetti):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Integri / Da revisionare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Documentazione (POS, tesserini):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Aggiornata / Da integrare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Impianto elettrico di cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Certificato / Integro", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. OSSERVAZIONI E PRESCRIZIONI DEL CSE", "type": "text"}]}, {"type": "blockquote", "content": [{"type": "paragraph", "content": [{"text": "In questa sezione il Coordinatore riporta eventuali anomalie riscontrate e le azioni correttive richieste.", "type": "text"}]}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Descrizione del rischio riscontrato]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Cosa fare per risolvere]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Entro le ore/data]", "type": "text"}]}]}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Mancanza segnaletica nell'area X]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ripristinare cartellonistica]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Immediata]", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. DICHIARAZIONI DELLE IMPRESE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "L'impresa [Nome] prende atto delle osservazioni e si impegna a risolverle entro i termini stabiliti. Note aggiuntive: [Eventuali giustificazioni o richieste].", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "6. FIRME PER ACCETTAZIONE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Il Coordinatore (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________", "type": "text"}]}]}	{"source": "template", "template_id": 2}	2026-03-29 14:49:41.565042+00	2026-03-29 14:49:41.565042+00	74	21	2026-03-29
+49	DIamogli un titolo	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "bra wtff!=!=!=!=!=!=!?!?!?!?!?", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 01:02:29.832195+00	2026-03-29 01:03:17.212087+00	74	21	2026-02-25
+54	Verbale sulla sicurezza Prima Prova	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E COORDINAMENTO SICUREZZA Prima Prova", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Indirizzo] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] | ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Verbale n°:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Numero progressivo]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. PARTECIPANTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore Lavori (DL):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Coord. Sicurezza (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Imprese Esecutrici/Subappalti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Fase lavorativa in corso:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Scavi, montaggio ponteggi, getto solai]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Aree visionate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Specificare i piani o le zone del cantiere]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. VERIFICHE EFFETTUATE (Checklist rapida)", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Recinzioni e accessi:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Conformi / Non conformi", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "DPI (Caschi, scarpe, imbracature):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Corretto utilizzo / Richiamo effettuato", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Apprestamenti (Ponteggi, parapetti):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Integri / Da revisionare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Documentazione (POS, tesserini):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Aggiornata / Da integrare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Impianto elettrico di cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Certificato / Integro", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. OSSERVAZIONI E PRESCRIZIONI DEL CSE", "type": "text"}]}, {"type": "blockquote", "content": [{"type": "paragraph", "content": [{"text": "In questa sezione il Coordinatore riporta eventuali anomalie riscontrate e le azioni correttive richieste.", "type": "text"}]}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Descrizione del rischio riscontrato]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Cosa fare per risolvere]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Entro le ore/data]", "type": "text"}]}]}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Mancanza segnaletica nell'area X]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ripristinare cartellonistica]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Immediata]", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. DICHIARAZIONI DELLE IMPRESE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "L'impresa [Nome] prende atto delle osservazioni e si impegna a risolverle entro i termini stabiliti. Note aggiuntive: [Eventuali giustificazioni o richieste].", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "6. FIRME PER ACCETTAZIONE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Il Coordinatore (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________", "type": "text"}]}]}	{"source": "template", "template_id": 2}	2026-03-29 14:18:33.951005+00	2026-03-29 14:19:07.994692+00	74	21	2026-03-29
+50	Verbale sulla sicurezza - modificato	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "modificato", "type": "text"}]}, {"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E COORDINAMENTO SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Indirizzo] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] | ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Verbale n°:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Numero progressivo]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. PARTECIPANTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore Lavori (DL):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Coord. Sicurezza (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Imprese Esecutrici/Subappalti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Fase lavorativa in corso:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Scavi, montaggio ponteggi, getto solai]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Aree visionate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Specificare i piani o le zone del cantiere]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. VERIFICHE EFFETTUATE (Checklist rapida)", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Recinzioni e accessi:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Conformi / Non conformi", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "DPI (Caschi, scarpe, imbracature):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Corretto utilizzo / Richiamo effettuato", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Apprestamenti (Ponteggi, parapetti):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Integri / Da revisionare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Documentazione (POS, tesserini):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Aggiornata / Da integrare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Impianto elettrico di cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Certificato / Integro", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. OSSERVAZIONI E PRESCRIZIONI DEL CSE", "type": "text"}]}, {"type": "blockquote", "content": [{"type": "paragraph", "content": [{"text": "In questa sezione il Coordinatore riporta eventuali anomalie riscontrate e le azioni correttive richieste.", "type": "text"}]}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Descrizione del rischio riscontrato]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Cosa fare per risolvere]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Entro le ore/data]", "type": "text"}]}]}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Mancanza segnaletica nell'area X]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ripristinare cartellonistica]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Immediata]", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. DICHIARAZIONI DELLE IMPRESE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "L'impresa [Nome] prende atto delle osservazioni e si impegna a risolverle entro i termini stabiliti. Note aggiuntive: [Eventuali giustificazioni o richieste].", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "6. FIRME PER ACCETTAZIONE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Il Coordinatore (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________", "type": "text"}]}]}	{"source": "template", "template_id": 1}	2026-03-29 14:15:41.338111+00	2026-03-29 14:16:00.639907+00	74	21	2026-03-29
+55	Verbale sulla sicurezza 2 aprile 2026	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E COORDINAMENTO SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Indirizzo] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] | ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Verbale n°:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Numero progressivo]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. PARTECIPANTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore Lavori (DL):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Coord. Sicurezza (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Imprese Esecutrici/Subappalti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Fase lavorativa in corso:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Scavi, montaggio ponteggi, getto solai]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Aree visionate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Specificare i piani o le zone del cantiere]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. VERIFICHE EFFETTUATE (Checklist rapida)", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Recinzioni e accessi:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Conformi / Non conformi", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "DPI (Caschi, scarpe, imbracature):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Corretto utilizzo / Richiamo effettuato", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Apprestamenti (Ponteggi, parapetti):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Integri / Da revisionare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Documentazione (POS, tesserini):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Aggiornata / Da integrare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Impianto elettrico di cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Certificato / Integro", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. OSSERVAZIONI E PRESCRIZIONI DEL CSE", "type": "text"}]}, {"type": "blockquote", "content": [{"type": "paragraph", "content": [{"text": "In questa sezione il Coordinatore riporta eventuali anomalie riscontrate e le azioni correttive richieste.", "type": "text"}]}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Descrizione del rischio riscontrato]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Cosa fare per risolvere]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Entro le ore/data]", "type": "text"}]}]}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Mancanza segnaletica nell'area X]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ripristinare cartellonistica]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Immediata]", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. DICHIARAZIONI DELLE IMPRESE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "L'impresa [Nome] prende atto delle osservazioni e si impegna a risolverle entro i termini stabiliti. Note aggiuntive: [Eventuali giustificazioni o richieste].", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "6. FIRME PER ACCETTAZIONE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Il Coordinatore (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________", "type": "text"}]}]}	{"source": "template", "template_id": 2}	2026-03-29 14:22:39.739205+00	2026-03-29 14:22:49.491976+00	74	21	2026-04-02
+65	5 giugno davvero	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "5 giugno davvero", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 15:08:32.104246+00	2026-03-29 15:08:42.815797+00	74	21	2026-05-05
+61	Verbale sulla sicurezza 3 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "3 giugno", "type": "text"}]}, {"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E COORDINAMENTO SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Indirizzo] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] | ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Verbale n°:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Numero progressivo]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. PARTECIPANTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore Lavori (DL):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Coord. Sicurezza (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Imprese Esecutrici/Subappalti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Fase lavorativa in corso:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Scavi, montaggio ponteggi, getto solai]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Aree visionate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Specificare i piani o le zone del cantiere]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. VERIFICHE EFFETTUATE (Checklist rapida)", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Recinzioni e accessi:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Conformi / Non conformi", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "DPI (Caschi, scarpe, imbracature):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Corretto utilizzo / Richiamo effettuato", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Apprestamenti (Ponteggi, parapetti):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Integri / Da revisionare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Documentazione (POS, tesserini):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Aggiornata / Da integrare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Impianto elettrico di cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Certificato / Integro", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. OSSERVAZIONI E PRESCRIZIONI DEL CSE", "type": "text"}]}, {"type": "blockquote", "content": [{"type": "paragraph", "content": [{"text": "In questa sezione il Coordinatore riporta eventuali anomalie riscontrate e le azioni correttive richieste.", "type": "text"}]}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Descrizione del rischio riscontrato]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Cosa fare per risolvere]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Entro le ore/data]", "type": "text"}]}]}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Mancanza segnaletica nell'area X]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ripristinare cartellonistica]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Immediata]", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. DICHIARAZIONI DELLE IMPRESE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "L'impresa [Nome] prende atto delle osservazioni e si impegna a risolverle entro i termini stabiliti. Note aggiuntive: [Eventuali giustificazioni o richieste].", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "6. FIRME PER ACCETTAZIONE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Il Coordinatore (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________", "type": "text"}]}]}	{"source": "template", "template_id": 2}	2026-03-29 14:50:01.881974+00	2026-03-29 14:50:12.863185+00	74	21	2026-06-02
+56	documento vuoto del 16 aprile	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "del 16 aprile", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 14:23:20.161567+00	2026-03-29 14:23:38.249905+00	74	21	2026-04-16
+57	Progetto senza titolo	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 14:25:25.283046+00	2026-03-29 14:25:27.655842+00	74	21	2026-03-29
+62	Verbale sulla sicurezza	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E COORDINAMENTO SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Indirizzo] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] | ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Verbale n°:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Numero progressivo]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. PARTECIPANTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore Lavori (DL):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Coord. Sicurezza (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Imprese Esecutrici/Subappalti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Fase lavorativa in corso:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Scavi, montaggio ponteggi, getto solai]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Aree visionate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Specificare i piani o le zone del cantiere]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. VERIFICHE EFFETTUATE (Checklist rapida)", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Recinzioni e accessi:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Conformi / Non conformi", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "DPI (Caschi, scarpe, imbracature):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Corretto utilizzo / Richiamo effettuato", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Apprestamenti (Ponteggi, parapetti):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Integri / Da revisionare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Documentazione (POS, tesserini):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Aggiornata / Da integrare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Impianto elettrico di cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Certificato / Integro", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. OSSERVAZIONI E PRESCRIZIONI DEL CSE", "type": "text"}]}, {"type": "blockquote", "content": [{"type": "paragraph", "content": [{"text": "In questa sezione il Coordinatore riporta eventuali anomalie riscontrate e le azioni correttive richieste.", "type": "text"}]}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Descrizione del rischio riscontrato]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Cosa fare per risolvere]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Entro le ore/data]", "type": "text"}]}]}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Mancanza segnaletica nell'area X]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ripristinare cartellonistica]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Immediata]", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. DICHIARAZIONI DELLE IMPRESE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "L'impresa [Nome] prende atto delle osservazioni e si impegna a risolverle entro i termini stabiliti. Note aggiuntive: [Eventuali giustificazioni o richieste].", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "6. FIRME PER ACCETTAZIONE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Il Coordinatore (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________", "type": "text"}]}]}	{"source": "template", "template_id": 2}	2026-03-29 14:52:59.773435+00	2026-03-29 14:54:11.617753+00	74	21	2026-04-10
+58	Verbale sulla sicurezza 1 giugno	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E COORDINAMENTO SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Indirizzo] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] | ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Verbale n°:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Numero progressivo]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. PARTECIPANTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore Lavori (DL):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Coord. Sicurezza (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Imprese Esecutrici/Subappalti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Fase lavorativa in corso:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Scavi, montaggio ponteggi, getto solai]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Aree visionate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Specificare i piani o le zone del cantiere]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. VERIFICHE EFFETTUATE (Checklist rapida)", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Recinzioni e accessi:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Conformi / Non conformi", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "DPI (Caschi, scarpe, imbracature):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Corretto utilizzo / Richiamo effettuato", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Apprestamenti (Ponteggi, parapetti):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Integri / Da revisionare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Documentazione (POS, tesserini):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Aggiornata / Da integrare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Impianto elettrico di cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Certificato / Integro", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. OSSERVAZIONI E PRESCRIZIONI DEL CSE", "type": "text"}]}, {"type": "blockquote", "content": [{"type": "paragraph", "content": [{"text": "In questa sezione il Coordinatore riporta eventuali anomalie riscontrate e le azioni correttive richieste.", "type": "text"}]}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Descrizione del rischio riscontrato]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Cosa fare per risolvere]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Entro le ore/data]", "type": "text"}]}]}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Mancanza segnaletica nell'area X]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ripristinare cartellonistica]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Immediata]", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. DICHIARAZIONI DELLE IMPRESE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "L'impresa [Nome] prende atto delle osservazioni e si impegna a risolverle entro i termini stabiliti. Note aggiuntive: [Eventuali giustificazioni o richieste].", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "6. FIRME PER ACCETTAZIONE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Il Coordinatore (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________", "type": "text"}]}]}	{"source": "template", "template_id": 2}	2026-03-29 14:25:39.400107+00	2026-03-29 14:25:48.269195+00	74	21	2026-06-01
+63	Progetto senza titolo	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 14:54:25.964667+00	2026-03-29 14:59:50.40185+00	74	21	2026-06-03
+68	2626-06-09	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 15:38:11.113669+00	2026-03-29 15:38:23.571526+00	74	21	2026-06-08
+64	Progetto senza titolo 5 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento 5 giugno", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 15:07:48.381651+00	2026-03-29 15:07:59.078842+00	74	21	2026-05-05
+66	7 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "7 giugno", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 15:18:20.105323+00	2026-03-29 15:18:28.946231+00	74	21	2026-06-06
+67	8 giugno 2026 - new	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 15:36:45.81167+00	2026-03-29 15:37:00.622005+00	74	21	2026-06-07
+69	10 GIUGNO 2026	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 15:41:36.261431+00	2026-03-29 15:41:48.321442+00	74	21	2026-06-09
+70	11 giugno 2026	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "11 giugno 2026", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 16:21:56.530934+00	2026-03-29 16:22:17.013264+00	74	21	2026-06-10
+71	12 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 16:30:57.647934+00	2026-03-29 16:31:35.221465+00	74	21	2026-06-11
+47	BOD	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "ELLAAA!!!", "type": "text"}]}, {"type": "paragraph"}]}	{"source": "upload-files-component"}	2026-03-29 00:00:16.347865+00	2026-03-29 00:04:06.643896+00	74	21	2026-04-09
+72	13 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 16:31:49.177391+00	2026-03-29 16:36:18.161335+00	74	21	2026-06-12
+73	14 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 16:36:29.587962+00	2026-03-29 16:38:31.085693+00	74	21	2026-06-13
+75	Progetto senza titolo	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 16:53:24.142077+00	2026-03-29 16:53:24.142077+00	74	21	2026-03-29
+74	15 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 16:44:11.90789+00	2026-03-29 16:44:18.299814+00	74	21	2026-06-14
+76	16 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 16:53:39.815183+00	2026-03-29 17:04:56.25319+00	74	21	2026-06-15
+77	17 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 17:08:04.01573+00	2026-03-29 17:08:13.94631+00	74	21	2026-06-15
+78	Progetto senza titolo	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 17:45:34.30957+00	2026-03-29 17:45:34.30957+00	74	21	2026-03-29
+79	18 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 17:45:47.39527+00	2026-03-29 17:45:54.602929+00	74	21	2026-06-17
+80	19 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 18:12:32.543008+00	2026-03-29 18:12:39.529716+00	74	21	2026-06-18
+81	20 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 18:13:44.126576+00	2026-03-29 18:13:49.988609+00	74	21	2026-06-19
+82	21 giugno	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-29 18:24:18.548688+00	2026-03-29 18:24:25.31658+00	74	21	2026-06-21
+83	Progetto senza titolo	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Nuovo documento", "type": "text"}]}]}	{"source": "upload-files-component"}	2026-03-31 22:59:17.862652+00	2026-03-31 22:59:17.862652+00	74	21	2026-04-01
+84	template di prova	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Io sottoscritto ________ autorizzo _________ a lavorare in questo cantiere", "type": "text"}]}]}	{"source": "template", "template_id": 3}	2026-03-31 23:03:19.885165+00	2026-03-31 23:03:22.28261+00	74	21	2026-04-01
 \.
 
 
 --
--- Data for Name: teams; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: teams; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.teams (id, name) FROM stdin;
@@ -2321,15 +3608,19 @@ COPY public.teams (id, name) FROM stdin;
 
 
 --
--- Data for Name: templates; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: templates; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.templates (id, name, content_json, created_at, updated_at, owner_id) FROM stdin;
+2	Verbale sulla sicurezza	{"type": "doc", "content": [{"type": "heading", "attrs": {"level": 2}, "content": [{"text": "VERBALE DI SOPRALLUOGO E COORDINAMENTO SICUREZZA", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome del Cantiere / Indirizzo] ", "type": "text"}, {"text": "Data:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [GG/MM/AAAA] | ", "type": "text"}, {"text": "Ora:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ", "type": "text"}, {"text": "Verbale n°:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Numero progressivo]", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "1. PARTECIPANTI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Direttore Lavori (DL):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Coord. Sicurezza (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Nome e Cognome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Imprese Esecutrici/Subappalti:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ragione Sociale] - Rappresentante: [Nome]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "2. STATO DEI LAVORI", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Fase lavorativa in corso:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Scavi, montaggio ponteggi, getto solai]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Aree visionate:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Specificare i piani o le zone del cantiere]", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "3. VERIFICHE EFFETTUATE (Checklist rapida)", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Recinzioni e accessi:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Conformi / Non conformi", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "DPI (Caschi, scarpe, imbracature):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Corretto utilizzo / Richiamo effettuato", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Apprestamenti (Ponteggi, parapetti):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Integri / Da revisionare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Documentazione (POS, tesserini):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Aggiornata / Da integrare", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "[ ] ", "type": "text"}, {"text": "Impianto elettrico di cantiere:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " Certificato / Integro", "type": "text"}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "4. OSSERVAZIONI E PRESCRIZIONI DEL CSE", "type": "text"}]}, {"type": "blockquote", "content": [{"type": "paragraph", "content": [{"text": "In questa sezione il Coordinatore riporta eventuali anomalie riscontrate e le azioni correttive richieste.", "type": "text"}]}]}, {"type": "orderedList", "attrs": {"type": null, "start": 1}, "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Descrizione del rischio riscontrato]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Cosa fare per risolvere]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Entro le ore/data]", "type": "text"}]}]}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Anomalia:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Es. Mancanza segnaletica nell'area X]", "type": "text"}]}, {"type": "bulletList", "content": [{"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Prescrizione:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Ripristinare cartellonistica]", "type": "text"}]}]}, {"type": "listItem", "content": [{"type": "paragraph", "content": [{"text": "Scadenza:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " [Immediata]", "type": "text"}]}]}]}]}]}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "5. DICHIARAZIONI DELLE IMPRESE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "L'impresa [Nome] prende atto delle osservazioni e si impegna a risolverle entro i termini stabiliti. Note aggiuntive: [Eventuali giustificazioni o richieste].", "type": "text"}]}, {"type": "horizontalRule"}, {"type": "heading", "attrs": {"level": 3}, "content": [{"text": "6. FIRME PER ACCETTAZIONE", "type": "text"}]}, {"type": "paragraph", "content": [{"text": "Il Coordinatore (CSE):", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Affidataria:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________ ", "type": "text"}, {"text": "L'Impresa Esecutrice:", "type": "text", "marks": [{"type": "bold"}]}, {"text": " ___________________________", "type": "text"}]}]}	2026-03-29 14:17:53.260195+00	2026-03-29 14:17:57.700292+00	74
+3	template di prova	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "Io sottoscritto ________ autorizzo _________ a lavorare in questo cantiere", "type": "text"}]}]}	2026-03-31 23:00:09.356878+00	2026-03-31 23:02:00.625346+00	74
+4	kjklm	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "", "type": "text"}]}]}	2026-03-31 23:04:58.501798+00	2026-03-31 23:04:58.501798+00	74
+5	klas	{"type": "doc", "content": [{"type": "paragraph", "content": [{"text": "", "type": "text"}]}]}	2026-03-31 23:06:31.332241+00	2026-03-31 23:06:31.332241+00	74
 \.
 
 
 --
--- Data for Name: user_type; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: user_type; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.user_type (id, name, owner_id) FROM stdin;
@@ -2405,105 +3696,231 @@ COPY public.user_type (id, name, owner_id) FROM stdin;
 70	Gessista	81
 71	Architetto	81
 72	Responsabile Sicurezza	81
+73	Idraulico	88
+74	Imbianchino	88
+75	Muratore	88
+76	Manovale	88
+77	Gessista	88
+78	Architetto	88
+79	Responsabile Sicurezza	88
+80	Idraulico	95
+81	Imbianchino	95
+82	Muratore	95
+83	Manovale	95
+84	Gessista	95
+85	Architetto	95
+86	Responsabile Sicurezza	95
+87	Idraulico	102
+88	Imbianchino	102
+89	Muratore	102
+90	Manovale	102
+91	Gessista	102
+92	Architetto	102
+93	Responsabile Sicurezza	102
+101	Idraulico	116
+102	Imbianchino	116
+103	Muratore	116
+104	Manovale	116
+105	Gessista	116
+106	Architetto	116
+107	Responsabile Sicurezza	116
+108	Idraulico	123
+109	Imbianchino	123
+110	Muratore	123
+111	Manovale	123
+112	Gessista	123
+113	Architetto	123
+114	Responsabile Sicurezza	123
+115	Idraulico	130
+116	Imbianchino	130
+117	Muratore	130
+118	Manovale	130
+119	Gessista	130
+120	Architetto	130
+121	Responsabile Sicurezza	130
+122	Idraulico	137
+123	Imbianchino	137
+124	Muratore	137
+125	Manovale	137
+126	Gessista	137
+127	Architetto	137
+128	Responsabile Sicurezza	137
+129	Idraulico	144
+130	Imbianchino	144
+131	Muratore	144
+132	Manovale	144
+133	Gessista	144
+134	Architetto	144
+135	Responsabile Sicurezza	144
+136	Idraulico	145
+137	Imbianchino	145
+138	Muratore	145
+139	Manovale	145
+140	Gessista	145
+141	Architetto	145
+142	Responsabile Sicurezza	145
 \.
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.users (id, first_name, last_name, username, email, password, phone, notes, owner_id) FROM stdin;
-1	admin	admin	\N	\N	\N	\N	\N	1
-2	ciao	ciao	ciao	ciao@gmail.com	$2b$10$VUebwoBTjvIetTMO/X5rTePtly7Xk4tDzzb5ZBwgtzqasC/2hwvUW	123456789	\N	1
-3	Gastone			gastone@gmail.com	$2b$10$T2lyncnQkyiSfkuXuy3GuO8XiTU4G9hCdvqq7hF2MQKeOWM1cmDt2		\N	1
-6	Alessio	Butticè	\N	\N	\N	\N	\N	3
-5	Stefano	Buttcè	\N	stefano@gmail.com	\N	684648465468	\N	3
-7	Samuele	Randisi	\N	\N	\N	\N	\N	3
-4	Gabriele	Butticè	\N	gabriele@gmail.com	\N	584138541	\N	3
-8	Gerlando	Cugino	\N	\N	\N	\N	\N	3
-10	gabriele			gabriele@gmail.com	$2b$10$GDFR0.645XRI/JL44FtnI.SDicCfIV.KD7HVXoIYj.7I5RmBHwMeW		\N	1
-11	1			1@gmail.com	$2b$10$kldEMZ4EixYGzQbqAXkjq.pMGMJvZkW4fYCY1bqtnPpvBYLd7ug0y		\N	1
-12	Giustino	La Rocca	\N	giustinolarocca@example.com	\N	3665478951	Visita medica, UNILAV, DPI	11
-13	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere - POS, DURC	11
-14	Vasile Marian	Cristian	\N	\N	\N	\N	Manovale - Visita medica	11
-15	Barrera	Mirko	\N	\N	\N	\N	Manovale - UNILAV	11
-16	Cuffaro	Giuseppe	\N	\N	\N	\N	DPI consegnati	11
-17	Esposito	Gennaro	\N	\N	\N	\N	Gruista	11
-18	2			2@gmail.com	$2b$10$tOzZQBA0W8z4PIH5cs243.7COPkYMhmsRyA1QT142hHMFXMAE1adm		\N	1
-19	Giustino	La Rocca	\N	giustinolarocca@example.com	\N	3665478951	Visita medica, UNILAV, DPI	18
-20	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere - POS, DURC	18
-21	Vasile Marian	Cristian	\N	\N	\N	\N	Manovale - Visita medica	18
-22	Barrera	Mirko	\N	\N	\N	\N	Manovale - UNILAV	18
-23	Cuffaro	Giuseppe	\N	\N	\N	\N	DPI consegnati	18
-24	Esposito	Gennaro	\N	\N	\N	\N	Gruista	18
-25	3@gmail.com			3@gmail.com	$2b$10$VNPIJ/qjMVwtjB.gcfke5.efYsusO3vi2yT5AZOhErOJYFYxqf/3W		\N	1
-26	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	25
-27	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	25
-28	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	25
-29	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	25
-30	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	25
-31	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	25
-32	5@gmail.com			5@gmail.com	$2b$10$xFDfTo7VwdQr6JLWa8VKOuU3Y1uCyTpCWYTx6MEW3geNZ2iyVYyhW		\N	1
-33	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	32
-34	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	32
-35	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	32
-36	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	32
-37	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	32
-38	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	32
-39	a			a@gmail.com	$2b$10$3Wuhgc.6fI/Fjpm0H0z8N.iM8aliIo60fXx7DtlrvYVaHeOoW2afC		\N	1
-40	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	39
-41	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	39
-42	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	39
-43	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	39
-44	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	39
-45	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	39
-46	yo@gmail.com			yo@gmail.com	$2b$10$DqWF2EDEYn.javDTEobJdu6xB0JKbfoCeywBecpmjWrprhkeiWpOq		\N	1
-47	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	46
-48	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	46
-49	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	46
-50	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	46
-51	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	46
-52	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	46
-53	ei			ei@gmail.com	$2b$10$NOulP2PoxRFRR1M/0c/WiORfwitaTyf/eRNNan2gwpOqW52YwxdDm		\N	1
-54	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	53
-55	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	53
-56	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	53
-57	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	53
-58	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	53
-59	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	53
-60	halo			halo@gmail.com	$2b$10$fHG05fwQwvV.WjSYbbtLDeG4YGBxcvvFAF02J.NjU33vJk0FuhDp2		\N	1
-61	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	60
-62	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	60
-63	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	60
-64	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	60
-65	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	60
-66	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	60
-67	hola@gmail.com			hola@gmail.com	$2b$10$qrCP2nDR/ZW/8sxxz9JQFuQiz8sp.o2S3Kb9QThCc7LpIZk8gI2gy		\N	1
-68	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	67
-69	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	67
-70	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	67
-71	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	67
-72	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	67
-73	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	67
-74	authorized1			authorized1@gmail.com	$2b$10$hbwaqmmILw.mes/UhYYmEOutpGdTmY2MGWAILcCcFD/b9NqPOMJ1e		\N	1
-75	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	74
-76	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	74
-77	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	74
-78	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	74
-79	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	74
-80	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	74
-81	ispettore1			ispettore1@gmail.com	$2b$10$0MtY8/gIyktzejz24vXxJ.mgt.J9e49c0JIZGU0CyGroRcibJoTnK		\N	1
-82	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	81
-83	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	81
-84	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	81
-85	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	81
-86	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	81
-87	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	81
+COPY public.users (id, first_name, last_name, username, email, password, phone, notes, owner_id, refresh_token) FROM stdin;
+1	admin	admin	\N	\N	\N	\N	\N	1	\N
+2	ciao	ciao	ciao	ciao@gmail.com	$2b$10$VUebwoBTjvIetTMO/X5rTePtly7Xk4tDzzb5ZBwgtzqasC/2hwvUW	123456789	\N	1	\N
+3	Gastone			gastone@gmail.com	$2b$10$T2lyncnQkyiSfkuXuy3GuO8XiTU4G9hCdvqq7hF2MQKeOWM1cmDt2		\N	1	\N
+6	Alessio	Butticè	\N	\N	\N	\N	\N	3	\N
+5	Stefano	Buttcè	\N	stefano@gmail.com	\N	684648465468	\N	3	\N
+7	Samuele	Randisi	\N	\N	\N	\N	\N	3	\N
+4	Gabriele	Butticè	\N	gabriele@gmail.com	\N	584138541	\N	3	\N
+8	Gerlando	Cugino	\N	\N	\N	\N	\N	3	\N
+10	gabriele			gabriele@gmail.com	$2b$10$GDFR0.645XRI/JL44FtnI.SDicCfIV.KD7HVXoIYj.7I5RmBHwMeW		\N	1	\N
+11	1			1@gmail.com	$2b$10$kldEMZ4EixYGzQbqAXkjq.pMGMJvZkW4fYCY1bqtnPpvBYLd7ug0y		\N	1	\N
+12	Giustino	La Rocca	\N	giustinolarocca@example.com	\N	3665478951	Visita medica, UNILAV, DPI	11	\N
+13	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere - POS, DURC	11	\N
+14	Vasile Marian	Cristian	\N	\N	\N	\N	Manovale - Visita medica	11	\N
+15	Barrera	Mirko	\N	\N	\N	\N	Manovale - UNILAV	11	\N
+16	Cuffaro	Giuseppe	\N	\N	\N	\N	DPI consegnati	11	\N
+17	Esposito	Gennaro	\N	\N	\N	\N	Gruista	11	\N
+18	2			2@gmail.com	$2b$10$tOzZQBA0W8z4PIH5cs243.7COPkYMhmsRyA1QT142hHMFXMAE1adm		\N	1	\N
+19	Giustino	La Rocca	\N	giustinolarocca@example.com	\N	3665478951	Visita medica, UNILAV, DPI	18	\N
+20	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere - POS, DURC	18	\N
+21	Vasile Marian	Cristian	\N	\N	\N	\N	Manovale - Visita medica	18	\N
+22	Barrera	Mirko	\N	\N	\N	\N	Manovale - UNILAV	18	\N
+23	Cuffaro	Giuseppe	\N	\N	\N	\N	DPI consegnati	18	\N
+24	Esposito	Gennaro	\N	\N	\N	\N	Gruista	18	\N
+25	3@gmail.com			3@gmail.com	$2b$10$VNPIJ/qjMVwtjB.gcfke5.efYsusO3vi2yT5AZOhErOJYFYxqf/3W		\N	1	\N
+26	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	25	\N
+27	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	25	\N
+28	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	25	\N
+29	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	25	\N
+30	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	25	\N
+31	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	25	\N
+32	5@gmail.com			5@gmail.com	$2b$10$xFDfTo7VwdQr6JLWa8VKOuU3Y1uCyTpCWYTx6MEW3geNZ2iyVYyhW		\N	1	\N
+33	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	32	\N
+34	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	32	\N
+35	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	32	\N
+36	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	32	\N
+37	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	32	\N
+38	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	32	\N
+39	a			a@gmail.com	$2b$10$3Wuhgc.6fI/Fjpm0H0z8N.iM8aliIo60fXx7DtlrvYVaHeOoW2afC		\N	1	\N
+40	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	39	\N
+41	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	39	\N
+42	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	39	\N
+43	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	39	\N
+44	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	39	\N
+45	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	39	\N
+46	yo@gmail.com			yo@gmail.com	$2b$10$DqWF2EDEYn.javDTEobJdu6xB0JKbfoCeywBecpmjWrprhkeiWpOq		\N	1	\N
+47	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	46	\N
+48	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	46	\N
+49	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	46	\N
+50	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	46	\N
+51	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	46	\N
+52	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	46	\N
+53	ei			ei@gmail.com	$2b$10$NOulP2PoxRFRR1M/0c/WiORfwitaTyf/eRNNan2gwpOqW52YwxdDm		\N	1	\N
+54	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	53	\N
+55	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	53	\N
+56	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	53	\N
+57	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	53	\N
+58	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	53	\N
+59	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	53	\N
+60	halo			halo@gmail.com	$2b$10$fHG05fwQwvV.WjSYbbtLDeG4YGBxcvvFAF02J.NjU33vJk0FuhDp2		\N	1	\N
+61	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	60	\N
+62	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	60	\N
+63	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	60	\N
+64	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	60	\N
+65	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	60	\N
+66	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	60	\N
+67	hola@gmail.com			hola@gmail.com	$2b$10$qrCP2nDR/ZW/8sxxz9JQFuQiz8sp.o2S3Kb9QThCc7LpIZk8gI2gy		\N	1	\N
+68	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	67	\N
+69	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	67	\N
+70	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	67	\N
+71	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	67	\N
+72	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	67	\N
+73	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	67	\N
+75	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	74	\N
+76	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	74	\N
+77	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	74	\N
+78	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	74	\N
+79	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	74	\N
+80	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	74	\N
+81	ispettore1			ispettore1@gmail.com	$2b$10$0MtY8/gIyktzejz24vXxJ.mgt.J9e49c0JIZGU0CyGroRcibJoTnK		\N	1	\N
+82	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	81	\N
+83	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	81	\N
+84	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	81	\N
+85	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	81	\N
+86	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	81	\N
+87	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	81	\N
+88	prova			prova@example.com	$2b$10$DQ.nXNi1w18BR/Htx5lc6.t5Z4jBO1X3epmZGvttDobA6DTESGive		\N	1	\N
+89	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	88	\N
+90	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	88	\N
+91	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	88	\N
+92	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	88	\N
+93	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	88	\N
+94	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	88	\N
+95	prova1			prova1@example.com	$2b$10$e7Jca7f4O9.BZbbB5Xvf8.mAZPCuYQz82JEslRCg9TZB.rF2hhxSq		\N	1	\N
+96	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	95	\N
+97	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	95	\N
+98	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	95	\N
+99	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	95	\N
+100	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	95	\N
+101	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	95	\N
+102	prova2			prova2@example.com	$2b$10$nzEDdNZeh2sreB2M0Aov/OxZt2o1wUBqWb93z9clFF/YbKtQ4M9Ie		\N	1	\N
+103	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	102	\N
+104	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	102	\N
+105	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	102	\N
+106	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	102	\N
+107	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	102	\N
+108	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	102	\N
+116	prova1@example.com			prova3@example.com	$2b$10$kcL3o8wEPBYoU1dh9qM2muPvyUpny58jtTF6kI0EZtWx/PB2Tq7tm		\N	1	\N
+117	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	116	\N
+118	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	116	\N
+119	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	116	\N
+120	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	116	\N
+121	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	116	\N
+122	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	116	\N
+123	prova4			prova4@example.com	$2b$10$JlUMG6m/HYArvYHgc4CktubpI9vAtBmzYvH.FdscWYq8qSALdYTsO		\N	1	\N
+124	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	123	\N
+125	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	123	\N
+126	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	123	\N
+127	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	123	\N
+128	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	123	\N
+129	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	123	\N
+130	prova5@example.com			prova5@example.com	$2b$10$vFig.SfvGTaVZ97Vv.wsxuQcqPTsnzlCMQLvkKwHoZLUaWDBngNA2		\N	1	\N
+131	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	130	\N
+132	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	130	\N
+133	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	130	\N
+134	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	130	\N
+135	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	130	\N
+136	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	130	\N
+138	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	137	\N
+139	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	137	\N
+140	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	137	\N
+141	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	137	\N
+143	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	137	\N
+137	prova6			prova6@example.com	$2b$10$CgIBeFWjPKHU.2FsOrkLmeoVXTF.KYUK5TY1dXhxVvI31ExKMPS6W		\N	1	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTM3LCJpYXQiOjE3NzQ5ODk5MTYsImV4cCI6MTc3NTU5NDcxNn0.gEyTAQg5IhXJZw75CAFH-dFmkMb6WTjjGwAYKmtogJ8
+142	Cuffaro	Alberto	\N		\N		Direzione lavori	137	\N
+74	authorized1			authorized1@gmail.com	$2b$10$hbwaqmmILw.mes/UhYYmEOutpGdTmY2MGWAILcCcFD/b9NqPOMJ1e		\N	1	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzQsImlhdCI6MTc3NDk5Nzc2MywiZXhwIjoxNzc3NTg5NzYzfQ.9pfa2vzJcsmnytiUSvnj7VXPX_W5VH6R_MaGAb29lmE
+146	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	144	\N
+147	Giustino	La Rocca	\N	\N	\N	\N	Responsabile impianti	145	\N
+148	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	145	\N
+149	Russo Morto	Salvatore	\N	\N	\N	\N	Carpentiere esperto	144	\N
+150	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	145	\N
+151	Vasile Marian	Cristian	\N	\N	\N	\N	Patente C	144	\N
+152	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	145	\N
+153	Barrera	Mirko	\N	\N	\N	\N	Finiture interne	144	\N
+154	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	145	\N
+155	Cuffaro	Giuseppe	\N	\N	\N	\N	Direzione lavori	144	\N
+156	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	145	\N
+157	Esposito	Gennaro	\N	\N	\N	\N	Controllo POS e DPI	144	\N
+145	prova7			prova7@example.com	$2b$10$PiffQ09Ni/H93sQpmcOhauqO8QZ7Qlp0Mbbc1KdPLZZZvbJ9dIpt6		\N	1	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQ1LCJpYXQiOjE3NzUwNjc3MzcsImV4cCI6MTc3NzY1OTczN30.ZnYV8iy7Mjn2z5djFInJf1OB_f3zi5uEOhpu2PKzeR0
+144	prova7			prova7@example.com	$2b$10$p88xXzmaFNAro/nnwfIU0OSdd5nEKIQzBhGCFdYbSkXgLieCsUFni		\N	1	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQ0LCJpYXQiOjE3NzUwNjc3MzcsImV4cCI6MTc3NzY1OTczN30.03ImweoiUHENTphsicA7l_qr91T35sN7fsFedl2MlnE
 \.
 
 
 --
--- Data for Name: users_building_sites; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: users_building_sites; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.users_building_sites (id, user_id, site_id) FROM stdin;
@@ -2578,11 +3995,71 @@ COPY public.users_building_sites (id, user_id, site_id) FROM stdin;
 72	85	22
 73	86	22
 74	87	22
+75	89	23
+76	90	23
+77	91	23
+78	92	23
+79	93	23
+80	94	23
+81	96	24
+82	97	24
+83	98	24
+84	99	24
+85	100	24
+86	101	24
+87	103	25
+88	104	25
+89	105	25
+90	106	25
+91	107	25
+92	108	25
+99	117	27
+100	118	27
+101	119	27
+102	120	27
+103	121	27
+104	122	27
+105	124	28
+106	125	28
+107	126	28
+108	127	28
+109	128	28
+110	129	28
+111	131	29
+112	132	29
+113	133	29
+114	134	29
+115	135	29
+116	136	29
+118	139	30
+119	140	30
+120	141	30
+121	142	30
+122	143	30
+130	138	31
+131	139	31
+132	140	31
+133	141	31
+134	142	31
+135	143	31
+136	138	30
+138	147	34
+137	146	33
+139	148	34
+140	149	33
+141	150	34
+142	151	33
+143	152	34
+144	153	33
+145	154	34
+146	155	33
+147	156	34
+148	157	33
 \.
 
 
 --
--- Data for Name: users_companies; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: users_companies; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.users_companies (id, user_id, company_id) FROM stdin;
@@ -2660,11 +4137,65 @@ COPY public.users_companies (id, user_id, company_id) FROM stdin;
 74	85	51
 75	86	48
 76	87	49
+77	89	52
+78	90	53
+79	91	54
+80	92	55
+81	93	52
+82	94	53
+83	96	56
+84	97	57
+85	98	58
+86	99	59
+87	100	56
+88	101	57
+89	103	60
+90	104	61
+91	105	62
+92	106	63
+93	107	60
+94	108	61
+101	117	68
+102	118	69
+103	119	70
+104	120	71
+105	121	68
+106	122	69
+107	124	72
+108	125	73
+109	126	74
+110	127	75
+111	128	72
+112	129	73
+113	131	76
+114	132	77
+115	133	78
+116	134	79
+117	135	76
+118	136	77
+119	138	80
+120	139	81
+121	140	82
+122	141	83
+124	143	81
+126	142	84
+127	147	89
+128	146	85
+129	148	90
+130	149	86
+131	150	91
+132	151	87
+133	152	92
+134	153	88
+135	154	89
+136	155	85
+137	156	90
+138	157	86
 \.
 
 
 --
--- Data for Name: users_teams; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: users_teams; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.users_teams (id, user_id, team_id) FROM stdin;
@@ -2684,7 +4215,7 @@ COPY public.users_teams (id, user_id, team_id) FROM stdin;
 
 
 --
--- Data for Name: users_user_type; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: users_user_type; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.users_user_type (id, user_id, user_type_id) FROM stdin;
@@ -2776,116 +4307,179 @@ COPY public.users_user_type (id, user_id, user_type_id) FROM stdin;
 89	85	70
 90	86	71
 91	87	72
+92	88	2
+93	89	73
+94	90	75
+95	91	76
+96	92	77
+97	93	78
+98	94	79
+99	95	2
+100	96	80
+101	97	82
+102	98	83
+103	99	84
+104	100	85
+105	101	86
+106	102	2
+107	103	87
+108	104	89
+109	105	90
+110	106	91
+111	107	92
+112	108	93
+120	116	2
+121	117	101
+122	118	103
+123	119	104
+124	120	105
+125	121	106
+126	122	107
+127	123	2
+128	124	108
+129	125	110
+130	126	111
+131	127	112
+132	128	113
+133	129	114
+134	130	2
+135	131	115
+136	132	117
+137	133	118
+138	134	119
+139	135	120
+140	136	121
+141	137	2
+142	138	122
+143	139	124
+144	140	125
+145	141	126
+147	143	128
+149	142	127
+150	144	2
+151	145	2
+152	147	136
+153	146	129
+154	148	138
+155	149	131
+156	150	139
+157	151	132
+158	152	140
+159	153	133
+160	154	141
+161	155	134
+162	156	142
+163	157	135
 \.
 
 
 --
--- Name: building_sites_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: building_sites_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.building_sites_id_seq', 22, true);
-
-
---
--- Name: companies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.companies_id_seq', 51, true);
+SELECT pg_catalog.setval('public.building_sites_id_seq', 34, true);
 
 
 --
--- Name: daily_notes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: companies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.daily_notes_id_seq', 214, true);
-
-
---
--- Name: daily_presences_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.daily_presences_id_seq', 1267, true);
+SELECT pg_catalog.setval('public.companies_id_seq', 92, true);
 
 
 --
--- Name: documents_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: daily_notes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.daily_notes_id_seq', 418, true);
+
+
+--
+-- Name: daily_presences_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.daily_presences_id_seq', 2473, true);
+
+
+--
+-- Name: documents_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.documents_id_seq', 1, false);
 
 
 --
--- Name: files_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: files_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.files_id_seq', 117, true);
 
 
 --
--- Name: projects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: projects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.projects_id_seq', 49, true);
+SELECT pg_catalog.setval('public.projects_id_seq', 84, true);
 
 
 --
--- Name: teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.teams_id_seq', 2, true);
 
 
 --
--- Name: templates_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: templates_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.templates_id_seq', 1, false);
-
-
---
--- Name: user_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.user_type_id_seq', 72, true);
+SELECT pg_catalog.setval('public.templates_id_seq', 5, true);
 
 
 --
--- Name: users_bulding_sites_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: user_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_bulding_sites_id_seq', 74, true);
-
-
---
--- Name: users_companies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.users_companies_id_seq', 76, true);
+SELECT pg_catalog.setval('public.user_type_id_seq', 142, true);
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: users_bulding_sites_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 87, true);
+SELECT pg_catalog.setval('public.users_bulding_sites_id_seq', 148, true);
 
 
 --
--- Name: users_teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: users_companies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.users_companies_id_seq', 138, true);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 157, true);
+
+
+--
+-- Name: users_teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.users_teams_id_seq', 12, true);
 
 
 --
--- Name: users_user_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: users_user_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_user_type_id_seq', 91, true);
+SELECT pg_catalog.setval('public.users_user_type_id_seq', 163, true);
 
 
 --
--- Name: building_sites building_sites_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: building_sites building_sites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.building_sites
@@ -2893,7 +4487,7 @@ ALTER TABLE ONLY public.building_sites
 
 
 --
--- Name: companies companies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: companies companies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.companies
@@ -2901,7 +4495,7 @@ ALTER TABLE ONLY public.companies
 
 
 --
--- Name: daily_notes daily_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: daily_notes daily_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.daily_notes
@@ -2909,7 +4503,7 @@ ALTER TABLE ONLY public.daily_notes
 
 
 --
--- Name: daily_presences daily_presences_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: daily_presences daily_presences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.daily_presences
@@ -2917,7 +4511,7 @@ ALTER TABLE ONLY public.daily_presences
 
 
 --
--- Name: documents documents_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: documents documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.documents
@@ -2925,7 +4519,7 @@ ALTER TABLE ONLY public.documents
 
 
 --
--- Name: files files_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: files files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.files
@@ -2933,7 +4527,7 @@ ALTER TABLE ONLY public.files
 
 
 --
--- Name: files files_storage_key_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: files files_storage_key_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.files
@@ -2941,7 +4535,7 @@ ALTER TABLE ONLY public.files
 
 
 --
--- Name: projects projects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: projects projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.projects
@@ -2949,7 +4543,7 @@ ALTER TABLE ONLY public.projects
 
 
 --
--- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.teams
@@ -2957,7 +4551,7 @@ ALTER TABLE ONLY public.teams
 
 
 --
--- Name: templates templates_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: templates templates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.templates
@@ -2965,7 +4559,7 @@ ALTER TABLE ONLY public.templates
 
 
 --
--- Name: daily_notes unique_building_site_date; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: daily_notes unique_building_site_date; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.daily_notes
@@ -2973,7 +4567,7 @@ ALTER TABLE ONLY public.daily_notes
 
 
 --
--- Name: users_building_sites unique_user_site; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_building_sites unique_user_site; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_building_sites
@@ -2981,7 +4575,7 @@ ALTER TABLE ONLY public.users_building_sites
 
 
 --
--- Name: user_type user_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: user_type user_type_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_type
@@ -2989,7 +4583,7 @@ ALTER TABLE ONLY public.user_type
 
 
 --
--- Name: users_building_sites users_bulding_sites_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_building_sites users_bulding_sites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_building_sites
@@ -2997,7 +4591,7 @@ ALTER TABLE ONLY public.users_building_sites
 
 
 --
--- Name: users_companies users_companies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_companies users_companies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_companies
@@ -3005,7 +4599,7 @@ ALTER TABLE ONLY public.users_companies
 
 
 --
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -3013,7 +4607,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users_teams users_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_teams users_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_teams
@@ -3021,7 +4615,7 @@ ALTER TABLE ONLY public.users_teams
 
 
 --
--- Name: users_user_type users_user_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_user_type users_user_type_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_user_type
@@ -3029,7 +4623,7 @@ ALTER TABLE ONLY public.users_user_type
 
 
 --
--- Name: daily_notes daily_notes_building_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: daily_notes daily_notes_building_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.daily_notes
@@ -3037,7 +4631,7 @@ ALTER TABLE ONLY public.daily_notes
 
 
 --
--- Name: daily_presences daily_presences_building_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: daily_presences daily_presences_building_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.daily_presences
@@ -3045,7 +4639,7 @@ ALTER TABLE ONLY public.daily_presences
 
 
 --
--- Name: daily_presences daily_presences_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: daily_presences daily_presences_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.daily_presences
@@ -3053,7 +4647,7 @@ ALTER TABLE ONLY public.daily_presences
 
 
 --
--- Name: documents documents_file_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: documents documents_file_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.documents
@@ -3061,7 +4655,7 @@ ALTER TABLE ONLY public.documents
 
 
 --
--- Name: projects fk_building_site_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: projects fk_building_site_id; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.projects
@@ -3069,7 +4663,7 @@ ALTER TABLE ONLY public.projects
 
 
 --
--- Name: building_sites fk_building_sites_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: building_sites fk_building_sites_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.building_sites
@@ -3077,7 +4671,7 @@ ALTER TABLE ONLY public.building_sites
 
 
 --
--- Name: companies fk_companies_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: companies fk_companies_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.companies
@@ -3085,7 +4679,7 @@ ALTER TABLE ONLY public.companies
 
 
 --
--- Name: daily_notes fk_daily_notes_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: daily_notes fk_daily_notes_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.daily_notes
@@ -3093,7 +4687,7 @@ ALTER TABLE ONLY public.daily_notes
 
 
 --
--- Name: daily_presences fk_daily_presences_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: daily_presences fk_daily_presences_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.daily_presences
@@ -3101,7 +4695,7 @@ ALTER TABLE ONLY public.daily_presences
 
 
 --
--- Name: files fk_files_building_site_id_building_sites_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: files fk_files_building_site_id_building_sites_id; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.files
@@ -3109,7 +4703,7 @@ ALTER TABLE ONLY public.files
 
 
 --
--- Name: files fk_files_owner_id_users_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: files fk_files_owner_id_users_id; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.files
@@ -3117,7 +4711,7 @@ ALTER TABLE ONLY public.files
 
 
 --
--- Name: projects fk_owner_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: projects fk_owner_id; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.projects
@@ -3125,7 +4719,7 @@ ALTER TABLE ONLY public.projects
 
 
 --
--- Name: templates fk_owner_id_users; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: templates fk_owner_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.templates
@@ -3133,7 +4727,7 @@ ALTER TABLE ONLY public.templates
 
 
 --
--- Name: files fk_project; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: files fk_project; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.files
@@ -3141,7 +4735,7 @@ ALTER TABLE ONLY public.files
 
 
 --
--- Name: user_type fk_user_type_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: user_type fk_user_type_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_type
@@ -3149,7 +4743,7 @@ ALTER TABLE ONLY public.user_type
 
 
 --
--- Name: users fk_users_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users fk_users_owner; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -3157,7 +4751,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users_building_sites users_bulding_sites_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_building_sites users_bulding_sites_site_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_building_sites
@@ -3165,7 +4759,7 @@ ALTER TABLE ONLY public.users_building_sites
 
 
 --
--- Name: users_building_sites users_bulding_sites_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_building_sites users_bulding_sites_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_building_sites
@@ -3173,7 +4767,7 @@ ALTER TABLE ONLY public.users_building_sites
 
 
 --
--- Name: users_companies users_companies_company_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_companies users_companies_company_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_companies
@@ -3181,7 +4775,7 @@ ALTER TABLE ONLY public.users_companies
 
 
 --
--- Name: users_companies users_companies_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_companies users_companies_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_companies
@@ -3189,7 +4783,7 @@ ALTER TABLE ONLY public.users_companies
 
 
 --
--- Name: users_teams users_teams_team_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_teams users_teams_team_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_teams
@@ -3197,7 +4791,7 @@ ALTER TABLE ONLY public.users_teams
 
 
 --
--- Name: users_teams users_teams_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_teams users_teams_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_teams
@@ -3205,7 +4799,7 @@ ALTER TABLE ONLY public.users_teams
 
 
 --
--- Name: users_user_type users_user_type_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_user_type users_user_type_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_user_type
@@ -3213,7 +4807,7 @@ ALTER TABLE ONLY public.users_user_type
 
 
 --
--- Name: users_user_type users_user_type_user_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users_user_type users_user_type_user_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users_user_type
@@ -3224,5 +4818,5 @@ ALTER TABLE ONLY public.users_user_type
 -- PostgreSQL database dump complete
 --
 
-\unrestrict calXyczGWdT8Pcs6q2tHhm50yzbSqzxjIo5sFDAAnCn7qlFwsmql9R5bCTwH4XC
+\unrestrict ZUa6Rk533l9SAaq8DxuJh7iIOPtGBjctwOgRVZsb5jzrCKV9mb3hOcoWBenpk9N
 
