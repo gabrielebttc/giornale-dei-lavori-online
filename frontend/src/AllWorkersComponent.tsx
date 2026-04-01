@@ -344,11 +344,11 @@ const AllWorkersComponent: React.FC<Props> = ({ buildingSiteId }) => {
                         </span>
                       </div>
                     )}
-                    {!buildingSiteId && worker.building_site_names?.length > 0 && (
+                    {!buildingSiteId && (worker.building_site_names?.length ?? 0) > 0 && (
                       <div className="d-flex align-items-center gap-1">
                         <i className="bi bi-geo-alt text-muted" style={{ fontSize: '0.75rem' }} />
                         <span className="text-muted" style={{ fontSize: '0.75rem' }}>
-                          {worker.building_site_names.join(', ')}
+                          {worker.building_site_names?.join(', ')}
                         </span>
                       </div>
                     )}

@@ -138,7 +138,6 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
     const handleCreateFromTemplate = async (templateId: number) => {
         setIsLoading(true);
         try {
-            const token = localStorage.getItem('token');
             // Recupera il contenuto del template
             const templateRes = await apiFetch(`${apiUrl}/api/templates-manager/templates/${templateId}`, {
             });
@@ -180,7 +179,6 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
         setIsCreatingTemplate(true);
         setTemplateMessage(null);
         try {
-            const token = localStorage.getItem('token');
             const response = await apiFetch(`${apiUrl}/api/templates-manager/templates`, {
                 method: 'POST',
                 headers: {
@@ -211,7 +209,6 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
         setIsLoading(true);
 
         try {
-            const token = localStorage.getItem('token');
             const response = await apiFetch(`${apiUrl}/api/projects-manager/projects`, {
                 method: 'POST',
                 headers: {

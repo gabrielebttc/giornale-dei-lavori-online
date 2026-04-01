@@ -34,7 +34,6 @@ const MapComponent = ({ reloadBuildingSitesList, onReloadCompleted }: MapCompone
     { id: number; name: string; notes: string; city: string; address: string; latitude: number; longitude: number }[]
   >([]);
   const [highlightedId, setHighlightedId] = useState<number | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const markerRefs = useRef<mapboxgl.Marker[]>([]); // Per tenere traccia dei marker
 
   // Stati per la gestione del modale di eliminazione
@@ -85,9 +84,7 @@ const MapComponent = ({ reloadBuildingSitesList, onReloadCompleted }: MapCompone
   };
 
   const fetchBuildingSites = useCallback(async () => {
-    setLoading(true);
     try {
-      const token = localStorage.getItem('token'); // Recupera il token
       const response = await apiFetch(`${apiUrl}/api/building-sites`, {
         method: 'GET',
         headers: {

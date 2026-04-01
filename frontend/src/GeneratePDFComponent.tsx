@@ -46,8 +46,6 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
     useEffect(() => {
         const generate = async () => {
             try {
-                const token = localStorage.getItem('token');
-
                 // 1. Fetch del progetto
                 const res = await apiFetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
                 });
@@ -217,7 +215,7 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
         a.click();
     };
 
-    const resolveUniqueFileName = async (token: string, baseName: string): Promise<string> => {
+    const resolveUniqueFileName = async (baseName: string): Promise<string> => {
         const res = await apiFetch(`${apiUrl}/api/file-manager/files/${buildingSiteId}`, {
         });
         if (!res.ok) return baseName; // in caso di errore usa il nome così com'è
@@ -244,8 +242,7 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
     const handleSaveToPlatform = async () => {
         if (!pdfBlob) return;
         setPhase('saving');
-        const token = localStorage.getItem('token');
-        const fileName = await resolveUniqueFileName(token ?? '', `${projectName}.pdf`);
+        const fileName = await resolveUniqueFileName(`${projectName}.pdf`);
 
         try {
             // 1. Richiesta link di upload

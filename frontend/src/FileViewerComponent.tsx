@@ -50,7 +50,6 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
                 setLoading(true);
                 setError(null);
                 try {
-                    const token = localStorage.getItem('token');
                     const response = await apiFetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
                         method: 'GET',
                         headers: {
@@ -98,7 +97,6 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
         }
         const fetchDownloadUrl = async () => {
             try {
-                const token = localStorage.getItem('token');
                 const response = await apiFetch(`${apiUrl}/api/file-manager/get-download-link`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

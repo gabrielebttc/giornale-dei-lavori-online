@@ -93,7 +93,6 @@ export default function EditDocumentComponent({ projectId = null, templateId = n
         setIsSaving(true);
         setSaveError(null);
         try {
-            const token = localStorage.getItem('token');
             const transformedContent = replaceImageSrcWithStorageKey(parseContent(dataToSave.content_json));
             const response = await apiFetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
                 method: 'PUT',
@@ -119,7 +118,6 @@ export default function EditDocumentComponent({ projectId = null, templateId = n
         setIsSaving(true);
         setSaveError(null);
         try {
-            const token = localStorage.getItem('token');
             const transformedContent = replaceImageSrcWithStorageKey(parseContent(dataToSave.content_json));
             const response = await apiFetch(`${apiUrl}/api/templates-manager/templates/${templateId}`, {
                 method: 'PUT',

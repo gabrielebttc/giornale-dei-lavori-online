@@ -346,8 +346,6 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
 
 async function fetchFilesFromBuildingSiteId(id: number): Promise<FilesRecord[]> {
     try {
-        const token = localStorage.getItem('token');
-
         const response = await apiFetch(`${apiUrl}/api/file-manager/files/${id}`, {
         method: 'GET',
         headers: {
@@ -370,8 +368,6 @@ async function fetchFilesFromBuildingSiteId(id: number): Promise<FilesRecord[]> 
 
 async function fetchProjectsFromBuildingSiteId(buildingSiteId: number): Promise<ProjectsRecord[]> {
     try {
-        const token = localStorage.getItem('token');
-
         const response = await apiFetch(`${apiUrl}/api/projects-manager/building-sites/${buildingSiteId}/projects`, {
             method: 'GET',
             headers: {
@@ -407,9 +403,6 @@ const getFileIcon = (mimeType: string) => {
 };
 
 const deleteFileFromCloudStorage = async (storageKey: string) => {
-
-    const token = localStorage.getItem('token');
-
     try {
         const response = await apiFetch(`${apiUrl}/api/file-manager/delete-file/${encodeURIComponent(storageKey)}`, {
             method: 'DELETE',
