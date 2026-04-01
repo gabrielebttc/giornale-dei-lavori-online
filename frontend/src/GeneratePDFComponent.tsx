@@ -8,6 +8,7 @@ import { Worker, Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -48,8 +49,7 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
                 const token = localStorage.getItem('token');
 
                 // 1. Fetch del progetto
-                const res = await fetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
-                    headers: { 'Authorization': `Bearer ${token}` },
+                const res = await apiFetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
                 });
                 if (!res.ok) throw new Error('Errore nel recupero del progetto');
                 const data = await res.json();
@@ -65,9 +65,9 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
                     const copy: any = { ...node };
                     if (copy.type === 'image' && copy.attrs?.src && !copy.attrs.src.startsWith('http')) {
                         try {
-                            const r = await fetch(`${apiUrl}/api/file-manager/get-download-link`, {
+                            const r = await apiFetch(`${apiUrl}/api/file-manager/get-download-link`, {
                                 method: 'POST',
-                                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                                headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ storageKey: copy.attrs.src }),
                             });
                             if (r.ok) {
@@ -218,8 +218,7 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
     };
 
     const resolveUniqueFileName = async (token: string, baseName: string): Promise<string> => {
-        const res = await fetch(`${apiUrl}/api/file-manager/files/${buildingSiteId}`, {
-            headers: { 'Authorization': `Bearer ${token}` },
+        const res = await apiFetch(`${apiUrl}/api/file-manager/files/${buildingSiteId}`, {
         });
         if (!res.ok) return baseName; // in caso di errore usa il nome così com'è
 
@@ -250,9 +249,9 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
 
         try {
             // 1. Richiesta link di upload
-            const resLink = await fetch(`${apiUrl}/api/file-manager/get-upload-link`, {
+            const resLink = await apiFetch(`${apiUrl}/api/file-manager/get-upload-link`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ fileName, fileType: 'application/pdf', buildingSiteId }),
             });
             if (!resLink.ok) throw new Error('Errore nel link di upload');
@@ -266,9 +265,9 @@ const GeneratePDFComponent: React.FC<GeneratePDFComponentProps> = ({
             if (!resB2.ok) throw new Error('Upload su storage fallito');
 
             // 3. Registra il file nel DB, collegato al progetto
-            const resConfirm = await fetch(`${apiUrl}/api/file-manager/confirm-file-upload`, {
+            const resConfirm = await apiFetch(`${apiUrl}/api/file-manager/confirm-file-upload`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     storageKey,
                     originalName: fileName,

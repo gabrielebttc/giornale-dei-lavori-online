@@ -1,4 +1,5 @@
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -52,16 +53,15 @@ const InsertImageComponent = ({ buildingSiteId, onClose, onComplete }: InsertIma
         const uploadPromises = selectedFiles.map(async (file) => {
             try {
                 // 1. Richiesta link di upload
-                const resLink = await fetch(`${apiUrl}/api/file-manager/get-upload-link`, {
+                const resLink = await apiFetch(`${apiUrl}/api/file-manager/get-upload-link`, {
                     method: 'POST',
-                    body: JSON.stringify({ 
-                        fileName: file.name, 
-                        fileType: file.type, 
+                    body: JSON.stringify({
+                        fileName: file.name,
+                        fileType: file.type,
                         buildingSiteId
                     }),
-                    headers: { 
+                    headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
                 const { uploadUrl, storageKey } = await resLink.json();
@@ -76,11 +76,10 @@ const InsertImageComponent = ({ buildingSiteId, onClose, onComplete }: InsertIma
 
                 // 3. Registra il file nel database
                 const today = new Date().toISOString().split('T')[0];
-                const resConfirm = await fetch(`${apiUrl}/api/file-manager/confirm-file-upload`, {
+                const resConfirm = await apiFetch(`${apiUrl}/api/file-manager/confirm-file-upload`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     },
                     body: JSON.stringify({
                         storageKey,
@@ -93,11 +92,10 @@ const InsertImageComponent = ({ buildingSiteId, onClose, onComplete }: InsertIma
                 if (!resConfirm.ok) throw new Error("Registrazione file fallita");
 
                 // 4. Richiesta link di download/registrazione
-                const resLink2 = await fetch(`${apiUrl}/api/file-manager/get-download-link`, {
+                const resLink2 = await apiFetch(`${apiUrl}/api/file-manager/get-download-link`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     },
                     body: JSON.stringify({ storageKey })
                 });

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiFetch } from '../utils/apiFetch';
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 interface Props {
@@ -38,11 +39,10 @@ const AddUserTypeComponent: React.FC<Props> = ({ onClose, onUserTypeAdded }) => 
     }
 
     try {
-      const response = await fetch(`${apiUrl}/api/add-user_type`, {
+      const response = await apiFetch(`${apiUrl}/api/add-user_type`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           name: formData.name.trim(),

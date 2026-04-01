@@ -5,6 +5,7 @@ import FileCardComponent from './FileCardComponent';
 import DeleteRecordComponent from './DeleteRecordComponent';
 import LoadingScreen from './LoadingScreen';
 import { dateToString, stringToDate } from '../utils/formatDate';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -62,16 +63,15 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
         const uploadPromises = selectedFiles.map(async (file) => {
             try {
                 // 1. Richiesta link di upload
-                const resLink = await fetch(`${apiUrl}/api/file-manager/get-upload-link`, {
+                const resLink = await apiFetch(`${apiUrl}/api/file-manager/get-upload-link`, {
                     method: 'POST',
-                    body: JSON.stringify({ 
-                        fileName: file.name, 
-                        fileType: file.type, 
+                    body: JSON.stringify({
+                        fileName: file.name,
+                        fileType: file.type,
                         buildingSiteId
                     }),
-                    headers: { 
+                    headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
                 const { uploadUrl, storageKey } = await resLink.json();
@@ -85,18 +85,17 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                 if (!resB2.ok) throw new Error("Upload fallito su storage");
 
                 // 3. Conferma nel Database (Passando la data selezionata)
-                const resConfirm = await fetch(`${apiUrl}/api/file-manager/confirm-file-upload`, {
+                const resConfirm = await apiFetch(`${apiUrl}/api/file-manager/confirm-file-upload`, {
                     method: 'POST',
-                    body: JSON.stringify({ 
-                        storageKey, 
-                        originalName: file.name, 
+                    body: JSON.stringify({
+                        storageKey,
+                        originalName: file.name,
                         buildingSiteId,
                         mimeType: file.type,
                         date: new Date(fileDate).toISOString()
                     }),
-                    headers: { 
+                    headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
 
@@ -124,8 +123,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
 
     const fetchTemplates = async () => {
         try {
-            const response = await fetch(`${apiUrl}/api/templates-manager/templates`, {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+            const response = await apiFetch(`${apiUrl}/api/templates-manager/templates`, {
             });
             if (!response.ok) return;
             const data = await response.json();
@@ -142,16 +140,15 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
         try {
             const token = localStorage.getItem('token');
             // Recupera il contenuto del template
-            const templateRes = await fetch(`${apiUrl}/api/templates-manager/templates/${templateId}`, {
-                headers: { 'Authorization': `Bearer ${token}` },
+            const templateRes = await apiFetch(`${apiUrl}/api/templates-manager/templates/${templateId}`, {
             });
             if (!templateRes.ok) throw new Error('Template non trovato');
             const template = await templateRes.json();
 
             // Crea un nuovo progetto a partire dal contenuto del template
-            const response = await fetch(`${apiUrl}/api/projects-manager/projects`, {
+            const response = await apiFetch(`${apiUrl}/api/projects-manager/projects`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     name: template.name,
                     content_json: template.content_json,
@@ -184,11 +181,10 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
         setTemplateMessage(null);
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${apiUrl}/api/templates-manager/templates`, {
+            const response = await apiFetch(`${apiUrl}/api/templates-manager/templates`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     name: templateName.trim(),
@@ -216,11 +212,10 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${apiUrl}/api/projects-manager/projects`, {
+            const response = await apiFetch(`${apiUrl}/api/projects-manager/projects`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     name: 'Progetto senza titolo',

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -18,11 +19,8 @@ const UnlinkWorkerFromBuildingSite: React.FC<Props> = ({ workerId, buildingSiteI
     setError(null);
 
     try {
-      const response = await fetch(`${apiUrl}/api/unlink-worker-from-site/${buildingSiteId}/${workerId}`, {
+      const response = await apiFetch(`${apiUrl}/api/unlink-worker-from-site/${buildingSiteId}/${workerId}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
       });
 
       if (!response.ok) {

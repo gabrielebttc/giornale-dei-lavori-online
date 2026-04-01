@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -38,11 +39,8 @@ const DailyNoteComponent: React.FC<Props> = ({ buildingSiteId, date, noteType, o
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`${apiUrl}/api/get-daily-note?buildingSiteId=${buildingSiteId}&date=${date}&noteType=${noteType}`, {
+        const response = await apiFetch(`${apiUrl}/api/get-daily-note?buildingSiteId=${buildingSiteId}&date=${date}&noteType=${noteType}`, {
           method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
         });
         if (!response.ok) throw new Error('Failed to fetch note');
         const data = await response.json();
@@ -64,11 +62,10 @@ const DailyNoteComponent: React.FC<Props> = ({ buildingSiteId, date, noteType, o
     setSuccess(null);
 
     try {
-      const response = await fetch(`${apiUrl}/api/add-daily-note`, {
+      const response = await apiFetch(`${apiUrl}/api/add-daily-note`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           buildingSiteId,

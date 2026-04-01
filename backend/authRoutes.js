@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('./db');
 const authenticateToken = require('./authMiddleware');
+const { generateTokens, setRefreshCookie } = require('./utils/tokenUtils');
 
 router.post('/register', async (req, res) => {
     const { first_name, last_name, username, email, password, phone } = req.body;
@@ -155,10 +156,12 @@ for (let i = 0; i < 20; i++) {
 
 // --- FINE DATI DI ESEMPIO ---
 
-        const token = jwt.sign({ id: newUserId }, process.env.JWT_SECRET, { expiresIn: '2h' });
+        const { accessToken, refreshToken } = generateTokens(newUserId);
+        await client.query('UPDATE users SET refresh_token = $1 WHERE id = $2', [refreshToken, newUserId]);
 
         await client.query('COMMIT'); // Commit della transazione
-        res.status(201).json({ message: 'Registrazione avvenuta con successo. L\'utente è stato registrato.', token });
+        setRefreshCookie(res, refreshToken);
+        res.status(201).json({ message: 'Registrazione avvenuta con successo. L\'utente è stato registrato.', token: accessToken });
 
     } catch (error) {
         await client.query('ROLLBACK'); // Rollback in caso di errore
@@ -206,11 +209,13 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Credenziali non valide.' });
         }
 
-        const token = jwt.sign({ id: user.rows[0].id }, process.env.JWT_SECRET, { expiresIn: '2h' });
+        const { accessToken, refreshToken } = generateTokens(user.rows[0].id);
+        await pool.query('UPDATE users SET refresh_token = $1 WHERE id = $2', [refreshToken, user.rows[0].id]);
 
+        setRefreshCookie(res, refreshToken);
         res.status(200).json({
             message: 'Login avvenuto con successo',
-            token,
+            token: accessToken,
             user: user.rows[0]
         });
     } catch (error) {
@@ -257,6 +262,39 @@ router.put('/profile', authenticateToken, async (req, res) => {
       console.error('Errore nell\'aggiornamento del profilo:', error);
       res.status(500).json({ message: 'Errore del server durante l\'aggiornamento.' });
   }
+});
+
+router.post('/refresh', async (req, res) => {
+    const token = req.cookies?.refreshToken;
+    if (!token) return res.status(401).json({ message: 'Refresh token mancante.' });
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+        const result = await pool.query('SELECT refresh_token FROM users WHERE id = $1', [decoded.id]);
+
+        if (result.rows.length === 0 || result.rows[0].refresh_token !== token) {
+            return res.status(403).json({ message: 'Refresh token non valido.' });
+        }
+
+        const { accessToken, refreshToken: newRefreshToken } = generateTokens(decoded.id);
+        await pool.query('UPDATE users SET refresh_token = $1 WHERE id = $2', [newRefreshToken, decoded.id]);
+
+        setRefreshCookie(res, newRefreshToken);
+        res.status(200).json({ token: accessToken });
+    } catch (error) {
+        return res.status(403).json({ message: 'Refresh token non valido o scaduto.' });
+    }
+});
+
+router.post('/logout', authenticateToken, async (req, res) => {
+    try {
+        await pool.query('UPDATE users SET refresh_token = NULL WHERE id = $1', [req.user.id]);
+        res.clearCookie('refreshToken');
+        res.status(200).json({ message: 'Logout avvenuto con successo.' });
+    } catch (error) {
+        console.error('Errore durante il logout:', error);
+        res.status(500).json({ message: 'Errore del server durante il logout.' });
+    }
 });
 
 module.exports = router;

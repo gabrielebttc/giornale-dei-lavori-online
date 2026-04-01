@@ -1,6 +1,7 @@
 require('dotenv').config({ path: './.env' });
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const http = require('http');
 const pool = require('./db');
 const authRoutes = require('./authRoutes');
@@ -16,8 +17,10 @@ const port = 3001;
 app.use(cors({
   origin: ['http://localhost:5173', 'https://localhost:5173', 'http://localhost:80', 'http://localhost', 'http://57.129.13.2', 'http://57.129.13.2:80', 'https://giornaledeilavori.gabrielebuttice.com'],
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT', 'OPTIONS', 'HEAD'],
+  credentials: true,
 }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Rotte di autenticazione
 app.use('/api/auth', authRoutes);

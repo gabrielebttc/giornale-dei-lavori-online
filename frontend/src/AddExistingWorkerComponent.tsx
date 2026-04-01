@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -26,11 +27,8 @@ const AddExistingWorkerComponent: React.FC<Props> = ({ onClose, onWorkerAdded, b
   useEffect(() => {
     const fetchWorkersNotInSite = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/get-all-workers-not-in-building-site?buildingSiteId=${buildingSiteId}`, {
+        const response = await apiFetch(`${apiUrl}/api/get-all-workers-not-in-building-site?buildingSiteId=${buildingSiteId}`, {
           method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
         });
         if (!response.ok) {
           throw new Error('Failed to fetch workers');
@@ -45,7 +43,7 @@ const AddExistingWorkerComponent: React.FC<Props> = ({ onClose, onWorkerAdded, b
       }
     };
     fetchWorkersNotInSite();
-  }, [buildingSiteId]);
+  }, [buildingSiteId, isSubmitting]);
 
   const handleAddWorker = async (userId: number) => {
     setIsSubmitting(true);
@@ -53,11 +51,10 @@ const AddExistingWorkerComponent: React.FC<Props> = ({ onClose, onWorkerAdded, b
     setSuccess(null);
 
     try {
-      const response = await fetch(`${apiUrl}/api/add-existing-worker-to-building-site`, {
+      const response = await apiFetch(`${apiUrl}/api/add-existing-worker-to-building-site`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({ userId, buildingSiteId }),
       });
@@ -70,7 +67,6 @@ const AddExistingWorkerComponent: React.FC<Props> = ({ onClose, onWorkerAdded, b
       setSuccess("Lavoratore aggiunto con successo!");
       setTimeout(() => {
         onWorkerAdded();
-        onClose();
       }, 500);
     } catch (err) {
       console.error("Error adding worker to building site:", err);

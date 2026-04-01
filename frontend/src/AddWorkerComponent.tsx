@@ -3,6 +3,7 @@ import AddCompanyComponent from './AddCompanyComponent';
 import AddUserTypeComponent from './AddUserTypeComponent';
 import AddExistingWorkerComponent from './AddExistingWorkerComponent';
 import DeleteRecordComponent from './DeleteRecordComponent'; // Importa il componente di eliminazione
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -53,11 +54,8 @@ const AddWorkerComponent: React.FC<Props> = ({ onClose, onWorkerAdded, buildingS
 
   const fetchCompanies = useCallback(async () => {
     try {
-      const companiesResponse = await fetch(`${apiUrl}/api/db/companies`, {
+      const companiesResponse = await apiFetch(`${apiUrl}/api/db/companies`, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
       });
       if (!companiesResponse.ok) {
         throw new Error('Failed to fetch companies');
@@ -72,11 +70,8 @@ const AddWorkerComponent: React.FC<Props> = ({ onClose, onWorkerAdded, buildingS
 
   const fetchUserTypes = useCallback(async () => {
     try {
-      const userTypesResponse = await fetch(`${apiUrl}/api/db/user_type`, {
+      const userTypesResponse = await apiFetch(`${apiUrl}/api/db/user_type`, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
       });
       if (!userTypesResponse.ok) {
         throw new Error('Failed to fetch user types');
@@ -133,11 +128,10 @@ const AddWorkerComponent: React.FC<Props> = ({ onClose, onWorkerAdded, buildingS
     setError(null);
     setSuccess(null);
     try {
-      const response = await fetch(`${apiUrl}/api/add-worker`, {
+      const response = await apiFetch(`${apiUrl}/api/add-worker`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           firstName: formData.nome,

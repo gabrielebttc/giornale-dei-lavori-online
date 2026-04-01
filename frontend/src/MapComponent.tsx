@@ -4,8 +4,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import './styles/MapComponent.css';
 
 // Importa il componente di eliminazione
-import DeleteRecordComponent from './DeleteRecordComponent'; 
+import DeleteRecordComponent from './DeleteRecordComponent';
 import SearchBarComponent from './SearchBarComponent';
+import { apiFetch } from '../utils/apiFetch';
 
 // Declare bootstrap as a global variable
 declare const bootstrap: {
@@ -87,11 +88,10 @@ const MapComponent = ({ reloadBuildingSitesList, onReloadCompleted }: MapCompone
     setLoading(true);
     try {
       const token = localStorage.getItem('token'); // Recupera il token
-      const response = await fetch(`${apiUrl}/api/building-sites`, {
+      const response = await apiFetch(`${apiUrl}/api/building-sites`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Aggiungi l'header Authorization
         }
       });
       if (!response.ok) {

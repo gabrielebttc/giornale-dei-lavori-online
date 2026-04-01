@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -18,11 +19,8 @@ const DeleteRecordComponent: React.FC<Props> = ({ tableName, recordId, onClose, 
     setIsDeleting(true);
     setError(null);
     try {
-      const response = await fetch(`${apiUrl}/api/delete-record/${tableName}/${recordId}`, {
+      const response = await apiFetch(`${apiUrl}/api/delete-record/${tableName}/${recordId}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
       });
 
       if (!response.ok) {

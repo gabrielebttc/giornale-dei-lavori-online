@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiFetch } from '../utils/apiFetch';
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 
@@ -34,11 +35,10 @@ const AddCompanyComponent: React.FC<Props> = ({ onClose, onCompanyAdded }) => {
     setError(null); // Resetta eventuali errori precedenti
 
     try {
-      const response = await fetch(`${apiUrl}/api/add-company`, {
+      const response = await apiFetch(`${apiUrl}/api/add-company`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           name: formData.name,

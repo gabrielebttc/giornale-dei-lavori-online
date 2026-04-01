@@ -3,6 +3,7 @@ import AddWorkerComponent from './AddWorkerComponent';
 import ModifyUserComponent from './ModifyUserComponent';
 import DeleteRecordComponent from './DeleteRecordComponent';
 import UnlinkWorkerFromBuildingSite from './UnlinkWorkerFromBuildingSite'; // Importa il nuovo componente
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -52,11 +53,8 @@ const AllWorkersComponent: React.FC<Props> = ({ buildingSiteId }) => {
 
   const fetchCompanies = useCallback(async () => {
     try {
-      const companiesRes = await fetch(`${apiUrl}/api/db/companies`, {
+      const companiesRes = await apiFetch(`${apiUrl}/api/db/companies`, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
       });
       const companiesData = await companiesRes.json();
       setCompanies(companiesData);
@@ -67,11 +65,8 @@ const AllWorkersComponent: React.FC<Props> = ({ buildingSiteId }) => {
 
   const fetchUserTypes = useCallback(async () => {
     try {
-      const userTypesRes = await fetch(`${apiUrl}/api/db/user_type`, {
+      const userTypesRes = await apiFetch(`${apiUrl}/api/db/user_type`, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
       });
       const userTypesData = await userTypesRes.json();
       setUserTypes(userTypesData);
@@ -86,11 +81,8 @@ const AllWorkersComponent: React.FC<Props> = ({ buildingSiteId }) => {
       const endpoint = buildingSiteId
         ? `${apiUrl}/api/get-all-workers?buildingSiteId=${buildingSiteId}`
         : `${apiUrl}/api/get-all-workers`;
-      const response = await fetch(endpoint, {
+      const response = await apiFetch(endpoint, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
       });
       if (!response.ok) throw new Error('Failed to fetch workers');
       const data = await response.json();

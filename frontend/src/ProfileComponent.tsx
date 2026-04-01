@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; // Assicurati di aver corretto l'import
+import { jwtDecode } from 'jwt-decode';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -41,10 +42,9 @@ const ProfileComponent: React.FC = () => {
             }
 
             try {
-                const response = await fetch(`${apiUrl}/api/auth/profile`, {
+                const response = await apiFetch(`${apiUrl}/api/auth/profile`, {
                     method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
                     },
                 });
@@ -95,10 +95,9 @@ const ProfileComponent: React.FC = () => {
         }
 
         try {
-            const response = await fetch(`${apiUrl}/api/auth/profile`, {
+            const response = await apiFetch(`${apiUrl}/api/auth/profile`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
@@ -139,10 +138,9 @@ const ProfileComponent: React.FC = () => {
             const decodedToken: DecodedToken = jwtDecode(token);
             const userId = decodedToken.id;
 
-            const response = await fetch(`${apiUrl}/api/delete-record/users/${userId}`, {
+            const response = await apiFetch(`${apiUrl}/api/delete-record/users/${userId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             });

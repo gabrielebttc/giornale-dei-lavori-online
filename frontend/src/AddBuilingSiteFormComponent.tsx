@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/apiFetch';
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 type Props = {
@@ -75,11 +76,10 @@ const AddBuildingSiteFormComponent: React.FC<Props> = ({ onClose }) => {
         }
 
         try {
-            const response = await fetch(`${apiUrl}/api/building-sites`, {
+            const response = await apiFetch(`${apiUrl}/api/building-sites`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({ name, notes, city: selectedCity, address, lat, lng, startDate, endDate: endDate || null }),
             });
@@ -89,7 +89,7 @@ const AddBuildingSiteFormComponent: React.FC<Props> = ({ onClose }) => {
             }
 
             const data = await response.json();
-            setSuccess(`Building site aggiunto con successo: ${data.name}`);
+            setSuccess(`Cantiere aggiunto con successo: ${data.name}`);
             setName('');
             setNotes('');
             setCity('');
@@ -99,6 +99,7 @@ const AddBuildingSiteFormComponent: React.FC<Props> = ({ onClose }) => {
             setLng('');
             setStartDate(''); // Reset della data di inizio
             setEndDate('');   // Reset della data di fine
+            onClose();
         } catch (error) {
             setError('Errore durante l\'inserimento del building site.');
             console.error('Error:', error);

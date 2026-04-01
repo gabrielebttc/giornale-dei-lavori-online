@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -36,22 +37,16 @@ const SetDailyPresencesComponent: React.FC<Props> = ({ buildingSiteId, date }) =
       setLoading(true);
       setError(null);
       try {
-        const workersResponse = await fetch(`${apiUrl}/api/get-all-workers?buildingSiteId=${buildingSiteId}`, {
+        const workersResponse = await apiFetch(`${apiUrl}/api/get-all-workers?buildingSiteId=${buildingSiteId}`, {
           method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
         });
         if (!workersResponse.ok) throw new Error('Failed to fetch workers');
         const workersData = await workersResponse.json();
         setWorkers(workersData);
 
         // Fetch delle presenze esistenti per la data
-        const presencesResponse = await fetch(`${apiUrl}/api/daily-presences?buildingSiteId=${buildingSiteId}&date=${date}`, {
+        const presencesResponse = await apiFetch(`${apiUrl}/api/daily-presences?buildingSiteId=${buildingSiteId}&date=${date}`, {
           method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
         });
         
         if (!presencesResponse.ok) throw new Error('Failed to fetch presences');
@@ -101,11 +96,10 @@ const SetDailyPresencesComponent: React.FC<Props> = ({ buildingSiteId, date }) =
     setSuccessMessage(null);
 
     try {
-      const response = await fetch(`${apiUrl}/api/daily-presences/save`, {
+      const response = await apiFetch(`${apiUrl}/api/daily-presences/save`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           buildingSiteId,

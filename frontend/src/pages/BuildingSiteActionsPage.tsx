@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CalendarComponent from '../CalendarComponent';
+import { apiFetch } from '../../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -102,8 +103,7 @@ const BuildingSiteActionsPage: React.FC = () => {
 
   const fetchBuildingSiteInfo = async () => {
     try {
-      const response = await fetch(`${apiUrl}/api/building-sites/${siteId}`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+      const response = await apiFetch(`${apiUrl}/api/building-sites/${siteId}`, {
       });
       if (!response.ok) throw new Error('Errore nel caricamento');
       const data = await response.json();

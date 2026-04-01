@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -50,11 +51,8 @@ const ModifyBuildingSiteComponent: React.FC<Props> = ({ buildingSiteId, onClose,
         const fetchInitialData = async () => {
             try {
                 
-                const buildingSiteResponse = await fetch(`${apiUrl}/api/building-sites/${buildingSiteId}`, {
+                const buildingSiteResponse = await apiFetch(`${apiUrl}/api/building-sites/${buildingSiteId}`, {
                     method: 'GET',
-                    headers: {
-                      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    },
                   });
                 if (!buildingSiteResponse.ok) throw new Error('Failed to fetch building site data.');
                 const siteData: BuildingSite = await buildingSiteResponse.json();
@@ -106,13 +104,12 @@ const ModifyBuildingSiteComponent: React.FC<Props> = ({ buildingSiteId, onClose,
         }
 
         try {
-            const response = await fetch(`${apiUrl}/api/building-sites/${buildingSiteId}`, {
+            const response = await apiFetch(`${apiUrl}/api/building-sites/${buildingSiteId}`, {
                 method: 'PUT',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                   name,
                   notes,
                   city: selectedCity,

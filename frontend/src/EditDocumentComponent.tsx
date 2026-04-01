@@ -7,6 +7,7 @@ import GeneratePDFComponent from './GeneratePDFComponent';
 import { dateToString } from '../utils/formatDate';
 import LoadingScreen from './LoadingScreen';
 import type { ProjectsRecord } from './types/dbTables';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -15,9 +16,9 @@ const resolveImageStorageKeys = async (node: any, token: string): Promise<any> =
     const copy: any = { ...node };
     if (copy.type === 'image' && copy.attrs?.src && !copy.attrs.src.startsWith('http')) {
         try {
-            const res = await fetch(`${apiUrl}/api/file-manager/get-download-link`, {
+            const res = await apiFetch(`${apiUrl}/api/file-manager/get-download-link`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ storageKey: copy.attrs.src }),
             });
             if (res.ok) {
@@ -94,9 +95,9 @@ export default function EditDocumentComponent({ projectId = null, templateId = n
         try {
             const token = localStorage.getItem('token');
             const transformedContent = replaceImageSrcWithStorageKey(parseContent(dataToSave.content_json));
-            const response = await fetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
+            const response = await apiFetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     name: dataToSave.name,
                     content_json: transformedContent,
@@ -120,9 +121,9 @@ export default function EditDocumentComponent({ projectId = null, templateId = n
         try {
             const token = localStorage.getItem('token');
             const transformedContent = replaceImageSrcWithStorageKey(parseContent(dataToSave.content_json));
-            const response = await fetch(`${apiUrl}/api/templates-manager/templates/${templateId}`, {
+            const response = await apiFetch(`${apiUrl}/api/templates-manager/templates/${templateId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     name: dataToSave.name,
                     content_json: transformedContent,
@@ -176,8 +177,7 @@ export default function EditDocumentComponent({ projectId = null, templateId = n
             setIsLoadingData(true);
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
-                    headers: { 'Authorization': `Bearer ${token}` },
+                const response = await apiFetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
                 });
                 if (!response.ok) throw new Error();
                 const data = await response.json();
@@ -190,9 +190,9 @@ export default function EditDocumentComponent({ projectId = null, templateId = n
                         const converted = tempEditor.getJSON();
                         tempEditor.destroy();
                         data.content_json = converted;
-                        await fetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
+                        await apiFetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
                             method: 'PUT',
-                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                            headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ content_json: converted }),
                         });
                     } catch { /* lascia il contenuto originale */ }
@@ -224,8 +224,7 @@ export default function EditDocumentComponent({ projectId = null, templateId = n
             setIsLoadingData(true);
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`${apiUrl}/api/templates-manager/templates/${templateId}`, {
-                    headers: { 'Authorization': `Bearer ${token}` },
+                const response = await apiFetch(`${apiUrl}/api/templates-manager/templates/${templateId}`, {
                 });
                 if (!response.ok) throw new Error();
                 const data = await response.json();
@@ -309,7 +308,7 @@ export default function EditDocumentComponent({ projectId = null, templateId = n
                         <i className="bi bi-chevron-left"></i>
                     </div>
                     <span className="fw-semibold text-uppercase ls-1" style={{ fontSize: '0.75rem' }}>
-                        {templateId ? 'I tuoi template' : 'I tuoi documenti'}
+                        I tuoi documenti
                     </span>
                 </button>
 

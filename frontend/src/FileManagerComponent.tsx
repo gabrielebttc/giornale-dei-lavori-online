@@ -8,6 +8,7 @@ import FileViewerComponent from "./FileViewerComponent";
 
 import FileCardComponent from "./FileCardComponent";
 import './styles/FileManagerComponent.css';
+import { apiFetch } from '../utils/apiFetch';
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 type FileManagerComponentProps = {
@@ -347,11 +348,10 @@ async function fetchFilesFromBuildingSiteId(id: number): Promise<FilesRecord[]> 
     try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch(`${apiUrl}/api/file-manager/files/${id}`, {
+        const response = await apiFetch(`${apiUrl}/api/file-manager/files/${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
         }
         });
 
@@ -372,11 +372,10 @@ async function fetchProjectsFromBuildingSiteId(buildingSiteId: number): Promise<
     try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch(`${apiUrl}/api/projects-manager/building-sites/${buildingSiteId}/projects`, {
+        const response = await apiFetch(`${apiUrl}/api/projects-manager/building-sites/${buildingSiteId}/projects`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
             }
         });
 
@@ -412,10 +411,9 @@ const deleteFileFromCloudStorage = async (storageKey: string) => {
     const token = localStorage.getItem('token');
 
     try {
-        const response = await fetch(`${apiUrl}/api/file-manager/delete-file/${encodeURIComponent(storageKey)}`, {
+        const response = await apiFetch(`${apiUrl}/api/file-manager/delete-file/${encodeURIComponent(storageKey)}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
         });

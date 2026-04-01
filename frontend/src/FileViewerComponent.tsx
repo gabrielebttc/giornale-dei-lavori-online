@@ -10,6 +10,7 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import * as XLSX from 'xlsx';
 import { renderAsync } from 'docx-preview';
+import { apiFetch } from '../utils/apiFetch';
 
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -50,11 +51,10 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
                 setError(null);
                 try {
                     const token = localStorage.getItem('token');
-                    const response = await fetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
+                    const response = await apiFetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`,
                         },
                     });
                     if (!response.ok) throw new Error('Errore nel recupero progetto');
@@ -68,9 +68,9 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
                         const copy: any = { ...node };
                         if (copy.type === 'image' && copy.attrs?.src && !copy.attrs.src.startsWith('http')) {
                             try {
-                                const res = await fetch(`${apiUrl}/api/file-manager/get-download-link`, {
+                                const res = await apiFetch(`${apiUrl}/api/file-manager/get-download-link`, {
                                     method: 'POST',
-                                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                                    headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ storageKey: copy.attrs.src }),
                                 });
                                 if (res.ok) {
@@ -99,9 +99,9 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
         const fetchDownloadUrl = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`${apiUrl}/api/file-manager/get-download-link`, {
+                const response = await apiFetch(`${apiUrl}/api/file-manager/get-download-link`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ storageKey })
                 });
                 if (!response.ok) throw new Error('Errore nel recupero del link');

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Home, PlusCircle, LogIn, Info, User, LogOut } from 'lucide-react';
-const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 const NavbarComponent = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -9,28 +8,7 @@ const NavbarComponent = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/api/auth/profile`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setIsLoggedIn(true);
-        } else {
-          setIsLoggedIn(false);
-        }
-      } catch (error) {
-        console.error('Errore durante la verifica dello stato di login:', error);
-        setIsLoggedIn(false);
-      }
-    };
-
-    checkLoginStatus();
+    setIsLoggedIn(!!localStorage.getItem('token'));
   }, [location]);
 
   const handleLogout = () => {

@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 // Importa i componenti delle pagine
 import HomePage from './pages/HomePage';
@@ -12,10 +13,21 @@ import ActionPage from './pages/ActionPage';
 import EditDocumentPage from './pages/EditDocumentPage';
 import TestPage from './test/TestPage';
 
+const AuthLogoutListener = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const handler = () => navigate('/login');
+    window.addEventListener('auth:logout', handler);
+    return () => window.removeEventListener('auth:logout', handler);
+  }, [navigate]);
+  return null;
+};
+
 const App = () => {
   return (
     <Router>
         <div className="flex flex-col min-h-screen pb-5">
+          <AuthLogoutListener />
           <NavbarComponent />
           <main className="flex-grow mb-5">
             <div className="container-fluid">
