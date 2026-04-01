@@ -1,0 +1,6 @@
+{
+  "databaseUrl": "DATABASE_URL",
+  "migrationsTable": "pgmigrations",
+  "dir": "migrations",
+  "decamelize": true
+}
