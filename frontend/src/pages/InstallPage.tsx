@@ -63,9 +63,13 @@ const InstallPage = () => {
       )}
 
       {!canInstall && !isIOS && (
-        <div className="alert alert-warning mt-4">
-          Il tuo browser non supporta l'installazione automatica.<br />
-          Prova con Chrome su Android o Edge su Windows.
+        <div className="alert alert-info mt-4">
+          <h6 className="alert-heading">Su Android (Chrome):</h6>
+          <ol className="mb-0">
+            <li>Tocca i <strong>tre puntini</strong> in alto a destra</li>
+            <li>Tocca <strong>"Installa app"</strong> o <strong>"Aggiungi a schermata Home"</strong></li>
+            <li>Conferma con <strong>"Installa"</strong></li>
+          </ol>
         </div>
       )}
     </div>
