@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getInstallPrompt, clearInstallPrompt } from '../pwaInstall';
+import { getInstallPrompt, clearInstallPrompt, onInstallPromptReady } from '../pwaInstall';
 
 const InstallPage = () => {
   const [canInstall, setCanInstall] = useState(false);
@@ -9,6 +9,10 @@ const InstallPage = () => {
   useEffect(() => {
     setIsInstalled(window.matchMedia('(display-mode: standalone)').matches);
     setCanInstall(!!getInstallPrompt());
+
+    // Aggiorna il pulsante se l'evento arriva dopo il mount del componente
+    const unsubscribe = onInstallPromptReady(() => setCanInstall(true));
+    return unsubscribe;
   }, []);
 
   const handleInstall = async () => {
