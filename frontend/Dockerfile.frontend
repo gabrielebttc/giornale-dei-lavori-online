@@ -13,8 +13,5 @@ RUN npm install
 # Copia tutto il progetto
 COPY . .
 
-# Usa .env.example come .env per la build del container
-RUN cp .env.example .env
-
 # Compila il progetto
 RUN npm run build
