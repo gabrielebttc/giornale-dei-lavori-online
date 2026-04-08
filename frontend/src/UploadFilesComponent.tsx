@@ -263,7 +263,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                 </h6>
             </div>
 
-            <div className="card-body p-4">
+            <div className="card-body p-4" id="actionsAccordion">
                 {/* Pulsanti di azione - Layout a card */}
                 <div className="row g-3 mb-4">
                     <div className="col-md-4">
@@ -301,7 +301,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                 </div>
 
                 {/* Sezione Upload Collassabile */}
-                <form onSubmit={handleMultipleUploads} className="collapse" id="uploadFileSection">
+                <form onSubmit={handleMultipleUploads} className="collapse" id="uploadFileSection" data-bs-parent="#actionsAccordion">
                     <div className="p-4 border border-primary border-opacity-25 rounded-4 bg-light shadow-sm">
                         
                         <div className="mb-4 text-center">
@@ -398,7 +398,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                 </form>
 
                 {/* Sezione Create Collassabile */}
-                <div className="collapse" id="createFileSection">
+                <div className="collapse" id="createFileSection" data-bs-parent="#actionsAccordion">
                     <div className="p-4 border border-secondary border-opacity-25 rounded-4 bg-light shadow-sm">
 
                         <div className="mb-4 text-center">
@@ -447,7 +447,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                 </div>
 
                 {/* Sezione Crea Template Collassabile */}
-                <div className="collapse mt-3" id="createTemplateSection">
+                <div className="collapse mt-3" id="createTemplateSection" data-bs-parent="#actionsAccordion">
                     <div className="p-4 border border-warning border-opacity-50 rounded-4 bg-light shadow-sm">
                         <label className="form-label d-block mb-3 small fw-bold text-uppercase text-warning letter-spacing-1">
                             Nome del template
