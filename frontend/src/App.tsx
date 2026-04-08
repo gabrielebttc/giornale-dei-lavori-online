@@ -12,6 +12,7 @@ import BuildingSiteActionsPage from './pages/BuildingSiteActionsPage';
 import ActionPage from './pages/ActionPage';
 import EditDocumentPage from './pages/EditDocumentPage';
 import TestPage from './test/TestPage';
+import InstallPage from './pages/InstallPage';
 
 const AuthLogoutListener = () => {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ const App = () => {
                     <Route path="/action-page/:link/:siteId/:date" element={<ActionPage />} />
                     <Route path="/edit-document/:siteId/:date" element={<EditDocumentPage />} />
                     <Route path="/test-page" element={<TestPage />} />
+                    <Route path="/install" element={<InstallPage />} />
                   </Routes>
               </div>
             </div>

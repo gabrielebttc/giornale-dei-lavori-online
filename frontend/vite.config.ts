@@ -2,11 +2,19 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import { resolve } from 'path';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   plugins: [
     react(),
-    basicSsl() 
+    basicSsl(),
+    VitePWA({
+        registerType: 'autoUpdate',
+        manifest: false, // usa il manifest.json che c'è in public/
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        },
+      }),
   ],
   resolve: {
     alias: {

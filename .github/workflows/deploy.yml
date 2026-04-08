@@ -1,0 +1,58 @@
+name: Test & Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout codice
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Installa dipendenze frontend
+        run: npm ci
+        working-directory: frontend
+
+      - name: Build frontend (type check + build)
+        run: |
+          cp .env.example .env
+          npm run build
+        working-directory: frontend
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy sulla VPS via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            set -e
+
+            cd ${{ secrets.VPS_PROJECT_PATH }}
+
+            # Scarica le ultime modifiche da GitHub
+            git pull origin main
+
+            # Ricostruisce solo i container cambiati e li fa ripartire
+            # Il volume postgres_data NON viene toccato → dati al sicuro
+            # Il backend all'avvio esegue automaticamente le migrazioni
+            docker compose up --build -d
+
+            # Rimuove immagini vecchie per liberare spazio sul disco
+            docker image prune -f
