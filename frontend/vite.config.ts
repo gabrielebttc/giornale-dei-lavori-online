@@ -13,6 +13,7 @@ export default defineConfig({
         manifest: false, // usa il manifest.json che c'è in public/
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MiB
         },
       }),
   ],
