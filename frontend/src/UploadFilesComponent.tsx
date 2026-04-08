@@ -19,6 +19,12 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
 
     const navigate = useNavigate();
 
+    const [activeSection, setActiveSection] = useState<'upload' | 'create' | 'template' | null>(null);
+
+    const toggleSection = (section: 'upload' | 'create' | 'template') => {
+        setActiveSection(prev => prev === section ? null : section);
+    };
+
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [isUploading, setIsUploading] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -263,36 +269,34 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                 </h6>
             </div>
 
-            <div className="card-body p-4" id="actionsAccordion">
+            <div className="card-body p-4">
                 {/* Pulsanti di azione - Layout a card */}
                 <div className="row g-3 mb-4">
                     <div className="col-md-4">
                         <button
-                            className="btn btn-outline-primary w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2"
+                            className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'upload' ? 'btn-primary' : 'btn-outline-primary'}`}
                             type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#uploadFileSection"
-                            aria-expanded="false"
+                            onClick={() => toggleSection('upload')}
                         >
                             <i className="bi bi-laptop fs-3 mb-2"></i>
                             <span className="fw-bold">Carica dal PC</span>
                         </button>
                     </div>
                     <div className="col-md-4">
-                        <a className="btn btn-outline-secondary w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2"
-                            data-bs-toggle="collapse" href="#createFileSection" role="button"
-                            aria-expanded="false" aria-controls="createFileSection">
-                                <i className="bi bi-file-earmark-plus fs-3 mb-2"></i>
-                                <span className="fw-bold">Crea Documento</span>
-                        </a>
+                        <button
+                            className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'create' ? 'btn-secondary' : 'btn-outline-secondary'}`}
+                            type="button"
+                            onClick={() => toggleSection('create')}
+                        >
+                            <i className="bi bi-file-earmark-plus fs-3 mb-2"></i>
+                            <span className="fw-bold">Crea Documento</span>
+                        </button>
                     </div>
                     <div className="col-md-4">
                         <button
-                            className="btn btn-outline-warning w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2"
+                            className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'template' ? 'btn-warning' : 'btn-outline-warning'}`}
                             type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#createTemplateSection"
-                            aria-expanded="false"
+                            onClick={() => toggleSection('template')}
                         >
                             <i className="bi bi-layout-text-window-reverse fs-3 mb-2"></i>
                             <span className="fw-bold">Crea Template</span>
@@ -300,8 +304,8 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                     </div>
                 </div>
 
-                {/* Sezione Upload Collassabile */}
-                <form onSubmit={handleMultipleUploads} className="collapse" id="uploadFileSection" data-bs-parent="#actionsAccordion">
+                {/* Sezione Upload */}
+                <form onSubmit={handleMultipleUploads} className={activeSection === 'upload' ? 'd-block' : 'd-none'}>
                     <div className="p-4 border border-primary border-opacity-25 rounded-4 bg-light shadow-sm">
                         
                         <div className="mb-4 text-center">
@@ -397,8 +401,8 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                     </div>
                 </form>
 
-                {/* Sezione Create Collassabile */}
-                <div className="collapse" id="createFileSection" data-bs-parent="#actionsAccordion">
+                {/* Sezione Create */}
+                <div className={activeSection === 'create' ? 'd-block' : 'd-none'}>
                     <div className="p-4 border border-secondary border-opacity-25 rounded-4 bg-light shadow-sm">
 
                         <div className="mb-4 text-center">
@@ -446,8 +450,8 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                     </div>
                 </div>
 
-                {/* Sezione Crea Template Collassabile */}
-                <div className="collapse mt-3" id="createTemplateSection" data-bs-parent="#actionsAccordion">
+                {/* Sezione Crea Template */}
+                <div className={`mt-3 ${activeSection === 'template' ? 'd-block' : 'd-none'}`}>
                     <div className="p-4 border border-warning border-opacity-50 rounded-4 bg-light shadow-sm">
                         <label className="form-label d-block mb-3 small fw-bold text-uppercase text-warning letter-spacing-1">
                             Nome del template
