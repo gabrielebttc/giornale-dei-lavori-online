@@ -24,7 +24,7 @@ const NavbarComponent = () => {
         <div className="container">
           <Link className="navbar-brand d-flex align-items-center text-primary font-weight-bold" to="/">
             <Home className="mr-2" size={24} />
-            <span className="d-none d-sm-inline">Libretto del lavoro</span>
+            <span className="d-none d-sm-inline">Giornale dei Lavori Online</span>
           </Link>
           <div className="collapse navbar-collapse justify-content-end">
             <ul className="navbar-nav">

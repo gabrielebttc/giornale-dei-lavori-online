@@ -1,6 +1,6 @@
 {
-  "name": "Libretto del Lavoro",
-  "short_name": "Libr. Lavoro",
+  "name": "Giornale dei Lavori Online",
+  "short_name": "GdL Online",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
