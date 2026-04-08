@@ -6,7 +6,7 @@ const pool = require('./db');
 const authenticateToken = require('./authMiddleware');
 const { generateTokens, setRefreshCookie } = require('./utils/tokenUtils');
 
-router.post('/register', async (req, res) => {
+router.post('/register1', async (req, res) => {
     const { first_name, last_name, username, email, password, phone } = req.body;
     const client = await pool.connect();
     ownerId = 1; // Questo è l'utente admin -> usato solo dal proprietario dell'app
