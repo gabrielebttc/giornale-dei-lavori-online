@@ -6,7 +6,7 @@ const AboutPage = () => {
         <div className="container">
           <h1 className="display-4 fw-bold mb-3">Giornale dei Lavori</h1>
           <p className="lead mb-4">
-            La piattaforma più semplice e intuitiva per la gestione dei cantieri.
+            La piattaforma più semplice e intuitiva per la gestione dei cantieri. BRAND NEW!!
           </p>
           <a href="#features" className="btn btn-light btn-lg fw-semibold shadow-sm">
             Scopri di più
