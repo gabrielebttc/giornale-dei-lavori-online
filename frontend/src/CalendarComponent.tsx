@@ -14,33 +14,36 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateSelect, sel
     const [showDatePicker, setShowDatePicker] = useState(false);
 
     useEffect(() => {
-        if (externaSelectedDate) {
+        if (externaSelectedDate && externaSelectedDate.getTime() !== selectedDate.getTime()) {
             setSelectedDate(externaSelectedDate);
         }
     }, [externaSelectedDate]);
 
-    useEffect(() => {
-        onDateSelect(selectedDate);
-    }, [selectedDate, onDateSelect]);
-
     const handlePreviousDay = () => {
-            setSelectedDate((prevDate) => addDays(prevDate, -1));
+        const newDate = addDays(selectedDate, -1);
+        setSelectedDate(newDate);
+        onDateSelect(newDate);
     };
 
     const handleNextDay = () => {
-        setSelectedDate((prevDate) => addDays(prevDate, 1));
+        const newDate = addDays(selectedDate, 1);
+        setSelectedDate(newDate);
+        onDateSelect(newDate);
     };
 
     const handleDateChange = (date: Date | null) => {
         if (date) {
             setSelectedDate(date);
+            onDateSelect(date);
         }
         setShowDatePicker(false);
     };
-    
+
     // Funzione per impostare la data odierna
     const handleSetToday = () => {
-        setSelectedDate(new Date());
+        const today = new Date();
+        setSelectedDate(today);
+        onDateSelect(today);
         setShowDatePicker(false);
     };
 
