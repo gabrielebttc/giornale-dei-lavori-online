@@ -25,7 +25,7 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       VITE_BACKEND_URL: ${VITE_BACKEND_URL}
-      COLLABORA_URL: https://giornaledeilavori.gabrielebuttice.com                                                                                                                                                                                                 
+      COLLABORA_URL: https://giornaledeilavori.gabrielebuttice.com
       WOPI_BASE_URL: https://giornaledeilavori.gabrielebuttice.com
     ports:
       - "3001:3001"
@@ -38,13 +38,9 @@ services:
     container_name: collabora
     restart: always
     environment:
-      aliasgroup1: "http://host.docker.internal:3001"
-      aliasgroup2: "http://backend:3001"
-      DONT_GEN_SSL_CERT: "YES"
-      extra_params: >-
-        --o:ssl.enable=false
-        --o:ssl.termination=false
-        --o:net.frame_ancestors=http://localhost:5173 https://localhost:5173 http://localhost http://localhost:80
+      - aliasgroup1=https://giornaledeilavori.gabrielebuttice.com:443
+      - DONT_GEN_SSL_CERT=YES
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=https://giornaledeilavori.gabrielebuttice.com http://localhost:5173
     ports:
       - "9980:9980"
     cap_add:
