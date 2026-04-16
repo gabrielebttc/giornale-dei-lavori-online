@@ -2,7 +2,7 @@ import React, { useState, useEffect, type ChangeEvent, type FormEvent } from 're
 import { useNavigate } from 'react-router-dom';
 import CalendarComponent from './CalendarComponent';
 import FileCardComponent from './FileCardComponent';
-import DeleteRecordComponent from './DeleteRecordComponent';
+//import DeleteRecordComponent from './DeleteRecordComponent';
 import LoadingScreen from './LoadingScreen';
 import { dateToString, stringToDate } from '../utils/formatDate';
 import { apiFetch } from '../utils/apiFetch';
@@ -174,6 +174,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
         }
     };
 
+    /* OLD TEMPLATES LOGIC
     const [templateName, setTemplateName] = useState<string>('');
     const [isCreatingTemplate, setIsCreatingTemplate] = useState<boolean>(false);
     const [templateMessage, setTemplateMessage] = useState<{ text: string; type: string } | null>(null);
@@ -211,6 +212,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
             setIsCreatingTemplate(false);
         }
     };
+    */
 
     const handleCreateUntitledProject = async () => {
         setIsLoading(true);
