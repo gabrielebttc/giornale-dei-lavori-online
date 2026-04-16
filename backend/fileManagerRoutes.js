@@ -124,4 +124,59 @@ router.delete('/delete-file/:storage_key', authenticateToken, async (req, res) =
     }
 });
 
+// GET /api/file-manager/files/:id/meta — restituisce i metadati di un singolo file
+router.get('/files/:id/meta', authenticateToken, async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await pool.query(
+            'SELECT id, name, date FROM files WHERE id = $1 AND owner_id = $2',
+            [Number(id), req.user.id]
+        );
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'File non trovato o non autorizzato' });
+        }
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error('Errore recupero metadati file:', error);
+        res.status(500).json({ error: 'Errore durante il recupero' });
+    }
+});
+
+// PATCH /api/file-manager/files/:id — aggiorna nome e/o data di un file
+router.patch('/files/:id', authenticateToken, async (req, res) => {
+    const { id } = req.params;
+    const { name, date } = req.body;
+
+    if (!name && !date) {
+        return res.status(400).json({ error: 'Nessun campo da aggiornare' });
+    }
+
+    try {
+        const check = await pool.query(
+            'SELECT id FROM files WHERE id = $1 AND owner_id = $2',
+            [Number(id), req.user.id]
+        );
+        if (check.rowCount === 0) {
+            return res.status(404).json({ error: 'File non trovato o non autorizzato' });
+        }
+
+        const fields = [];
+        const values = [];
+        let idx = 1;
+        if (name) { fields.push(`name = $${idx++}`); values.push(name); }
+        if (date) { fields.push(`date = $${idx++}`); values.push(date); }
+        values.push(Number(id));
+
+        const result = await pool.query(
+            `UPDATE files SET ${fields.join(', ')} WHERE id = $${idx} RETURNING id, name, date`,
+            values
+        );
+
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error('Errore aggiornamento file:', error);
+        res.status(500).json({ error: "Errore durante l'aggiornamento" });
+    }
+});
+
 module.exports = router;
