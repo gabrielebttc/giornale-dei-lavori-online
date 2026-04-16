@@ -74,10 +74,10 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                     body: JSON.stringify({ name: editName.trim(), date: editDate }),
                 });
             }
-            await fetchFilesAndProjects(buildingSiteId);
         } catch { /* silenzioso */ } finally {
             setEditSaving(false);
             setEditTarget(null);
+            void fetchFilesAndProjects(buildingSiteId);
         }
     };
 
