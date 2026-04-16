@@ -127,7 +127,6 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
     };
 
     const [templates, setTemplates] = useState<{ id: number; name: string }[]>([]);
-    const [templateToDeleteId, setTemplateToDeleteId] = useState<number | null>(null);
 
     const fetchTemplates = async () => {
         try {
@@ -691,7 +690,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                         {templates.map((template) => (
                             <FileCardComponent
                                 key={template.id}
-                                handleDeleteClick={() => setTemplateToDeleteId(template.id)}
+                                handleDeleteClick={() => {}}
                                 title={template.name}
                                 biIconName={"bi-layout-text-window-reverse"}
                                 handleCardClick={() => { void handleCreateFromTemplate(template.id); }}
