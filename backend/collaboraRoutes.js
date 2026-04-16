@@ -72,6 +72,36 @@ router.get('/editor-url/:fileId', authenticateToken, async (req, res) => {
     }
 });
 
+// ─── New file creation endpoint (chiamato dal frontend, autenticato via JWT) ──
+
+// POST /api/collabora/new-file
+// Crea un placeholder nel DB con tag='collabora_new'; Collabora aprirà un doc vuoto
+router.post('/new-file', authenticateToken, async (req, res) => {
+    const { fileName, fileType, buildingSiteId, date } = req.body;
+
+    if (!fileName || !fileType || !buildingSiteId || !date) {
+        return res.status(400).json({ error: 'Parametri mancanti' });
+    }
+
+    // storage_key univoco — nessun file caricato su B2 ancora
+    const storageKey = `collabora_new_${req.user.id}_${Date.now()}_${fileName}`;
+
+    try {
+        const result = await pool.query(
+            `INSERT INTO files (name, tag, file_type, date, building_site_id, owner_id, storage_key)
+             VALUES ($1, 'collabora_new', $2, $3, $4, $5, $6)
+             RETURNING id, name`,
+            [fileName, fileType, date, Number(buildingSiteId), req.user.id, storageKey]
+        );
+
+        const { id, name } = result.rows[0];
+        res.status(201).json({ fileId: id, fileName: name });
+    } catch (error) {
+        console.error('collabora new-file error:', error);
+        res.status(500).json({ error: 'Errore nella creazione del file' });
+    }
+});
+
 // ─── WOPI endpoints (chiamati da Collabora server-to-server) ─────────────────
 
 // GET /api/collabora/wopi/files/:fileId
@@ -82,7 +112,7 @@ router.get('/wopi/files/:fileId', wopiAuth, async (req, res) => {
 
     try {
         const result = await pool.query(
-            `SELECT f.id, f.name, f.file_type, f.storage_key,
+            `SELECT f.id, f.name, f.file_type, f.storage_key, f.tag,
                     u.first_name, u.last_name
              FROM files f
              JOIN users u ON u.id = $2
@@ -95,7 +125,13 @@ router.get('/wopi/files/:fileId', wopiAuth, async (req, res) => {
         }
 
         const file = result.rows[0];
-        const { size } = await getFileMetadata(file.storage_key);
+
+        // File nuovo: dimensione 0, Collabora creerà un documento vuoto
+        let size = 0;
+        if (file.tag !== 'collabora_new') {
+            const meta = await getFileMetadata(file.storage_key);
+            size = meta.size;
+        }
 
         res.json({
             BaseFileName: file.name,
@@ -122,13 +158,21 @@ router.get('/wopi/files/:fileId/contents', wopiAuth, async (req, res) => {
 
     try {
         const result = await pool.query(
-            'SELECT storage_key, name, file_type FROM files WHERE id = $1',
+            'SELECT storage_key, name, file_type, tag FROM files WHERE id = $1',
             [Number(fileId)]
         );
 
         if (result.rowCount === 0) return res.status(404).end();
 
-        const { storage_key, name, file_type } = result.rows[0];
+        const { storage_key, name, file_type, tag } = result.rows[0];
+
+        // Documento nuovo: corpo vuoto (per spec WOPI Collabora crea un file vuoto)
+        if (tag === 'collabora_new') {
+            res.setHeader('Content-Type', file_type || 'application/octet-stream');
+            res.setHeader('Content-Length', '0');
+            return res.status(200).end();
+        }
+
         const downloadUrl = await getDownloadUrl(storage_key);
 
         const fileResponse = await fetch(downloadUrl);
@@ -168,6 +212,12 @@ router.post(
             const buffer = req.body; // Buffer grazie a express.raw()
 
             await uploadBuffer(storage_key, buffer, file_type || 'application/octet-stream');
+
+            // Rimuove il tag 'collabora_new' dopo il primo salvataggio
+            await pool.query(
+                "UPDATE files SET tag = NULL WHERE id = $1 AND tag = 'collabora_new'",
+                [Number(fileId)]
+            );
 
             res.status(200).json({ LastModifiedTime: new Date().toISOString() });
         } catch (error) {
