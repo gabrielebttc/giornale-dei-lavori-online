@@ -7,6 +7,7 @@ import DeleteRecordComponent from "./DeleteRecordComponent";
 import FileViewerComponent from "./FileViewerComponent";
 
 import FileCardComponent from "./FileCardComponent";
+import CollaboraEditorComponent from "./CollaboraEditorComponent";
 import './styles/FileManagerComponent.css';
 import { apiFetch } from '../utils/apiFetch';
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
@@ -26,6 +27,7 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
     const [itemToDeleteId, setItemToDeleteId] = useState<number>(0);
     const [itemToDeleteStorageKey, setItemToDeleteStorageKey] = useState<string>("");
     const [selectedFile, setSelectedFile] = useState<FilesRecord | null>(null);
+    const [collaboraFile, setCollaboraFile] = useState<FilesRecord | null>(null);
     const [selectedProject, setSelectedProject] = useState<ProjectsRecord | null>(null);
     const [deleteProjectPopup, isDeleteProjectPopupVisible] = useState<boolean>(false);
     const [projectToDeleteId, setProjectToDeleteId] = useState<number>(0);
@@ -253,7 +255,13 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                                                             }}
                                                             title={file.name}
                                                             biIconName={getFileIcon(file.file_type)}
-                                                            handleCardClick={() => setSelectedFile(file)}
+                                                            handleCardClick={() => {
+                                                                if (isCollaboraEditable(file.name)) {
+                                                                    setCollaboraFile(file);
+                                                                } else {
+                                                                    setSelectedFile(file);
+                                                                }
+                                                            }}
                                                             itemId={file.id}
                                                         />
                                                     ))}
@@ -282,7 +290,13 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                                         }}
                                         title={file.name}
                                         biIconName={getFileIcon(file.file_type)}
-                                        handleCardClick={() => setSelectedFile(file)}
+                                        handleCardClick={() => {
+                                            if (isCollaboraEditable(file.name)) {
+                                                setCollaboraFile(file);
+                                            } else {
+                                                setSelectedFile(file);
+                                            }
+                                        }}
                                         itemId={file.id}
                                         warningText={warning || undefined}
                                     />
@@ -340,6 +354,14 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                 onSuccess={() => { fetchFilesAndProjects(buildingSiteId); isDeleteProjectPopupVisible(false); }}
             />
         )}
+
+        {collaboraFile && (
+            <CollaboraEditorComponent
+                fileId={collaboraFile.id}
+                fileName={collaboraFile.name}
+                onClose={() => setCollaboraFile(null)}
+            />
+        )}
         </>
     )
 }
@@ -386,6 +408,13 @@ async function fetchProjectsFromBuildingSiteId(buildingSiteId: number): Promise<
         return [];
     }
 }
+
+const COLLABORA_EXTENSIONS = ['.docx', '.doc', '.odt', '.xlsx', '.xls', '.ods', '.pptx', '.ppt', '.odp'];
+
+const isCollaboraEditable = (fileName: string): boolean => {
+    const ext = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
+    return COLLABORA_EXTENSIONS.includes(ext);
+};
 
 const getFileIcon = (mimeType: string) => {
   const icons: Record<string, string> = {
