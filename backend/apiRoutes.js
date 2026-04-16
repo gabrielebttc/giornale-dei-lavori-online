@@ -763,6 +763,9 @@ router.post('/generate-excel', authenticateToken, async (req, res) => {
       const columnLetter = String.fromCharCode(65 + i - 1);
       worksheet1.getColumn(columnLetter).width = 11.2;
     }
+    worksheet1.getRow(1).height = 18;
+    worksheet1.getRow(2).height = 18;
+    worksheet1.getRow(3).height = 18;
     worksheet1.getRow(4).height = 64;
 
     // 2. UNIONE DELLE CELLE E INSERIMENTO TESTO FOGLIO 1
