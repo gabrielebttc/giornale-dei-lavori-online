@@ -19,6 +19,7 @@ type FileCardComponentProps = {
     itemId: number;
     deletable?: boolean;
     warningText?: string;
+    onEditClick?: () => void;
 };
 
 export default function FileCardComponent({
@@ -29,11 +30,22 @@ export default function FileCardComponent({
     itemId,
     deletable = true,
     warningText,
+    onEditClick,
 }: FileCardComponentProps) {
     const style = ICON_STYLES[biIconName] ?? DEFAULT_STYLE;
 
     return (
         <div className="fc-card" onClick={() => handleCardClick(itemId)}>
+            {onEditClick && (
+                <button
+                    type="button"
+                    className="fc-edit-btn"
+                    aria-label="Modifica"
+                    onClick={(e) => { e.stopPropagation(); onEditClick(); }}
+                >
+                    <i className="bi bi-pencil" />
+                </button>
+            )}
             {deletable && (
                 <button
                     type="button"

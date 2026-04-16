@@ -33,6 +33,12 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
     const [deleteProjectPopup, isDeleteProjectPopupVisible] = useState<boolean>(false);
     const [projectToDeleteId, setProjectToDeleteId] = useState<number>(0);
 
+    type EditTarget = { kind: 'file'; id: number } | { kind: 'project'; id: number };
+    const [editTarget, setEditTarget] = useState<EditTarget | null>(null);
+    const [editName, setEditName] = useState('');
+    const [editDate, setEditDate] = useState('');
+    const [editSaving, setEditSaving] = useState(false);
+
     const sortedFiles = [...filesList].sort((a, b) => {
         const dateA = new Date(a.date ?? "").getTime();
         const dateB = new Date(b.date ?? "").getTime();
@@ -44,6 +50,36 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
         const dateB = new Date(b.date ?? "").getTime();
         return dateA - dateB;
     });
+
+    const openEditPopup = (target: { kind: 'file'; id: number } | { kind: 'project'; id: number }, currentName: string, currentDate?: string | null) => {
+        setEditTarget(target);
+        setEditName(currentName);
+        setEditDate(currentDate ? String(currentDate).slice(0, 10) : '');
+    };
+
+    const saveEditMeta = async () => {
+        if (!editTarget) return;
+        setEditSaving(true);
+        try {
+            if (editTarget.kind === 'file') {
+                await apiFetch(`${apiUrl}/api/file-manager/files/${editTarget.id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: editName.trim(), date: editDate }),
+                });
+            } else {
+                await apiFetch(`${apiUrl}/api/projects-manager/projects/${editTarget.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: editName.trim(), date: editDate }),
+                });
+            }
+            await fetchFilesAndProjects(buildingSiteId);
+        } catch { /* silenzioso */ } finally {
+            setEditSaving(false);
+            setEditTarget(null);
+        }
+    };
 
     async function deleteFile () {
         isDeleteRecordPopupVisible(true);
@@ -235,6 +271,7 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                                                 biIconName="bi-pencil-square"
                                                 handleCardClick={() => setSelectedProject(project)}
                                                 itemId={project.id}
+                                                onEditClick={() => openEditPopup({ kind: 'project', id: project.id }, project.name, project.date)}
                                             />
                                         </div>
 
@@ -264,6 +301,7 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                                                                 }
                                                             }}
                                                             itemId={file.id}
+                                                            onEditClick={() => openEditPopup({ kind: 'file', id: file.id }, file.name, file.date)}
                                                         />
                                                     ))}
                                                 </div>
@@ -300,6 +338,7 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                                         }}
                                         itemId={file.id}
                                         warningText={warning || undefined}
+                                        onEditClick={() => openEditPopup({ kind: 'file', id: file.id }, file.name, file.date)}
                                     />
                                 ))}
                             </div>
@@ -336,7 +375,9 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                 storageKey={selectedFile.storage_key}
                 fileType={selectedFile.file_type}
                 fileName={selectedFile.name}
-                onClose={() => setSelectedFile(null)}
+                fileId={selectedFile.id}
+                fileDate={selectedFile.date ?? undefined}
+                onClose={() => { setSelectedFile(null); fetchFilesAndProjects(buildingSiteId); }}
             />
         )}
 
@@ -346,7 +387,8 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                 fileType="platformProject"
                 fileName={selectedProject.name}
                 projectId={selectedProject.id}
-                onClose={() => setSelectedProject(null)}
+                fileDate={selectedProject.date ?? undefined}
+                onClose={() => { setSelectedProject(null); fetchFilesAndProjects(buildingSiteId); }}
                 onEdit={() => navigate(`/edit-document/${buildingSiteId}/${selectedDate}?projectId=${selectedProject.id}`)}
             />
         )}
@@ -364,7 +406,7 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
             <CollaboraEditorComponent
                 fileId={collaboraFile.id}
                 fileName={collaboraFile.name}
-                onClose={() => setCollaboraFile(null)}
+                onClose={() => { setCollaboraFile(null); fetchFilesAndProjects(buildingSiteId); }}
             />
         )}
 
@@ -374,6 +416,68 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                 fileName={newCollaboraFile.name}
                 onClose={() => { setNewCollaboraFile(null); fetchFilesAndProjects(buildingSiteId); }}
             />
+        )}
+
+        {/* Popup modifica nome/data */}
+        {editTarget && (
+            <div
+                className="modal d-block"
+                tabIndex={-1}
+                style={{ backgroundColor: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)', zIndex: 1070 }}
+                onClick={() => setEditTarget(null)}
+            >
+                <div
+                    className="modal-dialog modal-dialog-centered"
+                    style={{ maxWidth: 380 }}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <div className="modal-content border-0 shadow-lg rounded-4">
+                        <div className="modal-header border-0 pb-0">
+                            <h6 className="modal-title fw-bold text-primary">
+                                <i className="bi bi-pencil me-2" />
+                                Modifica informazioni
+                            </h6>
+                            <button type="button" className="btn-close" onClick={() => setEditTarget(null)} />
+                        </div>
+                        <div className="modal-body px-4 pb-4 pt-3">
+                            <div className="mb-3">
+                                <label className="form-label small fw-bold text-secondary text-uppercase" style={{ letterSpacing: '0.5px' }}>
+                                    Nome
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control rounded-3"
+                                    value={editName}
+                                    onChange={(e) => setEditName(e.target.value)}
+                                    autoFocus
+                                    onKeyDown={(e) => { if (e.key === 'Enter') void saveEditMeta(); }}
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="form-label small fw-bold text-secondary text-uppercase" style={{ letterSpacing: '0.5px' }}>
+                                    Data
+                                </label>
+                                <input
+                                    type="date"
+                                    className="form-control rounded-3"
+                                    value={editDate}
+                                    onChange={(e) => setEditDate(e.target.value)}
+                                />
+                            </div>
+                            <button
+                                className="btn btn-primary w-100 rounded-3 fw-bold"
+                                onClick={() => void saveEditMeta()}
+                                disabled={editSaving || !editName.trim()}
+                            >
+                                {editSaving
+                                    ? <><span className="spinner-border spinner-border-sm me-2" />Salvataggio...</>
+                                    : <><i className="bi bi-check2 me-2" />Salva</>
+                                }
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         )}
         </>
     )

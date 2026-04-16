@@ -203,7 +203,7 @@ CREATE TABLE public.files (
     id integer NOT NULL,
     name character varying(255) NOT NULL,
     tag character varying(36),
-    file_type character varying(36) NOT NULL,
+    file_type text NOT NULL,
     date date NOT NULL,
     building_site_id integer NOT NULL,
     owner_id integer NOT NULL,
