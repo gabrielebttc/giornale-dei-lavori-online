@@ -376,7 +376,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
             <div className="card-body p-4">
                 {/* Pulsanti di azione - Layout a card */}
                 <div className="row g-3 mb-4">
-                    <div className="col-6 col-md-3">
+                    <div className="col-6 col-md-4">
                         <button
                             className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'upload' ? 'btn-primary' : 'btn-outline-primary'}`}
                             type="button"
@@ -386,7 +386,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             <span className="fw-bold">Carica dal PC</span>
                         </button>
                     </div>
-                    <div className="col-6 col-md-3">
+                    <div className="col-6 col-md-4">
                         <button
                             className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'collabora' ? 'btn-success' : 'btn-outline-success'}`}
                             type="button"
@@ -396,7 +396,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             <span className="fw-bold">Crea Documento</span>
                         </button>
                     </div>
-                    <div className="col-6 col-md-3">
+                    <div className="col-12 col-md-4 col-sm-12">
                         <button
                             className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'collabora_template' ? 'btn-warning' : 'btn-outline-warning'}`}
                             type="button"
@@ -406,6 +406,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             <span className="fw-bold">Crea Template</span>
                         </button>
                     </div>
+                    {/* Vecchio "crea documento" con vecchia logica
                     <div className="col-6 col-md-3">
                         <button
                             className="btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 btn-outline-secondary"
@@ -418,6 +419,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             <span className="fw-bold">Editor Interno</span>
                         </button>
                     </div>
+                    */}
                 </div>
 
                 {/* Sezione Upload */}
