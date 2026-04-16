@@ -260,9 +260,9 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
     };
 
     const COLLABORA_FORMATS = [
-        { label: 'Documento di testo', ext: '.odt', mimeType: 'application/vnd.oasis.opendocument.text', icon: 'bi-file-earmark-word' },
-        { label: 'Foglio di calcolo', ext: '.ods', mimeType: 'application/vnd.oasis.opendocument.spreadsheet', icon: 'bi-file-earmark-excel' },
-        { label: 'Presentazione', ext: '.odp', mimeType: 'application/vnd.oasis.opendocument.presentation', icon: 'bi-file-earmark-slides' },
+        // { label: 'Documento di testo', ext: '.odt', mimeType: 'application/vnd.oasis.opendocument.text', icon: 'bi-file-earmark-word' },
+        // { label: 'Foglio di calcolo', ext: '.ods', mimeType: 'application/vnd.oasis.opendocument.spreadsheet', icon: 'bi-file-earmark-excel' },
+        // { label: 'Presentazione', ext: '.odp', mimeType: 'application/vnd.oasis.opendocument.presentation', icon: 'bi-file-earmark-slides' },
         { label: 'Word (.docx)', ext: '.docx', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', icon: 'bi-file-earmark-word' },
         { label: 'Excel (.xlsx)', ext: '.xlsx', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', icon: 'bi-file-earmark-excel' },
         { label: 'PowerPoint (.pptx)', ext: '.pptx', mimeType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation', icon: 'bi-file-earmark-slides' },
