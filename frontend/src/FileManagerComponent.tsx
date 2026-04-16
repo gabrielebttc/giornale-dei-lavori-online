@@ -29,6 +29,7 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
     const [selectedFile, setSelectedFile] = useState<FilesRecord | null>(null);
     const [collaboraFile, setCollaboraFile] = useState<FilesRecord | null>(null);
     const [newCollaboraFile, setNewCollaboraFile] = useState<{ id: number; name: string } | null>(null);
+    const [newCollaboraTemplate, setNewCollaboraTemplate] = useState<{ id: number; name: string } | null>(null);
     const [selectedProject, setSelectedProject] = useState<ProjectsRecord | null>(null);
     const [deleteProjectPopup, isDeleteProjectPopupVisible] = useState<boolean>(false);
     const [projectToDeleteId, setProjectToDeleteId] = useState<number>(0);
@@ -359,6 +360,9 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                 fetchFilesAndProjects(buildingSiteId);
                 setNewCollaboraFile({ id: fileId, name: fileName });
             }}
+            onCollaboraTemplateCreated={(templateId, templateName) => {
+                setNewCollaboraTemplate({ id: templateId, name: templateName });
+            }}
         />
 
         {deleteRecordPopup && (
@@ -415,6 +419,15 @@ export default function FileManagerComponent({ buildingSiteId, selectedDate, han
                 fileId={newCollaboraFile.id}
                 fileName={newCollaboraFile.name}
                 onClose={() => { setNewCollaboraFile(null); fetchFilesAndProjects(buildingSiteId); }}
+            />
+        )}
+
+        {newCollaboraTemplate && (
+            <CollaboraEditorComponent
+                fileId={newCollaboraTemplate.id}
+                fileName={newCollaboraTemplate.name}
+                type="template"
+                onClose={() => setNewCollaboraTemplate(null)}
             />
         )}
 

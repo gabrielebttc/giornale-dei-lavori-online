@@ -9,9 +9,10 @@ interface AddRecordComponentProps {
     selectedDate?: string;
     handleEditFile?: (fileAlreadyExists: boolean) => void;
     onCollaboraFileCreated?: (fileId: number, fileName: string) => void;
+    onCollaboraTemplateCreated?: (templateId: number, templateName: string) => void;
 }
 
-const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName, buildingSiteId, onSuccess, selectedDate, handleEditFile, onCollaboraFileCreated }: AddRecordComponentProps) => {
+const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName, buildingSiteId, onSuccess, selectedDate, handleEditFile, onCollaboraFileCreated, onCollaboraTemplateCreated }: AddRecordComponentProps) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const togglePopup = () => {
@@ -67,6 +68,10 @@ const AddRecordComponent: React.FC<AddRecordComponentProps> = ({ tableName, buil
                             onCollaboraFileCreated={onCollaboraFileCreated ? (fileId, fileName) => {
                                 setIsPopupOpen(false);
                                 onCollaboraFileCreated(fileId, fileName);
+                            } : undefined}
+                            onCollaboraTemplateCreated={onCollaboraTemplateCreated ? (templateId, templateName) => {
+                                setIsPopupOpen(false);
+                                onCollaboraTemplateCreated(templateId, templateName);
                             } : undefined}
                         />
                         )}

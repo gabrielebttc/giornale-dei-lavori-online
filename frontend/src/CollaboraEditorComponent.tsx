@@ -7,9 +7,10 @@ type Props = {
     fileId: number;
     fileName: string;
     onClose: () => void;
+    type?: 'file' | 'template';
 };
 
-export default function CollaboraEditorComponent({ fileId, fileName, onClose }: Props) {
+export default function CollaboraEditorComponent({ fileId, fileName, onClose, type = 'file' }: Props) {
     const [editorUrl, setEditorUrl] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
@@ -25,7 +26,10 @@ export default function CollaboraEditorComponent({ fileId, fileName, onClose }: 
     useEffect(() => {
         const fetchEditorUrl = async () => {
             try {
-                const res = await apiFetch(`${apiUrl}/api/collabora/editor-url/${fileId}`, {
+                const editorUrlPath = type === 'template'
+                    ? `${apiUrl}/api/collabora/editor-url/template/${fileId}`
+                    : `${apiUrl}/api/collabora/editor-url/${fileId}`;
+                const res = await apiFetch(editorUrlPath, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
                 });
@@ -38,6 +42,7 @@ export default function CollaboraEditorComponent({ fileId, fileName, onClose }: 
         };
 
         const fetchFileMeta = async () => {
+            if (type === 'template') return; // i template non hanno data cantiere
             try {
                 const res = await apiFetch(`${apiUrl}/api/file-manager/files/${fileId}/meta`, {
                     method: 'GET',
@@ -63,13 +68,17 @@ export default function CollaboraEditorComponent({ fileId, fileName, onClose }: 
     const saveMeta = async (newName?: string, newDate?: string) => {
         const payload: Record<string, string> = {};
         if (newName !== undefined) payload.name = newName;
-        if (newDate !== undefined) payload.date = newDate;
+        if (newDate !== undefined && type !== 'template') payload.date = newDate;
         if (Object.keys(payload).length === 0) return;
 
         setSaving(true);
         try {
-            const res = await apiFetch(`${apiUrl}/api/file-manager/files/${fileId}`, {
-                method: 'PATCH',
+            const patchUrl = type === 'template'
+                ? `${apiUrl}/api/collabora/templates/${fileId}/rename`
+                : `${apiUrl}/api/file-manager/files/${fileId}`;
+            const method = type === 'template' ? 'PATCH' : 'PATCH';
+            const res = await apiFetch(patchUrl, {
+                method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
             });

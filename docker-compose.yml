@@ -25,8 +25,10 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       VITE_BACKEND_URL: ${VITE_BACKEND_URL}
-      COLLABORA_URL: https://editorgiornaledeilavori.gabrielebuttice.com
-      WOPI_BASE_URL: https://giornaledeilavori.gabrielebuttice.com
+      #COLLABORA_URL: https://editorgiornaledeilavori.gabrielebuttice.com
+      #WOPI_BASE_URL: https://giornaledeilavori.gabrielebuttice.com
+      COLLABORA_URL: https://localhost:9980
+      WOPI_BASE_URL: https://backend:3001
     ports:
       - "3001:3001"
     depends_on:

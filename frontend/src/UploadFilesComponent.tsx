@@ -14,15 +14,16 @@ interface UploadFilesProps {
     selectedDate?: string;
     handleEditFile?: () => void;
     onCollaboraFileCreated?: (fileId: number, fileName: string) => void;
+    onCollaboraTemplateCreated?: (templateId: number, templateName: string) => void;
 }
 
-const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, selectedDate = "2000-01-01", handleEditFile, onCollaboraFileCreated }) => {
+const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, selectedDate = "2000-01-01", handleEditFile, onCollaboraFileCreated, onCollaboraTemplateCreated }) => {
 
     const navigate = useNavigate();
 
-    const [activeSection, setActiveSection] = useState<'upload' | 'create' | 'template' | 'collabora' | null>(null);
+    const [activeSection, setActiveSection] = useState<'upload' | 'create' | 'template' | 'collabora' | 'collabora_template' | null>(null);
 
-    const toggleSection = (section: 'upload' | 'create' | 'template' | 'collabora') => {
+    const toggleSection = (section: 'upload' | 'create' | 'template' | 'collabora' | 'collabora_template') => {
         setActiveSection(prev => prev === section ? null : section);
     };
 
@@ -270,6 +271,70 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
 
     const [isCreatingCollaboraFile, setIsCreatingCollaboraFile] = useState<boolean>(false);
 
+    // ── Template Collabora ────────────────────────────────────────────────────
+    type CollaboraTemplate = { id: number; name: string; file_type: string };
+    const [collaboraTemplates, setCollaboraTemplates] = useState<CollaboraTemplate[]>([]);
+    const [isCreatingCollaboraTemplate, setIsCreatingCollaboraTemplate] = useState<boolean>(false);
+    const [templateToDeleteId, setTemplateToDeleteId] = useState<number | null>(null);
+
+    const fetchCollaboraTemplates = async () => {
+        try {
+            const res = await apiFetch(`${apiUrl}/api/collabora/templates`, {});
+            if (res.ok) setCollaboraTemplates(await res.json());
+        } catch { /* silenzioso */ }
+    };
+
+    useEffect(() => { fetchCollaboraTemplates(); }, []);
+
+    const handleCreateCollaboraTemplate = async (format: typeof COLLABORA_FORMATS[0]) => {
+        if (!onCollaboraTemplateCreated) return;
+        setIsCreatingCollaboraTemplate(true);
+        try {
+            const fileName = `Nuovo template${format.ext}`;
+            const res = await apiFetch(`${apiUrl}/api/collabora/templates/new`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fileName, fileType: format.mimeType }),
+            });
+            if (!res.ok) throw new Error('Errore creazione template');
+            const { templateId, fileName: createdName } = await res.json();
+            onCollaboraTemplateCreated(templateId, createdName);
+        } catch (error) {
+            console.error('Errore creazione template Collabora:', error);
+            setMessage({ text: 'Errore durante la creazione del template. Riprova.', type: 'danger' });
+        } finally {
+            setIsCreatingCollaboraTemplate(false);
+        }
+    };
+
+    const handleDeleteCollaboraTemplate = async (id: number) => {
+        try {
+            await apiFetch(`${apiUrl}/api/collabora/templates/${id}`, { method: 'DELETE' });
+            await fetchCollaboraTemplates();
+        } catch { /* silenzioso */ }
+        setTemplateToDeleteId(null);
+    };
+
+    const handleCreateFromCollaboraTemplate = async (template: CollaboraTemplate) => {
+        if (!onCollaboraFileCreated) return;
+        setIsLoading(true);
+        try {
+            const res = await apiFetch(`${apiUrl}/api/collabora/create-from-template/${template.id}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ buildingSiteId: Number(buildingSiteId), date: fileDate }),
+            });
+            if (!res.ok) throw new Error('Errore creazione da template');
+            const { fileId, fileName } = await res.json();
+            onCollaboraFileCreated(fileId, fileName);
+        } catch (error) {
+            console.error('Errore creazione da template:', error);
+            setMessage({ text: 'Errore durante la creazione del documento. Riprova.', type: 'danger' });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const handleCreateCollaboraFile = async (format: typeof COLLABORA_FORMATS[0]) => {
         if (!onCollaboraFileCreated) return;
         setIsCreatingCollaboraFile(true);
@@ -310,7 +375,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
             <div className="card-body p-4">
                 {/* Pulsanti di azione - Layout a card */}
                 <div className="row g-3 mb-4">
-                    <div className="col-md-3">
+                    <div className="col-6 col-md-3">
                         <button
                             className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'upload' ? 'btn-primary' : 'btn-outline-primary'}`}
                             type="button"
@@ -320,7 +385,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             <span className="fw-bold">Carica dal PC</span>
                         </button>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-6 col-md-3">
                         <button
                             className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'collabora' ? 'btn-success' : 'btn-outline-success'}`}
                             type="button"
@@ -330,27 +395,26 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             <span className="fw-bold">Crea Documento</span>
                         </button>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-6 col-md-3">
                         <button
-                            className="btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 btn-outline-secondary"
+                            className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'collabora_template' ? 'btn-warning' : 'btn-outline-warning'}`}
                             type="button"
-                            onClick={() => toggleSection('create')}
-                            disabled
-                            title="Editor testo interno (disabilitato)"
-                            style={{ opacity: 0.45, cursor: 'not-allowed' }}
-                        >
-                            <i className="bi bi-file-earmark-plus fs-3 mb-2"></i>
-                            <span className="fw-bold">Editor Interno</span>
-                        </button>
-                    </div>
-                    <div className="col-md-3">
-                        <button
-                            className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'template' ? 'btn-warning' : 'btn-outline-warning'}`}
-                            type="button"
-                            onClick={() => toggleSection('template')}
+                            onClick={() => toggleSection('collabora_template')}
                         >
                             <i className="bi bi-layout-text-window-reverse fs-3 mb-2"></i>
                             <span className="fw-bold">Crea Template</span>
+                        </button>
+                    </div>
+                    <div className="col-6 col-md-3">
+                        <button
+                            className="btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 btn-outline-secondary"
+                            type="button"
+                            disabled
+                            title="Editor interno (disabilitato)"
+                            style={{ opacity: 0.4, cursor: 'not-allowed' }}
+                        >
+                            <i className="bi bi-file-earmark-plus fs-3 mb-2"></i>
+                            <span className="fw-bold">Editor Interno</span>
                         </button>
                     </div>
                 </div>
@@ -467,8 +531,37 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             </div>
                         </div>
 
+                        {/* Template Collabora salvati */}
+                        {collaboraTemplates.length > 0 && (
+                            <>
+                                <label className="form-label d-block mb-3 small fw-bold text-uppercase text-success letter-spacing-1 text-center">
+                                    2. Parti da un Template
+                                </label>
+                                <div className="row g-2 mb-4">
+                                    {collaboraTemplates.map((tmpl) => (
+                                        <div key={tmpl.id} className="col-6 col-md-4">
+                                            <button
+                                                type="button"
+                                                className="btn btn-outline-success w-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 position-relative"
+                                                onClick={() => handleCreateFromCollaboraTemplate(tmpl)}
+                                                disabled={isLoading}
+                                            >
+                                                <i className="bi bi-layout-text-window-reverse fs-3 mb-1"></i>
+                                                <span className="small fw-bold" style={{ wordBreak: 'break-word' }}>{tmpl.name}</span>
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="d-flex align-items-center gap-2 mb-3">
+                                    <div style={{ flex: 1, height: 1, background: '#dee2e6' }} />
+                                    <span className="text-muted small">oppure documento vuoto</span>
+                                    <div style={{ flex: 1, height: 1, background: '#dee2e6' }} />
+                                </div>
+                            </>
+                        )}
+
                         <label className="form-label d-block mb-3 small fw-bold text-uppercase text-success letter-spacing-1 text-center">
-                            2. Scegli il Formato
+                            {collaboraTemplates.length > 0 ? '3. Scegli il Formato' : '2. Scegli il Formato'}
                         </label>
                         <div className="row g-2">
                             {COLLABORA_FORMATS.map((format) => (
@@ -477,7 +570,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                                         type="button"
                                         className="btn btn-outline-success w-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2"
                                         onClick={() => handleCreateCollaboraFile(format)}
-                                        disabled={isCreatingCollaboraFile}
+                                        disabled={isCreatingCollaboraFile || isLoading}
                                     >
                                         <i className={`bi ${format.icon} fs-3 mb-1`}></i>
                                         <span className="small fw-bold">{format.label}</span>
@@ -487,9 +580,80 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             ))}
                         </div>
 
-                        {isCreatingCollaboraFile && (
+                        {(isCreatingCollaboraFile || isLoading) && (
                             <div className="text-center mt-3">
                                 <span className="spinner-border spinner-border-sm text-success me-2" />
+                                <span className="text-muted small">Creazione in corso...</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Sezione Crea Template Collabora */}
+                <div className={activeSection === 'collabora_template' ? 'd-block' : 'd-none'}>
+                    <div className="p-4 border border-warning border-opacity-25 rounded-4 bg-light shadow-sm">
+
+                        {/* Template esistenti */}
+                        {collaboraTemplates.length > 0 && (
+                            <div className="mb-4">
+                                <label className="form-label d-block mb-3 small fw-bold text-uppercase text-warning letter-spacing-1">
+                                    Template salvati
+                                </label>
+                                <div className="row g-2">
+                                    {collaboraTemplates.map((tmpl) => (
+                                        <div key={tmpl.id} className="col-6 col-md-4">
+                                            <div className="btn-group w-100" role="group">
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-warning py-2 rounded-start-3 d-flex flex-column align-items-center justify-content-center flex-grow-1"
+                                                    onClick={() => onCollaboraTemplateCreated?.(tmpl.id, tmpl.name)}
+                                                >
+                                                    <i className="bi bi-layout-text-window-reverse fs-4 mb-1"></i>
+                                                    <span className="small fw-bold" style={{ wordBreak: 'break-word', fontSize: '0.72rem' }}>{tmpl.name}</span>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-danger px-2 rounded-end-3"
+                                                    onClick={() => setTemplateToDeleteId(tmpl.id)}
+                                                    title="Elimina template"
+                                                >
+                                                    <i className="bi bi-trash3" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="d-flex align-items-center gap-2 my-3">
+                                    <div style={{ flex: 1, height: 1, background: '#dee2e6' }} />
+                                    <span className="text-muted small">crea nuovo</span>
+                                    <div style={{ flex: 1, height: 1, background: '#dee2e6' }} />
+                                </div>
+                            </div>
+                        )}
+
+                        <label className="form-label d-block mb-3 small fw-bold text-uppercase text-warning letter-spacing-1 text-center">
+                            Scegli il formato del nuovo template
+                        </label>
+                        <div className="row g-2">
+                            {COLLABORA_FORMATS.map((format) => (
+                                <div key={format.ext} className="col-6 col-md-4">
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-warning w-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2"
+                                        onClick={() => handleCreateCollaboraTemplate(format)}
+                                        disabled={isCreatingCollaboraTemplate}
+                                    >
+                                        <i className={`bi ${format.icon} fs-3 mb-1`}></i>
+                                        <span className="small fw-bold">{format.label}</span>
+                                        <span className="text-muted" style={{ fontSize: '0.7rem' }}>{format.ext}</span>
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+
+                        {isCreatingCollaboraTemplate && (
+                            <div className="text-center mt-3">
+                                <span className="spinner-border spinner-border-sm text-warning me-2" />
                                 <span className="text-muted small">Creazione in corso...</span>
                             </div>
                         )}
@@ -545,49 +709,33 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                     </div>
                 </div>
 
-                {/* Sezione Crea Template */}
-                <div className={`mt-3 ${activeSection === 'template' ? 'd-block' : 'd-none'}`}>
-                    <div className="p-4 border border-warning border-opacity-50 rounded-4 bg-light shadow-sm">
-                        <label className="form-label d-block mb-3 small fw-bold text-uppercase text-warning letter-spacing-1">
-                            Nome del template
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control rounded-3 mb-3"
-                            placeholder="Es. Verbale di cantiere, Relazione settimanale..."
-                            value={templateName}
-                            onChange={(e) => setTemplateName(e.target.value)}
-                        />
-                        {templateMessage && (
-                            <div className={`alert alert-${templateMessage.type} border-0 shadow-sm rounded-3 py-2 mb-3`} role="alert">
-                                {templateMessage.text}
-                            </div>
-                        )}
-                        <button
-                            type="button"
-                            className="btn btn-warning w-100 rounded-3 fw-bold py-2"
-                            onClick={handleCreateTemplate}
-                            disabled={isCreatingTemplate}
-                        >
-                            {isCreatingTemplate ? (
-                                <><span className="spinner-border spinner-border-sm me-2" />Creazione...</>
-                            ) : (
-                                <><i className="bi bi-layout-text-window-reverse me-2" />Crea Template</>
-                            )}
-                        </button>
-                    </div>
-                </div>
-
             </div>
             <LoadingScreen isLoading={isLoading} />
 
+            {/* Conferma eliminazione template Collabora */}
             {templateToDeleteId !== null && (
-                <DeleteRecordComponent
-                    tableName="templates"
-                    recordId={templateToDeleteId}
-                    onClose={() => setTemplateToDeleteId(null)}
-                    onSuccess={() => { fetchTemplates(); setTemplateToDeleteId(null); }}
-                />
+                <div
+                    className="modal d-block"
+                    tabIndex={-1}
+                    style={{ backgroundColor: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)', zIndex: 1080 }}
+                    onClick={() => setTemplateToDeleteId(null)}
+                >
+                    <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: 360 }} onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-content border-0 shadow-lg rounded-4">
+                            <div className="modal-body p-4 text-center">
+                                <div className="bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style={{ width: 56, height: 56 }}>
+                                    <i className="bi bi-trash3 fs-4" />
+                                </div>
+                                <p className="fw-bold mb-1">Eliminare il template?</p>
+                                <p className="text-muted small mb-4">Questa azione non può essere annullata.</p>
+                                <div className="d-flex gap-2">
+                                    <button className="btn btn-outline-secondary flex-fill rounded-3" onClick={() => setTemplateToDeleteId(null)}>Annulla</button>
+                                    <button className="btn btn-danger flex-fill rounded-3" onClick={() => void handleDeleteCollaboraTemplate(templateToDeleteId)}>Elimina</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
