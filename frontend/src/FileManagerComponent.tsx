@@ -541,12 +541,13 @@ const getFileIcon = (mimeType: string) => {
     'image/webp': 'bi-file-earmark-image',
     'application/vnd.ms-excel': 'bi-file-earmark-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'bi-file-earmark-excel',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'bi-file-earmark-word',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'bi-filetype-docx',
     'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'bi-file-earmark-slides',
     'application/vnd.oasis.opendocument.text': 'bi-file-earmark-word',
     'application/vnd.oasis.opendocument.spreadsheet': 'bi-file-earmark-excel',
     'application/vnd.oasis.opendocument.presentation': 'bi-file-earmark-slides',
     'text/csv': 'bi-filetype-csv',
+    
   };
 
   // Se non trova il tipo specifico, mette un'icona generica per file

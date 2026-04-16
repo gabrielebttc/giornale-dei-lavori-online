@@ -8,6 +8,8 @@ const ICON_STYLES: Record<string, { bg: string; color: string }> = {
     'bi-filetype-csv':        { bg: '#e6f7ee', color: '#198754' },
     'bi-file-earmark-plus':   { bg: '#e7f1ff', color: '#0d6efd' },
     'bi-file-earmark-word':   { bg: '#e7f1ff', color: '#0d47a1' },
+    'bi-filetype-docx':       { bg: '#e7f1ff', color: '#0d47a1' },
+    'bi-file-earmark-slides': { bg: '#e7f1ff', color: '#d83b01' }
 };
 const DEFAULT_STYLE = { bg: '#f4f4f6', color: '#6c757d' };
 
