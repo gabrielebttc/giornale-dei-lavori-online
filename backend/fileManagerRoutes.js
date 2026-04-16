@@ -28,7 +28,7 @@ router.post('/get-upload-link', authenticateToken, async (req, res) => {
 
 router.post('/confirm-file-upload', authenticateToken, async (req, res) => {
     const { storageKey, originalName, buildingSiteId, mimeType, date, projectId } = req.body;
-    const finalMimeType = mimeType.substring(0, 36);
+    const finalMimeType = mimeType;
 
     try {
         const siteCheck = await pool.query(

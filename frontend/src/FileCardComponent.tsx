@@ -38,27 +38,6 @@ export default function FileCardComponent({
 
     return (
         <div className="fc-card" onClick={() => handleCardClick(itemId)}>
-            {onEditClick && (
-                <button
-                    type="button"
-                    className="fc-edit-btn"
-                    aria-label="Modifica"
-                    onClick={(e) => { e.stopPropagation(); onEditClick(); }}
-                >
-                    <i className="bi bi-pencil" />
-                </button>
-            )}
-            {deletable && (
-                <button
-                    type="button"
-                    className="fc-delete-btn"
-                    aria-label="Elimina"
-                    onClick={(e) => { e.stopPropagation(); handleDeleteClick(); }}
-                >
-                    <i className="bi bi-trash3" />
-                </button>
-            )}
-
             <div className="fc-icon-wrap" style={{ background: style.bg, color: style.color }}>
                 <i className={`bi ${biIconName}`} />
             </div>
@@ -69,6 +48,31 @@ export default function FileCardComponent({
                 <div className="fc-warning">
                     <i className="bi bi-exclamation-triangle-fill me-1" />
                     {warningText}
+                </div>
+            )}
+
+            {(onEditClick || deletable) && (
+                <div className="fc-actions" onClick={(e) => e.stopPropagation()}>
+                    {onEditClick && (
+                        <button
+                            type="button"
+                            className="fc-edit-btn"
+                            aria-label="Modifica"
+                            onClick={onEditClick}
+                        >
+                            <i className="bi bi-pencil" />
+                        </button>
+                    )}
+                    {deletable && (
+                        <button
+                            type="button"
+                            className="fc-delete-btn"
+                            aria-label="Elimina"
+                            onClick={handleDeleteClick}
+                        >
+                            <i className="bi bi-trash3" />
+                        </button>
+                    )}
                 </div>
             )}
         </div>
