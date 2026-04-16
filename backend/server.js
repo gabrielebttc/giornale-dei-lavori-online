@@ -9,6 +9,7 @@ const apiRoutes = require('./apiRoutes');
 const fileManagerRoutes = require('./fileManagerRoutes');
 const projectsManagerRoutes = require('./projectsManagerRoutes');
 const templatesManagerRoutes = require('./templatesManagerRoutes');
+const collaboraRoutes = require('./collaboraRoutes');
 const { initializeSocket } = require('./socket');
 
 const app = express();
@@ -33,6 +34,9 @@ app.use('/api/projects-manager', projectsManagerRoutes);
 
 // Rotte per la gestione dei template
 app.use('/api/templates-manager', templatesManagerRoutes);
+
+// Rotte per Collabora Online (WOPI server + editor URL)
+app.use('/api/collabora', collaboraRoutes);
 
 // Altre rotte API
 app.use('/api/', apiRoutes);

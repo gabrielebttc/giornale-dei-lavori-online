@@ -13,15 +13,16 @@ interface UploadFilesProps {
     buildingSiteId: number | string;
     selectedDate?: string;
     handleEditFile?: () => void;
+    onCollaboraFileCreated?: (fileId: number, fileName: string) => void;
 }
 
-const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, selectedDate = "2000-01-01", handleEditFile }) => {
+const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, selectedDate = "2000-01-01", handleEditFile, onCollaboraFileCreated }) => {
 
     const navigate = useNavigate();
 
-    const [activeSection, setActiveSection] = useState<'upload' | 'create' | 'template' | null>(null);
+    const [activeSection, setActiveSection] = useState<'upload' | 'create' | 'template' | 'collabora' | null>(null);
 
-    const toggleSection = (section: 'upload' | 'create' | 'template') => {
+    const toggleSection = (section: 'upload' | 'create' | 'template' | 'collabora') => {
         setActiveSection(prev => prev === section ? null : section);
     };
 
@@ -258,6 +259,43 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
         }
     };
 
+    const COLLABORA_FORMATS = [
+        { label: 'Documento di testo', ext: '.odt', mimeType: 'application/vnd.oasis.opendocument.text', icon: 'bi-file-earmark-word' },
+        { label: 'Foglio di calcolo', ext: '.ods', mimeType: 'application/vnd.oasis.opendocument.spreadsheet', icon: 'bi-file-earmark-excel' },
+        { label: 'Presentazione', ext: '.odp', mimeType: 'application/vnd.oasis.opendocument.presentation', icon: 'bi-file-earmark-slides' },
+        { label: 'Word (.docx)', ext: '.docx', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', icon: 'bi-file-earmark-word' },
+        { label: 'Excel (.xlsx)', ext: '.xlsx', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', icon: 'bi-file-earmark-excel' },
+        { label: 'PowerPoint (.pptx)', ext: '.pptx', mimeType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation', icon: 'bi-file-earmark-slides' },
+    ];
+
+    const [isCreatingCollaboraFile, setIsCreatingCollaboraFile] = useState<boolean>(false);
+
+    const handleCreateCollaboraFile = async (format: typeof COLLABORA_FORMATS[0]) => {
+        if (!onCollaboraFileCreated) return;
+        setIsCreatingCollaboraFile(true);
+        try {
+            const fileName = `Nuovo documento${format.ext}`;
+            const response = await apiFetch(`${apiUrl}/api/collabora/new-file`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fileName,
+                    fileType: format.mimeType,
+                    buildingSiteId: Number(buildingSiteId),
+                    date: fileDate,
+                }),
+            });
+            if (!response.ok) throw new Error('Errore creazione file Collabora');
+            const { fileId, fileName: createdName } = await response.json();
+            onCollaboraFileCreated(fileId, createdName);
+        } catch (error) {
+            console.error('Errore creazione file Collabora:', error);
+            setMessage({ text: 'Errore durante la creazione del documento. Riprova.', type: 'danger' });
+        } finally {
+            setIsCreatingCollaboraFile(false);
+        }
+    };
+
     // upload file
     return (
         <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
@@ -272,7 +310,7 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
             <div className="card-body p-4">
                 {/* Pulsanti di azione - Layout a card */}
                 <div className="row g-3 mb-4">
-                    <div className="col-md-4">
+                    <div className="col-md-3">
                         <button
                             className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'upload' ? 'btn-primary' : 'btn-outline-primary'}`}
                             type="button"
@@ -282,17 +320,30 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                             <span className="fw-bold">Carica dal PC</span>
                         </button>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-3">
                         <button
-                            className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'create' ? 'btn-secondary' : 'btn-outline-secondary'}`}
+                            className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'collabora' ? 'btn-success' : 'btn-outline-success'}`}
                             type="button"
-                            onClick={() => toggleSection('create')}
+                            onClick={() => toggleSection('collabora')}
                         >
-                            <i className="bi bi-file-earmark-plus fs-3 mb-2"></i>
+                            <i className="bi bi-file-earmark-richtext fs-3 mb-2"></i>
                             <span className="fw-bold">Crea Documento</span>
                         </button>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-3">
+                        <button
+                            className="btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 btn-outline-secondary"
+                            type="button"
+                            onClick={() => toggleSection('create')}
+                            disabled
+                            title="Editor testo interno (disabilitato)"
+                            style={{ opacity: 0.45, cursor: 'not-allowed' }}
+                        >
+                            <i className="bi bi-file-earmark-plus fs-3 mb-2"></i>
+                            <span className="fw-bold">Editor Interno</span>
+                        </button>
+                    </div>
+                    <div className="col-md-3">
                         <button
                             className={`btn w-100 h-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2 ${activeSection === 'template' ? 'btn-warning' : 'btn-outline-warning'}`}
                             type="button"
@@ -401,7 +452,51 @@ const UploadFilesComponent: React.FC<UploadFilesProps> = ({ buildingSiteId, sele
                     </div>
                 </form>
 
-                {/* Sezione Create */}
+                {/* Sezione Collabora — crea nuovo documento */}
+                <div className={activeSection === 'collabora' ? 'd-block' : 'd-none'}>
+                    <div className="p-4 border border-success border-opacity-25 rounded-4 bg-light shadow-sm">
+                        <div className="mb-4 text-center">
+                            <label className="form-label d-block mb-3 small fw-bold text-uppercase text-success letter-spacing-1">
+                                1. Seleziona la Data del Documento
+                            </label>
+                            <div className="d-inline-block p-2 bg-white rounded-3 shadow-sm border w-100">
+                                <CalendarComponent
+                                    onDateSelect={(date) => setFileDate(dateToString(date))}
+                                    selectedDate={stringToDate(fileDate)}
+                                />
+                            </div>
+                        </div>
+
+                        <label className="form-label d-block mb-3 small fw-bold text-uppercase text-success letter-spacing-1 text-center">
+                            2. Scegli il Formato
+                        </label>
+                        <div className="row g-2">
+                            {COLLABORA_FORMATS.map((format) => (
+                                <div key={format.ext} className="col-6 col-md-4">
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-success w-100 py-3 rounded-3 d-flex flex-column align-items-center justify-content-center border-2"
+                                        onClick={() => handleCreateCollaboraFile(format)}
+                                        disabled={isCreatingCollaboraFile}
+                                    >
+                                        <i className={`bi ${format.icon} fs-3 mb-1`}></i>
+                                        <span className="small fw-bold">{format.label}</span>
+                                        <span className="text-muted" style={{ fontSize: '0.7rem' }}>{format.ext}</span>
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+
+                        {isCreatingCollaboraFile && (
+                            <div className="text-center mt-3">
+                                <span className="spinner-border spinner-border-sm text-success me-2" />
+                                <span className="text-muted small">Creazione in corso...</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Sezione Create (editor interno TipTap — disabilitata, codice mantenuto) */}
                 <div className={activeSection === 'create' ? 'd-block' : 'd-none'}>
                     <div className="p-4 border border-secondary border-opacity-25 rounded-4 bg-light shadow-sm">
 

@@ -1,4 +1,4 @@
-const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand, HeadObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 require('dotenv').config({ path: './.env' });
 const { randomUUID } = require('crypto');
@@ -52,4 +52,24 @@ async function deleteFile(storageKey) {
     return await s3.send(command);
 }
 
-module.exports = { getUploadUrl, getDownloadUrl, deleteFile };
+async function uploadBuffer(storageKey, buffer, contentType) {
+    const command = new PutObjectCommand({
+        Bucket: process.env.BACKBLAZE_BUCKET_NAME,
+        Key: storageKey,
+        Body: buffer,
+        ContentType: contentType || 'application/octet-stream',
+        ChecksumAlgorithm: undefined,
+    });
+    return await s3.send(command);
+}
+
+async function getFileMetadata(storageKey) {
+    const command = new HeadObjectCommand({
+        Bucket: process.env.BACKBLAZE_BUCKET_NAME,
+        Key: storageKey,
+    });
+    const response = await s3.send(command);
+    return { size: response.ContentLength || 0, lastModified: response.LastModified };
+}
+
+module.exports = { getUploadUrl, getDownloadUrl, deleteFile, uploadBuffer, getFileMetadata };

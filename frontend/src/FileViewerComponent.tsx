@@ -19,6 +19,8 @@ type FileViewerProps = {
     fileType: string;
     fileName: string;
     projectId?: number;
+    fileId?: number;
+    fileDate?: string;
     onClose: () => void;
     onEdit?: () => void;
 };
@@ -34,7 +36,7 @@ const getFileAccent = (fileType: string, fileName: string) => {
     return { color: '#6c757d', icon: 'bi-file-earmark-fill', label: 'File' };
 };
 
-const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, fileName, projectId, onClose, onEdit }) => {
+const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, fileName, projectId, fileId, fileDate, onClose, onEdit }) => {
     const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
     const [excelData, setExcelData] = useState<string[][] | null>(null);
     const [loading, setLoading] = useState(true);
@@ -43,6 +45,59 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
     const docxRef = useRef<HTMLDivElement>(null);
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
     const accent = getFileAccent(fileType, fileName);
+
+    const [currentName, setCurrentName] = useState(fileName);
+    const [currentDate, setCurrentDate] = useState(fileDate ? String(fileDate).slice(0, 10) : '');
+    const [editingName, setEditingName] = useState(false);
+    const [draftName, setDraftName] = useState(fileName);
+    const nameInputRef = useRef<HTMLInputElement>(null);
+    const [metaSaving, setMetaSaving] = useState(false);
+
+    useEffect(() => {
+        if (editingName && nameInputRef.current) {
+            nameInputRef.current.focus();
+            nameInputRef.current.select();
+        }
+    }, [editingName]);
+
+    const saveMeta = async (name?: string, date?: string) => {
+        const payload: Record<string, string> = {};
+        if (name !== undefined) payload.name = name;
+        if (date !== undefined) payload.date = date;
+        if (!Object.keys(payload).length) return;
+        setMetaSaving(true);
+        try {
+            if (fileId) {
+                const res = await apiFetch(`${apiUrl}/api/file-manager/files/${fileId}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                if (res.ok) {
+                    const updated = await res.json();
+                    if (updated.name) setCurrentName(updated.name);
+                    if (updated.date) setCurrentDate(String(updated.date).slice(0, 10));
+                }
+            } else if (projectId) {
+                await apiFetch(`${apiUrl}/api/projects-manager/projects/${projectId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                if (name) setCurrentName(name);
+                if (date) setCurrentDate(date);
+            }
+        } catch { /* silenzioso */ } finally {
+            setMetaSaving(false);
+        }
+    };
+
+    const commitName = () => {
+        setEditingName(false);
+        const trimmed = draftName.trim();
+        if (trimmed && trimmed !== currentName) void saveMeta(trimmed);
+        else setDraftName(currentName);
+    };
 
     useEffect(() => {
         if (fileType === 'platformProject') {
@@ -168,7 +223,7 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
                 @keyframes fvSlideUp { from { transform: translateY(24px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
                 .fv-header {
                     display: flex; align-items: center; gap: 12px;
-                    padding: 16px 20px;
+                    padding: 12px 20px;
                     border-bottom: 1px solid #f0f0f0;
                     flex-shrink: 0;
                 }
@@ -184,13 +239,41 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
                 .fv-header-title {
                     font-weight: 600; font-size: 0.95rem;
                     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-                    color: #1a1a2e; margin: 0;
+                    color: #1a1a2e; margin: 0; cursor: pointer;
+                    border-radius: 4px; padding: 1px 4px;
+                    transition: background 0.15s;
+                    display: inline-block; max-width: 100%;
+                }
+                .fv-header-title:hover { background: #f0f4ff; }
+                .fv-title-input {
+                    width: 100%; border: 1.5px solid #0d6efd; border-radius: 6px;
+                    padding: 3px 8px; font-weight: 600; font-size: 0.95rem;
+                    color: #1a1a2e; outline: none;
+                }
+                .fv-header-meta {
+                    display: flex; align-items: center; gap: 6px; margin-top: 4px;
                 }
                 .fv-header-badge {
                     font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
                     letter-spacing: 0.5px; padding: 2px 8px; border-radius: 20px;
-                    display: inline-block; margin-top: 3px;
+                    display: inline-block;
                 }
+                .fv-date-label {
+                    font-size: 0.72rem; color: #888; cursor: pointer;
+                    padding: 1px 5px; border-radius: 4px;
+                    transition: background 0.15s;
+                }
+                .fv-date-label:hover { background: #f0f4ff; color: #0d6efd; }
+                .fv-date-input {
+                    font-size: 0.72rem; border: 1px solid #0d6efd; border-radius: 4px;
+                    padding: 1px 5px; color: #333; outline: none; cursor: pointer;
+                }
+                .fv-saving-dot {
+                    width: 8px; height: 8px; border-radius: 50%;
+                    border: 2px solid #cce0ff; border-top-color: #0d6efd;
+                    animation: spin 0.7s linear infinite; flex-shrink: 0;
+                }
+                @keyframes spin { to { transform: rotate(360deg); } }
                 .fv-body {
                     flex: 1; overflow: auto; min-height: 0;
                 }
@@ -259,10 +342,43 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
                             <i className={`bi ${accent.icon}`} />
                         </div>
                         <div className="fv-header-info">
-                            <p className="fv-header-title">{fileName}</p>
-                            <span className="fv-header-badge" style={{ background: `${accent.color}18`, color: accent.color }}>
-                                {accent.label}
-                            </span>
+                            {editingName ? (
+                                <input
+                                    ref={nameInputRef}
+                                    className="fv-title-input"
+                                    value={draftName}
+                                    onChange={(e) => setDraftName(e.target.value)}
+                                    onBlur={commitName}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') commitName();
+                                        if (e.key === 'Escape') { setEditingName(false); setDraftName(currentName); }
+                                    }}
+                                />
+                            ) : (
+                                <p
+                                    className="fv-header-title"
+                                    title="Clicca per rinominare"
+                                    onClick={() => { setDraftName(currentName); setEditingName(true); }}
+                                >
+                                    {currentName}
+                                </p>
+                            )}
+                            <div className="fv-header-meta">
+                                <span className="fv-header-badge" style={{ background: `${accent.color}18`, color: accent.color }}>
+                                    {accent.label}
+                                </span>
+                                {(fileId || projectId) && (
+                                    <>
+                                        <span style={{ color: '#ddd', fontSize: '0.7rem' }}>·</span>
+                                        <i className="bi bi-calendar3" style={{ fontSize: '0.68rem', color: '#aaa' }} />
+                                        <EditableDate
+                                            value={currentDate}
+                                            onChange={(val) => { setCurrentDate(val); void saveMeta(undefined, val); }}
+                                        />
+                                        {metaSaving && <span className="fv-saving-dot" />}
+                                    </>
+                                )}
+                            </div>
                         </div>
                         {onEdit && (
                             <button type="button" className="btn btn-primary btn-sm rounded-3 px-3 me-1" onClick={onEdit}>
@@ -357,5 +473,29 @@ const FileViewerComponent: React.FC<FileViewerProps> = ({ storageKey, fileType, 
         </>
     );
 };
+
+function EditableDate({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+    const [editing, setEditing] = useState(false);
+    const label = value
+        ? new Date(value + 'T00:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' })
+        : 'Imposta data';
+    if (editing) {
+        return (
+            <input
+                type="date"
+                className="fv-date-input"
+                value={value}
+                autoFocus
+                onChange={(e) => { onChange(e.target.value); setEditing(false); }}
+                onBlur={() => setEditing(false)}
+            />
+        );
+    }
+    return (
+        <span className="fv-date-label" title="Clicca per cambiare data" onClick={() => setEditing(true)}>
+            {label}
+        </span>
+    );
+}
 
 export default FileViewerComponent;
