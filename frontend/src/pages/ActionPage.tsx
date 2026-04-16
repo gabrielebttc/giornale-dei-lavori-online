@@ -81,10 +81,10 @@ const ActionPage: React.FC = () => {
         );
       case 'generate-excel-file':
         return (
-          <GenerateExcelFileComponent 
+          <GenerateExcelFileComponent
             buildingSiteId={buildingSiteId}
+            date={date ?? ''}
             onClose={() => window.history.back()}
-            // 🛠️ MODIFICA: Utilizza la nuova funzione handleExcelSuccess
             onSuccess={handleExcelSuccess}
           />
         );
