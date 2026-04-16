@@ -51,13 +51,7 @@ export default function CollaboraEditorComponent({ fileId, fileName, onClose }: 
                     flex: 1; font-weight: 600; font-size: 0.9rem; color: #e8e8f0;
                     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
                 }
-                .ce-dev-badge {
-                    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.5px;
-                    padding: 2px 8px; border-radius: 20px;
-                    background: rgba(255,193,7,0.15); color: #ffc107;
-                    white-space: nowrap; flex-shrink: 0;
-                }
-                .ce-close {
+.ce-close {
                     width: 32px; height: 32px; border-radius: 8px;
                     border: none; background: rgba(255,255,255,0.08); color: #ccc;
                     display: flex; align-items: center; justify-content: center;
@@ -78,7 +72,6 @@ export default function CollaboraEditorComponent({ fileId, fileName, onClose }: 
                 <div className="ce-header">
                     <i className="bi bi-pencil-square" style={{ fontSize: '1.1rem', color: '#4da6ff', flexShrink: 0 }} />
                     <span className="ce-title">{fileName}</span>
-                    <span className="ce-dev-badge">Modalità sviluppo</span>
                     <button className="ce-close" onClick={onClose} aria-label="Chiudi editor">
                         <i className="bi bi-x-lg" />
                     </button>

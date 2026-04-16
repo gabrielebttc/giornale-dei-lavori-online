@@ -62,7 +62,8 @@ router.get('/editor-url/:fileId', authenticateToken, async (req, res) => {
             `${collaboraUrl}/browser/dist/cool.html` +
             `?WOPISrc=${encodeURIComponent(wopiSrc)}` +
             `&access_token=${token}` +
-            `&access_token_ttl=${ttlMs}`;
+            `&access_token_ttl=${ttlMs}` +
+            `&lang=it`;
 
         res.json({ editorUrl, fileName: result.rows[0].name });
     } catch (error) {
